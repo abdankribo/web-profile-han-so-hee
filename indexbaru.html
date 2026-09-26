@@ -1,209 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>About Abdan Kribo</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta charset="utf-8" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- AOS Library CSS -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
-  </head>
-  <body class="bg-gray-50 text-gray-800 font-sans">
-
-    <!-- Header / Navigation -->
-    <header class="fixed top-0 w-full z-50 bg-white shadow-sm flex justify-between items-center px-8 py-6">
-    <h1 class="text-xl font-semibold">Abdan Kribo</h1>
-    <nav class="space-x-8 text-sm hidden md:flex">
-        <a href="#about" class="border-b-2 border-black pb-1 font-medium">About</a>
-        <a href="#projects" class="hover:text-gray-600">Projects</a>
-        <a href="#contacts" class="hover:text-gray-600">Contacts</a>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Abdan Kribo — personal portfolio">
+<title>Abdan Kribo — Portfolio</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<style>
+:root{--yellow:#fbbf24;--ink:#111827;--muted:#6b7280}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{font-family:'DM Sans',sans-serif;background:#f9fafb;color:var(--ink)}
+::selection{background:var(--yellow);color:#111}
+.font-display{font-family:'Playfair Display',serif}
+.glass{background:rgba(255,255,255,.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(17,24,39,.08)}
+.soft-grid{background-image:linear-gradient(rgba(17,24,39,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(17,24,39,.035) 1px,transparent 1px);background-size:34px 34px}
+.hero-orb{position:absolute;border-radius:999px;background:var(--yellow);filter:blur(.2px);opacity:.95;z-index:-1}
+.nav-link{position:relative;transition:.25s ease}.nav-link:after{content:'';position:absolute;left:0;bottom:-7px;width:0;height:2px;background:#111;transition:.25s}.nav-link.active:after,.nav-link:hover:after{width:100%}
+.project-card{transition:transform .35s ease,box-shadow .35s ease}.project-card:hover{transform:translateY(-7px);box-shadow:0 25px 55px rgba(17,24,39,.12)}
+.project-image{overflow:hidden}.project-image img{transition:transform .6s ease,filter .6s ease}.project-card:hover .project-image img{transform:scale(1.055);filter:grayscale(0)}
+.field{transition:border-color .2s,box-shadow .2s,transform .2s}.field:focus{transform:translateY(-1px);box-shadow:0 0 0 4px rgba(251,191,36,.16)}
+.menu-line{transition:.25s}.menu-open .line1{transform:translateY(7px) rotate(45deg)}.menu-open .line2{opacity:0}.menu-open .line3{transform:translateY(-7px) rotate(-45deg)}
+#progress{position:fixed;top:0;left:0;height:3px;background:#111;z-index:100;width:0}
+.back-top{opacity:0;pointer-events:none;transform:translateY(12px);transition:.25s}.back-top.show{opacity:1;pointer-events:auto;transform:none}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<header class="fixed top-0 left-0 right-0 z-50 glass">
+  <div class="max-w-6xl mx-auto px-5 md:px-8 h-[78px] flex items-center justify-between">
+    <a href="#about" class="flex items-center gap-3 font-bold tracking-tight">
+      <span class="w-9 h-9 rounded-xl bg-yellow-400 grid place-items-center text-sm shadow-sm">AK</span>
+      <span>Abdan Kribo</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-9 text-sm font-medium">
+      <a href="#about" class="nav-link active">About</a>
+      <a href="#projects" class="nav-link">Projects</a>
+      <a href="#contacts" class="nav-link">Contacts</a>
     </nav>
-    </header>
+    <button id="menuBtn" aria-label="Open menu" aria-expanded="false" class="md:hidden w-10 h-10 rounded-xl border border-gray-200 bg-white/70 grid place-items-center">
+      <span class="space-y-[5px]"><i class="menu-line line1 block w-5 h-[2px] bg-gray-900"></i><i class="menu-line line2 block w-5 h-[2px] bg-gray-900"></i><i class="menu-line line3 block w-5 h-[2px] bg-gray-900"></i></span>
+    </button>
+  </div>
+  <div id="mobileMenu" class="hidden md:hidden border-t border-gray-100 bg-white/95 px-5 pb-5 pt-3">
+    <a href="#about" class="block py-3 text-sm font-medium">About</a>
+    <a href="#projects" class="block py-3 text-sm font-medium">Projects</a>
+    <a href="#contacts" class="block py-3 text-sm font-medium">Contacts</a>
+  </div>
+</header>
 
-
-    <!-- Main Section -->
-    <section id="about" class="flex flex-col-reverse md:flex-row items-center justify-center px-6 md:px-20 pt-28 pb-16 gap-6 md:gap-20">
-      <!-- About Text -->
-        <div class="max-w-xl md:mr-6 text-center py-12 md:text-left">
-            <h2 class="text-4xl font-bold mb-6">About me</h2>
-            <p class="text-gray-600 leading-relaxed mb-6">
-            Nisl arcu, scelerisque neque ut. Tincidunt amet, tempor duis tortor neque auctor dis ipsum.
-            Pretium cras amet odio amet eleifend id sed cras sed. Aliquet risus posuere aliquet imperdiet sit.
-            </p>
-            <a href="#" class="bg-yellow-400 text-black font-semibold px-6 py-2 rounded hover:bg-yellow-500 transition">
-            Resume
-            </a>
-        </div>
-
-    <!-- Profile Image with yellow background -->
-    <div class="relative w-[680px] h-[680px]">
-        <!-- Yellow circle background -->
-        <!-- <div class="absolute -top-6 -left-6 w-[320px] h-[320px] bg-yellow-400 rounded-full -z-20"></div> -->
-        
-        <!-- Profile image -->
-        <div class="w-full h-full rounded-full overflow-hidden shadow-lg">
-        <img src="img/download.jpeg" alt="Madelyn Torff" class="w-full h-full object-cover grayscale" />
-        </div>
-    </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section id="projects" class="py-20 bg-gray-50">
-    <div class="max-w-6xl mx-auto px-4">
-        <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Projects</h2>
-
-        <!-- Project 1 -->
-        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-10 flex flex-col md:flex-row items-center" data-aos="fade-right">
-        <div class="md:w-1/2 p-8">
-            <h3 class="text-xl font-semibold mb-2 text-gray-800">Project Name</h3>
-            <p class="text-gray-600 mb-4">I created this personal project to show how to create an interface in Figma using a portfolio as an example.</p>
-            <a href="#" class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 px-4 rounded transition">View Project</a>
-        </div>
-        <div class="md:w-1/2 aspect-[3/4]">
-            <img src="img/@xeesoxee.jpg" alt="Project 1" class="w-full h-full object-cover">
-        </div>
-        </div>
-
-        <!-- Project 2 -->
-        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-10 flex flex-col md:flex-row-reverse items-center" data-aos="fade-left">
-        <div class="md:w-1/2 p-8">
-            <h3 class="text-xl font-semibold mb-2 text-gray-800">Project Name</h3>
-            <p class="text-gray-600 mb-4">What was your role, your deliverables, if the project was personal, freelancing.</p>
-            <a href="#" class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 px-4 rounded transition">View Project</a>
-        </div>
-        <div class="md:w-1/2 aspect-[3/4]">
-            <img src="img/download1.jpg" alt="Project 2" class="w-full h-full object-cover">
-        </div>
-        </div>
-
-        <!-- Project 3 -->
-        <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col md:flex-row items-center" data-aos="fade-right">
-        <div class="md:w-1/2 p-8">
-            <h3 class="text-xl font-semibold mb-2 text-gray-800">Project Name</h3>
-            <p class="text-gray-600 mb-4">You can also add in this description the type of the project. If it was for web, mobile, electron.</p>
-            <a href="#" class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 px-4 rounded transition">View Project</a>
-        </div>
-        <div class="md:w-1/2 aspect-[3/4]">
-            <img src="img/Han soohee.jpg" alt="Project 3" class="w-full h-full object-cover">
-        </div>
-        </div>
-    </div>
-    </section>
-
-
-    <!-- Contact Form Section -->
-    <section id="contacts" class="bg-white text-center py-12 px-8 md:px-20">
-      <div class="max-w-3xl mx-auto">
-        <h2 class="text-3xl font-bold text-center mb-6">Get in Touch</h2>
-        <form id="contactForm" class="space-y-6">
-        <div>
-            <label class="block text-sm font-medium text-gray-700">Name</label>
-            <input
-            type="text"
-            id="name"
-            class="mt-1 w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-            placeholder="Enter your name"
-            />
-            <p class="text-red-500 text-sm mt-1 hidden" id="nameError">Name is required.</p>
-        </div>
-
-        <div>
-            <label class="block text-sm font-medium text-gray-700">Email</label>
-            <input
-            type="email"
-            id="email"
-            class="mt-1 w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-            placeholder="Enter your email"
-            />
-            <p class="text-red-500 text-sm mt-1 hidden" id="emailError">Valid email is required.</p>
-        </div>
-
-        <div>
-            <label class="block text-sm font-medium text-gray-700">Message</label>
-            <textarea
-            id="message"
-            class="mt-1 w-full border border-gray-300 rounded px-4 py-2 h-32 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-            placeholder="Write your message here"
-            ></textarea>
-            <p class="text-red-500 text-sm mt-1 hidden" id="messageError">Message cannot be empty.</p>
-        </div>
-
-        <button
-            type="submit"
-            class="bg-yellow-400 text-black font-semibold px-6 py-2 rounded hover:bg-yellow-500 transition w-full"
-        >
-            Send
-        </button>
-        </form>
-
-        <script>
-        document.getElementById("contactForm").addEventListener("submit", function (e) {
-            e.preventDefault(); // mencegah form dikirim secara default
-
-            let valid = true;
-
-            // Ambil nilai input
-            const name = document.getElementById("name");
-            const email = document.getElementById("email");
-            const message = document.getElementById("message");
-
-            // Ambil elemen error
-            const nameError = document.getElementById("nameError");
-            const emailError = document.getElementById("emailError");
-            const messageError = document.getElementById("messageError");
-
-            // Reset error
-            nameError.classList.add("hidden");
-            emailError.classList.add("hidden");
-            messageError.classList.add("hidden");
-
-            // Validasi nama
-            if (name.value.trim() === "") {
-            nameError.classList.remove("hidden");
-            valid = false;
-            }
-
-            // Validasi email
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (email.value.trim() === "" || !emailRegex.test(email.value)) {
-            emailError.classList.remove("hidden");
-            valid = false;
-            }
-
-            // Validasi pesan
-            if (message.value.trim() === "") {
-            messageError.classList.remove("hidden");
-            valid = false;
-            }
-
-            // Jika semua valid, submit
-            if (valid) {
-            alert("Form submitted successfully!");
-            // Kamu bisa submit via AJAX atau lanjutkan dengan submit:
-            // this.submit(); // aktifkan ini jika ingin benar-benar submit form
-            }
-        });
-        </script>
-
-
+<main>
+<section id="about" class="relative overflow-hidden soft-grid pt-32 md:pt-40 pb-20 md:pb-28">
+  <span class="hero-orb w-40 h-40 -top-10 -right-16 md:w-64 md:h-64 md:-right-20 md:top-16"></span>
+  <span class="hero-orb w-20 h-20 left-8 bottom-10 md:w-28 md:h-28 md:left-20 opacity-70"></span>
+  <div class="max-w-6xl mx-auto px-5 md:px-8 grid md:grid-cols-[1.05fr_.95fr] gap-12 lg:gap-20 items-center">
+    <div data-aos="fade-up">
+      <p class="inline-flex items-center gap-2 text-xs uppercase tracking-[.25em] font-semibold mb-6"><span class="w-8 h-px bg-gray-900"></span> Personal Portfolio</p>
+      <h1 class="font-display text-5xl sm:text-6xl lg:text-7xl leading-[1.02] tracking-tight">Hello, I’m<br><span class="relative inline-block">Abdan Kribo<span class="absolute -bottom-1 left-0 right-0 h-2 bg-yellow-400 -z-10 rounded"></span></span></h1>
+      <p class="mt-7 max-w-xl text-gray-600 leading-8 text-base md:text-lg">A clean personal space to introduce my work, projects, and creative journey — designed with a simple visual language and thoughtful details.</p>
+      <div class="mt-9 flex flex-wrap gap-3">
+        <a href="#projects" class="group inline-flex items-center gap-3 bg-yellow-400 hover:bg-yellow-300 text-gray-950 font-semibold px-6 py-3 rounded-full transition shadow-sm">Explore projects <span class="group-hover:translate-x-1 transition">→</span></a>
+        <a href="#contacts" class="inline-flex items-center px-6 py-3 rounded-full border border-gray-300 bg-white/70 hover:bg-white transition font-semibold">Let’s talk</a>
       </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="text-center py-8 bg-gray-100 mt-16">
-      <div class="flex justify-center space-x-6 mb-4">
-        <img src="img/ph-instagram-logo-fill.svg" alt="Instagram" class="w-6 h-6">
-        <img src="img/bi-linkedin.svg" alt="LinkedIn" class="w-6 h-6">
-        <img src="img/bi-envelope-fill.svg" alt="Email" class="w-6 h-6">
+      <div class="mt-10 flex items-center gap-5 text-xs text-gray-500"><span>Available for opportunities</span><span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span><span>Based in Indonesia</span></div>
+    </div>
+    <div class="relative mx-auto w-full max-w-[460px]" data-aos="zoom-in" data-aos-delay="120">
+      <div class="absolute inset-4 rounded-[2rem] bg-yellow-400 rotate-3"></div>
+      <div class="relative rounded-[2rem] overflow-hidden bg-white border border-gray-200 shadow-2xl p-3 -rotate-2 hover:rotate-0 transition duration-500">
+        <img src="img/download.jpeg" alt="Abdan Kribo" class="w-full aspect-[4/5] object-cover grayscale rounded-[1.5rem]">
+        <div class="absolute left-7 bottom-7 bg-white/90 backdrop-blur px-4 py-3 rounded-2xl shadow-lg text-xs">
+          <span class="block text-gray-400 mb-1">Currently</span><strong>Building & creating</strong>
+        </div>
       </div>
-      <p class="text-sm text-gray-500">Abdan Kribo © 2021</p>
-    </footer>
+    </div>
+  </div>
+</section>
 
-<!-- AOS Library JS -->
+<section id="projects" class="py-24 bg-gray-50">
+  <div class="max-w-6xl mx-auto px-5 md:px-8">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-12" data-aos="fade-up">
+      <div><p class="text-xs uppercase tracking-[.25em] font-semibold text-gray-500 mb-3">Selected work</p><h2 class="font-display text-4xl md:text-5xl">Projects</h2></div>
+      <p class="max-w-md text-gray-500 leading-7">A small collection of visual work. Hover the cards to reveal subtle interactions.</p>
+    </div>
+    <div class="space-y-8">
+      <article class="project-card bg-white rounded-[2rem] overflow-hidden border border-gray-100 grid md:grid-cols-2 items-stretch" data-aos="fade-right">
+        <div class="project-image min-h-[340px] md:min-h-[460px]"><img src="img/@xeesoxee.jpg" alt="Project 1" class="w-full h-full object-cover grayscale"></div>
+        <div class="p-8 md:p-12 flex flex-col justify-center"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">01 / PORTFOLIO</span><h3 class="font-display text-3xl mt-4 mb-4">Project Name</h3><p class="text-gray-600 leading-7 mb-8">A personal project exploring interface composition, visual hierarchy, and a polished portfolio presentation.</p><a href="#" class="inline-flex items-center gap-2 font-semibold w-fit group">View project <span class="group-hover:translate-x-1 transition">↗</span></a></div>
+      </article>
+      <article class="project-card bg-white rounded-[2rem] overflow-hidden border border-gray-100 grid md:grid-cols-2 items-stretch" data-aos="fade-left">
+        <div class="project-image min-h-[340px] md:min-h-[460px] md:order-2"><img src="img/download1.jpg" alt="Project 2" class="w-full h-full object-cover grayscale"></div>
+        <div class="p-8 md:p-12 flex flex-col justify-center md:order-1"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">02 / CREATIVE</span><h3 class="font-display text-3xl mt-4 mb-4">Project Name</h3><p class="text-gray-600 leading-7 mb-8">A visual concept focused on clear storytelling, balanced layouts, and an experience that feels effortless to explore.</p><a href="#" class="inline-flex items-center gap-2 font-semibold w-fit group">View project <span class="group-hover:translate-x-1 transition">↗</span></a></div>
+      </article>
+      <article class="project-card bg-white rounded-[2rem] overflow-hidden border border-gray-100 grid md:grid-cols-2 items-stretch" data-aos="fade-right">
+        <div class="project-image min-h-[340px] md:min-h-[460px]"><img src="img/Han soohee.jpg" alt="Project 3" class="w-full h-full object-cover grayscale"></div>
+        <div class="p-8 md:p-12 flex flex-col justify-center"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">03 / DIGITAL</span><h3 class="font-display text-3xl mt-4 mb-4">Project Name</h3><p class="text-gray-600 leading-7 mb-8">A digital project presented through a minimal visual system with strong imagery and responsive structure.</p><a href="#" class="inline-flex items-center gap-2 font-semibold w-fit group">View project <span class="group-hover:translate-x-1 transition">↗</span></a></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="contacts" class="py-24 bg-white">
+  <div class="max-w-5xl mx-auto px-5 md:px-8 grid lg:grid-cols-[.8fr_1.2fr] gap-14 items-start">
+    <div data-aos="fade-up"><p class="text-xs uppercase tracking-[.25em] font-semibold text-gray-500 mb-3">Contact</p><h2 class="font-display text-4xl md:text-5xl leading-tight">Let’s make something meaningful.</h2><p class="mt-5 text-gray-500 leading-7">Have a project, idea, or opportunity? Send a message and start the conversation.</p></div>
+    <form id="contactForm" class="space-y-5" novalidate data-aos="fade-up" data-aos-delay="100">
+      <div><label for="name" class="block text-sm font-semibold mb-2">Name</label><input id="name" type="text" class="field w-full border border-gray-200 rounded-2xl px-5 py-4 outline-none" placeholder="Your name"><p id="nameError" class="hidden text-red-500 text-xs mt-2">Please enter your name.</p></div>
+      <div><label for="email" class="block text-sm font-semibold mb-2">Email</label><input id="email" type="email" class="field w-full border border-gray-200 rounded-2xl px-5 py-4 outline-none" placeholder="you@example.com"><p id="emailError" class="hidden text-red-500 text-xs mt-2">Please enter a valid email.</p></div>
+      <div><label for="message" class="block text-sm font-semibold mb-2">Message</label><textarea id="message" rows="5" class="field w-full border border-gray-200 rounded-2xl px-5 py-4 outline-none resize-none" placeholder="Tell me about your idea..."></textarea><p id="messageError" class="hidden text-red-500 text-xs mt-2">Please enter a message.</p></div>
+      <button type="submit" class="w-full bg-yellow-400 hover:bg-yellow-300 text-gray-950 font-bold py-4 rounded-2xl transition hover:-translate-y-0.5 shadow-sm">Send message <span class="ml-1">→</span></button>
+      <p id="formStatus" class="text-sm text-center min-h-5" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="bg-gray-50 border-t border-gray-100 py-10">
+  <div class="max-w-6xl mx-auto px-5 md:px-8 flex flex-col md:flex-row items-center justify-between gap-5">
+    <p class="text-sm text-gray-500">Abdan Kribo © 2021</p>
+    <div class="flex gap-3">
+      <a href="#" aria-label="Instagram" class="w-11 h-11 bg-white border border-gray-200 rounded-full grid place-items-center hover:-translate-y-1 transition"><img src="img/ph-instagram-logo-fill.svg" alt="" class="w-5 h-5"></a>
+      <a href="#" aria-label="LinkedIn" class="w-11 h-11 bg-white border border-gray-200 rounded-full grid place-items-center hover:-translate-y-1 transition"><img src="img/bi-linkedin.svg" alt="" class="w-5 h-5"></a>
+      <a href="mailto:" aria-label="Email" class="w-11 h-11 bg-white border border-gray-200 rounded-full grid place-items-center hover:-translate-y-1 transition"><img src="img/bi-envelope-fill.svg" alt="" class="w-5 h-5"></a>
+    </div>
+  </div>
+</footer>
+<button id="backTop" aria-label="Back to top" class="back-top fixed right-5 bottom-5 z-40 w-11 h-11 rounded-full bg-gray-900 text-white shadow-xl">↑</button>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-AOS.init();
+AOS.init({duration:700,once:true,offset:70,easing:'ease-out-cubic'});
+const menuBtn=document.getElementById('menuBtn'),mobileMenu=document.getElementById('mobileMenu');
+menuBtn.addEventListener('click',()=>{const open=!menuBtn.classList.contains('menu-open');menuBtn.classList.toggle('menu-open',open);menuBtn.setAttribute('aria-expanded',open);mobileMenu.classList.toggle('hidden',!open)});
+document.querySelectorAll('#mobileMenu a').forEach(a=>a.addEventListener('click',()=>{menuBtn.classList.remove('menu-open');menuBtn.setAttribute('aria-expanded','false');mobileMenu.classList.add('hidden')}));
+const progress=document.getElementById('progress'),backTop=document.getElementById('backTop');
+window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(h>0?(window.scrollY/h)*100:0)+'%';backTop.classList.toggle('show',window.scrollY>500)});
+backTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+const sections=[...document.querySelectorAll('main section')],links=[...document.querySelectorAll('header .nav-link')];
+const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id))}}),{rootMargin:'-35% 0px -55% 0px'});
+sections.forEach(s=>observer.observe(s));
+document.getElementById('contactForm').addEventListener('submit',e=>{e.preventDefault();let valid=true;const name=document.getElementById('name'),email=document.getElementById('email'),message=document.getElementById('message'),status=document.getElementById('formStatus');document.querySelectorAll('#contactForm p[id$="Error"]').forEach(x=>x.classList.add('hidden'));if(!name.value.trim()){document.getElementById('nameError').classList.remove('hidden');valid=false}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())){document.getElementById('emailError').classList.remove('hidden');valid=false}if(!message.value.trim()){document.getElementById('messageError').classList.remove('hidden');valid=false}status.textContent=valid?'Message is ready — thank you!':'Please check the highlighted fields.';status.className='text-sm text-center min-h-5 '+(valid?'text-green-600':'text-red-500')});
 </script>
-  </body>
+</body>
 </html>

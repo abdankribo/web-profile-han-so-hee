@@ -278,6 +278,13 @@ html{scroll-behavior:auto}.scroll-reveal{opacity:1!important;transform:none!impo
 }
 </style><style id="fixed-about-layout">
 .fixed-about-scroll{scrollbar-width:thin}
+</style><style id="about-three-blocks-alignment">
+#profile > .max-w-\[1000px\]{width:100%;max-width:1000px}
+#profile > .max-w-\[1000px\] > .profile-toolkit-layout{margin-left:auto;margin-right:auto}
+#profile .overflow-x-auto > .grid{margin-left:auto;margin-right:auto}
+@media (max-width:1023px){
+  #profile > .max-w-\[1000px\]{padding-left:20px;padding-right:20px}
+}
 </style></head>
 <body>
 <div id="progress"></div><div id="scrollGlow" aria-hidden="true"></div>
@@ -314,7 +321,7 @@ html{scroll-behavior:auto}.scroll-reveal{opacity:1!important;transform:none!impo
 <p class="deck-hint">Tap the card · portrait shuffle</p>
 </div></div></section>
 <section id="profile" class="py-20 md:py-28 bg-white overflow-hidden">
-<div class="max-w-6xl mx-auto px-5 md:px-8">
+<div class="max-w-[1000px] mx-auto px-5 md:px-0">
   <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 md:mb-16" data-aos="fade-up">
     <div>
       <p class="text-xs uppercase tracking-[.25em] font-semibold text-gray-500 mb-3">About me</p>
@@ -323,7 +330,7 @@ html{scroll-behavior:auto}.scroll-reveal{opacity:1!important;transform:none!impo
     <p class="max-w-xl text-gray-500 leading-7">A snapshot of my background, technical skills, education, and professional experience.</p>
   </div>
 
-  <div class="profile-toolkit-layout grid grid-cols-1 lg:grid-cols-[1.05fr_.95fr] gap-6 md:gap-10 items-stretch">
+  <div class="profile-toolkit-layout grid grid-cols-1 md:grid-cols-[1.05fr_.95fr] gap-6 md:gap-10 items-stretch w-full">
     <div class="min-w-0 rounded-[2rem] bg-gray-50 border border-gray-100 p-6 sm:p-8 md:p-10 relative overflow-hidden" data-aos="fade-right">
       <div class="absolute -right-16 -top-16 w-44 h-44 rounded-full bg-yellow-400/20"></div>
       <div class="absolute -right-5 -bottom-16 w-32 h-32 rounded-full bg-gray-900/5"></div>
@@ -395,7 +402,7 @@ html{scroll-behavior:auto}.scroll-reveal{opacity:1!important;transform:none!impo
     </div>
   </div>
 
-  <div class="overflow-x-auto mt-10">
+  <div class="flex justify-center overflow-x-auto mt-10">
     <div class="grid grid-cols-2 gap-10 w-[1000px] min-w-[1000px]">
     <div class="rounded-[2rem] bg-gray-50 border border-gray-100 p-6 sm:p-8" data-aos="fade-up">
       <div class="flex items-center gap-3 mb-7"><span class="section-icon">✦</span><div><p class="text-xs uppercase tracking-[.2em] font-semibold text-gray-400">Training</p><h3 class="font-display text-2xl">Learning journey</h3></div></div>

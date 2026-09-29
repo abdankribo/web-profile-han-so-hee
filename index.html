@@ -831,11 +831,11 @@ window.addEventListener('pointermove',e=>{if(glow&&!reduceMotion){glow.style.lef
 const menuBtn=document.getElementById('menuBtn'),mobileMenu=document.getElementById('mobileMenu');menuBtn.addEventListener('click',()=>{const open=!menuBtn.classList.contains('menu-open');menuBtn.classList.toggle('menu-open',open);menuBtn.setAttribute('aria-expanded',open);mobileMenu.classList.toggle('hidden',!open)});document.querySelectorAll('#mobileMenu a').forEach(a=>a.addEventListener('click',()=>{menuBtn.classList.remove('menu-open');menuBtn.setAttribute('aria-expanded','false');mobileMenu.classList.add('hidden')}));
 document.getElementById('contactForm').addEventListener('submit',e=>{e.preventDefault();let valid=true;const name=document.getElementById('name'),email=document.getElementById('email'),message=document.getElementById('message'),status=document.getElementById('formStatus');document.querySelectorAll('#contactForm p[id$="Error"]').forEach(x=>x.classList.add('hidden'));if(!name.value.trim()){document.getElementById('nameError').classList.remove('hidden');valid=false}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())){document.getElementById('emailError').classList.remove('hidden');valid=false}if(!message.value.trim()){document.getElementById('messageError').classList.remove('hidden');valid=false}if(valid){const subject=encodeURIComponent('Portfolio Contact from '+name.value.trim());const body=encodeURIComponent('Name: '+name.value.trim()+'\\nEmail: '+email.value.trim()+'\\n\\nMessage:\\n'+message.value.trim());window.location.href='mailto:abdankribo@gmail.com?subject='+subject+'&body='+body;status.textContent='Opening your email app…';status.className='text-sm text-center min-h-5 text-green-600'}else{status.textContent='Please check the highlighted fields.';status.className='text-sm text-center min-h-5 text-red-500'}});
 
-// About portrait deck: class-position swap.
+// About portrait deck: automatic left-center-right-center ping-pong.
 const aboutPhotoDeck=document.getElementById('aboutPhotoDeck');
 
 if(aboutPhotoDeck){
-  const cards=aboutPhotoDeck.querySelectorAll('.portrait-card');
+  const cards=[...aboutPhotoDeck.querySelectorAll('.portrait-card')];
 
   const setClasses=()=>{
     const classes=['left','active','right'];
@@ -848,39 +848,45 @@ if(aboutPhotoDeck){
   const changePositions=(e)=>{
     const clickedCard=e.currentTarget;
     const activeCard=aboutPhotoDeck.querySelector('.portrait-card.active');
-
     if(clickedCard.classList.contains('active')) return;
 
     const classesFrom=clickedCard.className;
     const classesTo=activeCard.className;
-
     clickedCard.className=classesTo;
     activeCard.className=classesFrom;
   };
 
-  cards.forEach(card=>{
-    card.addEventListener('click',changePositions);
-  });
-
+  cards.forEach(card=>card.addEventListener('click',changePositions));
   setClasses();
 
-  // Automatically cycle through the portraits.
   let autoTimer=null;
   let autoBusy=false;
+  let direction=1;
 
+  /*
+   * Movement pattern:
+   * left -> center -> right -> center -> left -> center -> ...
+   * The direction reverses at both ends, creating a smooth ping-pong
+   * movement instead of always rotating in one direction.
+   */
   const autoShuffle=()=>{
     if(autoBusy) return;
+
     const activeCard=aboutPhotoDeck.querySelector('.portrait-card.active');
-    const rightCard=aboutPhotoDeck.querySelector('.portrait-card.right');
-    if(!activeCard||!rightCard) return;
+    const targetClass=direction>0?'right':'left';
+    const targetCard=aboutPhotoDeck.querySelector('.portrait-card.'+targetClass);
+
+    if(!activeCard||!targetCard) return;
 
     autoBusy=true;
 
     const activeClasses=activeCard.className;
-    const rightClasses=rightCard.className;
+    const targetClasses=targetCard.className;
 
-    rightCard.className=activeClasses;
-    activeCard.className=rightClasses;
+    targetCard.className=activeClasses;
+    activeCard.className=targetClasses;
+
+    direction*=-1;
 
     window.setTimeout(()=>{
       autoBusy=false;

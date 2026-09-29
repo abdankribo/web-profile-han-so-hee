@@ -81,6 +81,55 @@ html{scroll-behavior:auto}.scroll-reveal{opacity:1!important;transform:none!impo
 .deck-hint{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9ca3af;white-space:nowrap}
 @media(max-width:767px){.about-photo-deck{min-height:510px}.deck-stack{width:min(82%,330px)}.portrait-label{left:22px;bottom:22px}}
 @media(prefers-reduced-motion:reduce){.portrait-card{transition:none!important}.portrait-image{transition:none!important}}
+.deck-stack .portrait-card{
+  transition:
+    transform .7s cubic-bezier(.22,1,.36,1),
+    opacity .55s ease,
+    filter .55s ease,
+    box-shadow .55s ease;
+  cursor:pointer;
+  will-change:transform,opacity;
+}
+.deck-stack .portrait-card.left{
+  z-index:4!important;
+  transform:translate3d(-42px,18px,0) rotate(-9deg) scale(.91)!important;
+  opacity:.88!important;
+  filter:saturate(.72)!important;
+}
+.deck-stack .portrait-card.active{
+  z-index:8!important;
+  transform:translate3d(0,0,0) rotate(0deg) scale(1.03)!important;
+  opacity:1!important;
+  filter:none!important;
+  box-shadow:0 30px 70px rgba(17,24,39,.22);
+}
+.deck-stack .portrait-card.right{
+  z-index:5!important;
+  transform:translate3d(42px,18px,0) rotate(9deg) scale(.91)!important;
+  opacity:.88!important;
+  filter:saturate(.72)!important;
+}
+.deck-stack .portrait-card.back{
+  z-index:1!important;
+  transform:translate3d(0,34px,0) rotate(3deg) scale(.82)!important;
+  opacity:0!important;
+  pointer-events:none!important;
+}
+.deck-stack .portrait-card.left:hover,
+.deck-stack .portrait-card.right:hover{
+  opacity:1!important;
+  filter:none!important;
+  transform:translate3d(var(--x,0),12px,0) rotate(var(--r,0deg)) scale(.94)!important;
+}
+.deck-stack .portrait-card.left{--x:-42px;--r:-9deg}
+.deck-stack .portrait-card.right{--x:42px;--r:9deg}
+@media(max-width:767px){
+  .deck-stack .portrait-card.left{transform:translate3d(-27px,14px,0) rotate(-8deg) scale(.89)!important}
+  .deck-stack .portrait-card.right{transform:translate3d(27px,14px,0) rotate(8deg) scale(.89)!important}
+  .deck-stack .portrait-card.left:hover{transform:translate3d(-27px,8px,0) rotate(-8deg) scale(.92)!important}
+  .deck-stack .portrait-card.right:hover{transform:translate3d(27px,8px,0) rotate(8deg) scale(.92)!important}
+}
+
 </style></style>
 <style id="gallery-motion-style">
 .gallery-card{
@@ -782,69 +831,38 @@ window.addEventListener('pointermove',e=>{if(glow&&!reduceMotion){glow.style.lef
 const menuBtn=document.getElementById('menuBtn'),mobileMenu=document.getElementById('mobileMenu');menuBtn.addEventListener('click',()=>{const open=!menuBtn.classList.contains('menu-open');menuBtn.classList.toggle('menu-open',open);menuBtn.setAttribute('aria-expanded',open);mobileMenu.classList.toggle('hidden',!open)});document.querySelectorAll('#mobileMenu a').forEach(a=>a.addEventListener('click',()=>{menuBtn.classList.remove('menu-open');menuBtn.setAttribute('aria-expanded','false');mobileMenu.classList.add('hidden')}));
 document.getElementById('contactForm').addEventListener('submit',e=>{e.preventDefault();let valid=true;const name=document.getElementById('name'),email=document.getElementById('email'),message=document.getElementById('message'),status=document.getElementById('formStatus');document.querySelectorAll('#contactForm p[id$="Error"]').forEach(x=>x.classList.add('hidden'));if(!name.value.trim()){document.getElementById('nameError').classList.remove('hidden');valid=false}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())){document.getElementById('emailError').classList.remove('hidden');valid=false}if(!message.value.trim()){document.getElementById('messageError').classList.remove('hidden');valid=false}if(valid){const subject=encodeURIComponent('Portfolio Contact from '+name.value.trim());const body=encodeURIComponent('Name: '+name.value.trim()+'\\nEmail: '+email.value.trim()+'\\n\\nMessage:\\n'+message.value.trim());window.location.href='mailto:abdankribo@gmail.com?subject='+subject+'&body='+body;status.textContent='Opening your email app…';status.className='text-sm text-center min-h-5 text-green-600'}else{status.textContent='Please check the highlighted fields.';status.className='text-sm text-center min-h-5 text-red-500'}});
 
-// About portrait deck: smooth FLIP-style shuffle.
-const portraitDeck=document.getElementById('aboutPhotoDeck');
-if(portraitDeck){
-  let deckBusy=false, timer=null;
-  const cards=()=>[...portraitDeck.querySelectorAll('.portrait-card')];
-  const transforms=[
-    'translate3d(0,0,0) rotate(-2deg) scale(1)',
-    'translate3d(9px,10px,0) rotate(3deg) scale(.975)',
-    'translate3d(-8px,18px,0) rotate(-4deg) scale(.95)',
-    'translate3d(12px,27px,0) rotate(5deg) scale(.925)',
-    'translate3d(-10px,34px,0) rotate(-3deg) scale(.9)',
-    'translate3d(8px,40px,0) rotate(4deg) scale(.875)'
-  ];
-  const applyStack=(items,transition=true)=>{
-    items.forEach((card,i)=>{
-      card.style.zIndex=String(6-i);
-      card.style.transition=transition?'transform .82s cubic-bezier(.22,1,.36,1),opacity .5s ease':'none';
-      card.style.transform=transforms[i]||transforms[3];
-      card.style.opacity='1';
+// About portrait deck: class-position swap.
+const aboutPhotoDeck=document.getElementById('aboutPhotoDeck');
+
+if(aboutPhotoDeck){
+  const cards=aboutPhotoDeck.querySelectorAll('.portrait-card');
+
+  const setClasses=()=>{
+    const classes=['left','active','right'];
+    cards.forEach((card,index)=>{
+      card.classList.remove('left','active','right','back');
+      card.classList.add(classes[index]||'back');
     });
   };
-  applyStack(cards(),false);
-  requestAnimationFrame(()=>cards().forEach(card=>card.style.transition=''));
-  
-  const shufflePortrait=()=>{
-    if(deckBusy||reduceMotion)return;
-    const list=cards(); if(list.length<2)return;
-    deckBusy=true;
-    const top=list[0];
-    // Move the cards underneath upward while the top card glides out.
-    list.slice(1).forEach((card,i)=>{
-      card.style.zIndex=String(6-i);
-      card.style.transform=transforms[i];
-    });
-    top.style.zIndex='7';
-    top.style.transition='transform .82s cubic-bezier(.22,1,.36,1),opacity .55s ease';
-    top.style.transform='translate3d(112%, -18px, 0) rotate(10deg) scale(.97)';
-    top.style.opacity='.35';
-    
-    setTimeout(()=>{
-      top.style.transition='none';
-      top.style.opacity='0';
-      portraitDeck.appendChild(top);
-      const reordered=cards();
-      applyStack(reordered,false);
-      // Start the new stack from its settled positions, then fade the recycled card in.
-      const recycled=reordered[reordered.length-1];
-      recycled.style.opacity='0';
-      recycled.style.transform=transforms[Math.min(reordered.length-1,transforms.length-1)];
-      void portraitDeck.offsetWidth;
-      recycled.style.transition='opacity .42s ease,transform .82s cubic-bezier(.22,1,.36,1)';
-      recycled.style.opacity='1';
-      recycled.style.transform=transforms[3];
-      setTimeout(()=>{deckBusy=false},850);
-    },790);
+
+  const changePositions=(e)=>{
+    const clickedCard=e.currentTarget;
+    const activeCard=aboutPhotoDeck.querySelector('.portrait-card.active');
+
+    if(clickedCard.classList.contains('active')) return;
+
+    const classesFrom=clickedCard.className;
+    const classesTo=activeCard.className;
+
+    clickedCard.className=classesTo;
+    activeCard.className=classesFrom;
   };
-  portraitDeck.addEventListener('click',shufflePortrait);
-  if(!reduceMotion){
-    const startTimer=()=>{clearInterval(timer);timer=setInterval(shufflePortrait,4500)};
-    portraitDeck.addEventListener('pointerenter',()=>clearInterval(timer));
-    portraitDeck.addEventListener('pointerleave',startTimer);
-    startTimer();
-  }
+
+  cards.forEach(card=>{
+    card.addEventListener('click',changePositions);
+  });
+
+  setClasses();
 }
 
 

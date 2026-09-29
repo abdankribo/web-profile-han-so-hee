@@ -62,12 +62,55 @@ button:active,a:active{transform:scale(.97)}
 html{scroll-behavior:auto}.scroll-reveal{opacity:1!important;transform:none!important;transition:none!important}
 #scrollGlow{display:none}.ripple{display:none}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}
 }
+</style><style>
+/* About portrait shuffle deck */
+.about-photo-deck{min-height:590px;display:grid;place-items:center;isolation:isolate}
+.deck-glow{position:absolute;width:78%;height:72%;border-radius:45%;background:rgba(250,204,21,.16);filter:blur(35px);transform:rotate(-5deg);pointer-events:none}
+.deck-stack{position:relative;width:min(88%,390px);aspect-ratio:4/5}
+.portrait-card{position:absolute;inset:0;width:100%;height:100%;padding:11px;border:1px solid rgba(17,24,39,.12);border-radius:2rem;background:#fff;box-shadow:0 25px 55px rgba(17,24,39,.16);cursor:pointer;transform-origin:50% 88%;transition:transform .72s cubic-bezier(.2,.85,.25,1),opacity .5s ease,filter .5s ease,box-shadow .5s ease;overflow:hidden;text-align:left}
+.portrait-card:nth-child(1){z-index:4;transform:rotate(-2deg) translate3d(0,0,0)}
+.portrait-card:nth-child(2){z-index:3;transform:rotate(3deg) translate3d(9px,10px,0) scale(.975)}
+.portrait-card:nth-child(3){z-index:2;transform:rotate(-4deg) translate3d(-8px,18px,0) scale(.95)}
+.portrait-card:nth-child(4){z-index:1;transform:rotate(5deg) translate3d(12px,27px,0) scale(.925)}
+.portrait-card:hover{box-shadow:0 30px 65px rgba(17,24,39,.22)}
+.portrait-image{width:100%;height:100%;object-fit:cover;border-radius:1.45rem;display:block;filter:grayscale(100%);transition:filter .6s ease,transform .7s ease}
+.portrait-card:hover .portrait-image{filter:grayscale(0%);transform:scale(1.015)}
+.portrait-label{position:absolute;left:28px;bottom:28px;padding:10px 16px;border-radius:1rem;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);box-shadow:0 10px 25px rgba(17,24,39,.14);display:flex;flex-direction:column;gap:2px;color:#111827}
+.portrait-label small{font-size:11px;color:#9ca3af}.portrait-label strong{font-size:13px}
+.portrait-card.is-shuffling{animation:cardShuffle .72s cubic-bezier(.2,.8,.25,1) both}
+@keyframes cardShuffle{0%{transform:rotate(-2deg) translate3d(0,0,0) scale(1);opacity:1}32%{transform:rotate(9deg) translate3d(105%, -18px,0) scale(.98);opacity:1}58%{transform:rotate(-7deg) translate3d(-25%,14px,0) scale(.96);opacity:.55}100%{transform:rotate(0) translate3d(0,0,0) scale(1);opacity:1}}
+.portrait-card.is-settling{animation:cardSettle .6s cubic-bezier(.16,1,.3,1)}
+@keyframes cardSettle{0%{transform:scale(.94) rotate(-4deg)}65%{transform:scale(1.025) rotate(1deg)}100%{transform:scale(1) rotate(0)}}
+.deck-hint{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9ca3af;white-space:nowrap}
+@media(max-width:767px){.about-photo-deck{min-height:510px}.deck-stack{width:min(82%,330px)}.portrait-label{left:22px;bottom:22px}}
+@media(prefers-reduced-motion:reduce){.portrait-card{transition:none!important}.portrait-card.is-shuffling,.portrait-card.is-settling{animation:none!important}}
 </style></style></head>
 <body>
 <div id="progress"></div><div id="scrollGlow" aria-hidden="true"></div>
 <header class="fixed top-0 left-0 right-0 z-50 glass"><div class="max-w-6xl mx-auto px-5 md:px-8 h-[78px] flex items-center justify-between"><a href="#about" class="flex items-center gap-4 font-bold tracking-tight"><span class="profile-logo text-sm font-black">AK</span><span>Abdan Kribo</span></a><nav class="hidden md:flex items-center gap-9 text-sm font-medium"><a href="#about" class="nav-link active">About</a><a href="#profile" class="nav-link">Profile</a><a href="#projects" class="nav-link">Projects</a><a href="#gallery" class="nav-link">Gallery</a><a href="#social" class="nav-link">Social</a><a href="#contacts" class="nav-link">Contact</a></nav><button id="menuBtn" aria-label="Open menu" aria-expanded="false" class="md:hidden w-10 h-10 rounded-xl border border-gray-200 bg-white/70 grid place-items-center"><span class="space-y-[5px]"><i class="menu-line line1 block w-5 h-[2px] bg-gray-900"></i><i class="menu-line line2 block w-5 h-[2px] bg-gray-900"></i><i class="menu-line line3 block w-5 h-[2px] bg-gray-900"></i></span></button></div><div id="mobileMenu" class="hidden md:hidden border-t border-gray-100 bg-white/95 px-5 pb-5 pt-3"><a href="#about" class="block py-3 text-sm font-medium">About</a><a href="#profile" class="block py-3 text-sm font-medium">Profile</a><a href="#projects" class="block py-3 text-sm font-medium">Projects</a><a href="#gallery" class="block py-3 text-sm font-medium">Gallery</a><a href="#social" class="block py-3 text-sm font-medium">Social</a><a href="#contacts" class="block py-3 text-sm font-medium">Contact</a></div></header>
 <main>
-<section id="about" class="relative overflow-hidden soft-grid pt-32 md:pt-40 pb-20 md:pb-28"><span class="hero-orb w-40 h-40 -top-10 -right-16 md:w-64 md:h-64 md:-right-20 md:top-16"></span><span class="hero-orb w-20 h-20 left-8 bottom-10 md:w-28 md:h-28 md:left-20 opacity-70"></span><div class="max-w-6xl mx-auto px-5 md:px-8 grid md:grid-cols-[1.05fr_.95fr] gap-12 lg:gap-20 items-center"><div data-aos="fade-up"><p class="inline-flex items-center gap-2 text-xs uppercase tracking-[.25em] font-semibold mb-6"><span class="w-8 h-px bg-gray-900"></span> Personal Portfolio</p><h1 class="font-display text-5xl sm:text-6xl lg:text-7xl leading-[1.02] tracking-tight">Hello, I’m<br><span class="relative inline-block">Abdan Kribo<span class="absolute -bottom-1 left-0 right-0 h-2 bg-yellow-400 -z-10 rounded"></span></span></h1><p class="mt-7 max-w-xl text-gray-600 leading-8 text-base md:text-lg">Teknik Informatika graduate with a focus on web development, frontend interfaces, UI/UX, and practical technology solutions. I enjoy turning ideas into clean, responsive, and user-friendly digital experiences.</p><div class="mt-9 flex flex-wrap gap-3"><a href="#projects" class="group inline-flex items-center gap-3 bg-yellow-400 hover:bg-yellow-300 text-gray-950 font-semibold px-6 py-3 rounded-full transition shadow-sm interactive">Explore projects <span class="group-hover:translate-x-1 transition">→</span></a><a href="#contacts" class="inline-flex items-center px-6 py-3 rounded-full border border-gray-300 bg-white/70 hover:bg-white transition font-semibold interactive">Let’s talk</a></div><div class="mt-10 flex items-center gap-5 text-xs text-gray-500"><span>Full-Stack Web Developer</span><span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span><span>UI/UX Designer</span><span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span><span>Indonesia</span></div></div><div class="relative mx-auto w-full max-w-[460px]" data-aos="zoom-in" data-aos-delay="120"><div class="absolute inset-4 rounded-[2rem] bg-yellow-400 rotate-3"></div><div class="relative rounded-[2rem] overflow-hidden bg-white border border-gray-200 shadow-2xl p-3 -rotate-2 hover:rotate-0 transition duration-500"><img src="img/download.jpeg" alt="Han So-hee" class="w-full aspect-[4/5] object-cover grayscale rounded-[1.5rem]"><div class="absolute left-7 bottom-7 bg-white/90 backdrop-blur px-4 py-3 rounded-2xl shadow-lg text-xs"><span class="block text-gray-400 mb-1">Portrait</span><strong>Han So-hee</strong></div></div></div></div></section>
+<section id="about" class="relative overflow-hidden soft-grid pt-32 md:pt-40 pb-20 md:pb-28"><span class="hero-orb w-40 h-40 -top-10 -right-16 md:w-64 md:h-64 md:-right-20 md:top-16"></span><span class="hero-orb w-20 h-20 left-8 bottom-10 md:w-28 md:h-28 md:left-20 opacity-70"></span><div class="max-w-6xl mx-auto px-5 md:px-8 grid md:grid-cols-[1.05fr_.95fr] gap-12 lg:gap-20 items-center"><div data-aos="fade-up"><p class="inline-flex items-center gap-2 text-xs uppercase tracking-[.25em] font-semibold mb-6"><span class="w-8 h-px bg-gray-900"></span> Personal Portfolio</p><h1 class="font-display text-5xl sm:text-6xl lg:text-7xl leading-[1.02] tracking-tight">Hello, I’m<br><span class="relative inline-block">Abdan Kribo<span class="absolute -bottom-1 left-0 right-0 h-2 bg-yellow-400 -z-10 rounded"></span></span></h1><p class="mt-7 max-w-xl text-gray-600 leading-8 text-base md:text-lg">Teknik Informatika graduate with a focus on web development, frontend interfaces, UI/UX, and practical technology solutions. I enjoy turning ideas into clean, responsive, and user-friendly digital experiences.</p><div class="mt-9 flex flex-wrap gap-3"><a href="#projects" class="group inline-flex items-center gap-3 bg-yellow-400 hover:bg-yellow-300 text-gray-950 font-semibold px-6 py-3 rounded-full transition shadow-sm interactive">Explore projects <span class="group-hover:translate-x-1 transition">→</span></a><a href="#contacts" class="inline-flex items-center px-6 py-3 rounded-full border border-gray-300 bg-white/70 hover:bg-white transition font-semibold interactive">Let’s talk</a></div><div class="mt-10 flex items-center gap-5 text-xs text-gray-500"><span>Full-Stack Web Developer</span><span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span><span>UI/UX Designer</span><span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span><span>Indonesia</span></div></div><div class="about-photo-deck relative mx-auto w-full max-w-[460px]" data-aos="zoom-in" data-aos-delay="120" aria-label="Portrait card deck">
+<div class="deck-glow" aria-hidden="true"></div>
+<div class="deck-stack" id="aboutPhotoDeck">
+  <button type="button" class="portrait-card portrait-card-1" aria-label="Show next portrait">
+    <img src="img/portrait-pink-heart.jpg" alt="Portrait Han So-hee with pink background" class="portrait-image">
+    <span class="portrait-label"><small>Portrait</small><strong>Han So-hee</strong></span>
+  </button>
+  <button type="button" class="portrait-card portrait-card-2" aria-label="Show next portrait">
+    <img src="img/portrait-white-sweater.jpg" alt="Portrait Han So-hee in white sweater" class="portrait-image">
+    <span class="portrait-label"><small>Portrait</small><strong>Han So-hee</strong></span>
+  </button>
+  <button type="button" class="portrait-card portrait-card-3" aria-label="Show next portrait">
+    <img src="img/portrait-gray-sweater.jpg" alt="Portrait Han So-hee against gray background" class="portrait-image">
+    <span class="portrait-label"><small>Portrait</small><strong>Han So-hee</strong></span>
+  </button>
+  <button type="button" class="portrait-card portrait-card-4" aria-label="Show next portrait">
+    <img src="img/portrait-green-sweater.jpg" alt="Portrait Han So-hee in green sweater" class="portrait-image">
+    <span class="portrait-label"><small>Portrait</small><strong>Han So-hee</strong></span>
+  </button>
+</div>
+<p class="deck-hint">Tap the card · portrait shuffle</p>
+</div></div></section>
 <section id="profile" class="py-20 md:py-28 bg-white overflow-hidden">
 <div class="max-w-6xl mx-auto px-5 md:px-8">
   <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 md:mb-16" data-aos="fade-up">
@@ -407,6 +450,41 @@ window.addEventListener('pointermove',e=>{if(glow&&!reduceMotion){glow.style.lef
 
 const menuBtn=document.getElementById('menuBtn'),mobileMenu=document.getElementById('mobileMenu');menuBtn.addEventListener('click',()=>{const open=!menuBtn.classList.contains('menu-open');menuBtn.classList.toggle('menu-open',open);menuBtn.setAttribute('aria-expanded',open);mobileMenu.classList.toggle('hidden',!open)});document.querySelectorAll('#mobileMenu a').forEach(a=>a.addEventListener('click',()=>{menuBtn.classList.remove('menu-open');menuBtn.setAttribute('aria-expanded','false');mobileMenu.classList.add('hidden')}));
 document.getElementById('contactForm').addEventListener('submit',e=>{e.preventDefault();let valid=true;const name=document.getElementById('name'),email=document.getElementById('email'),message=document.getElementById('message'),status=document.getElementById('formStatus');document.querySelectorAll('#contactForm p[id$="Error"]').forEach(x=>x.classList.add('hidden'));if(!name.value.trim()){document.getElementById('nameError').classList.remove('hidden');valid=false}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())){document.getElementById('emailError').classList.remove('hidden');valid=false}if(!message.value.trim()){document.getElementById('messageError').classList.remove('hidden');valid=false}if(valid){const subject=encodeURIComponent('Portfolio Contact from '+name.value.trim());const body=encodeURIComponent('Name: '+name.value.trim()+'\\nEmail: '+email.value.trim()+'\\n\\nMessage:\\n'+message.value.trim());window.location.href='mailto:abdankribo@gmail.com?subject='+subject+'&body='+body;status.textContent='Opening your email app…';status.className='text-sm text-center min-h-5 text-green-600'}else{status.textContent='Please check the highlighted fields.';status.className='text-sm text-center min-h-5 text-red-500'}});
+
+// About portrait deck: physically shuffle the top card to the back.
+const portraitDeck=document.getElementById('aboutPhotoDeck');
+if(portraitDeck){
+  let deckBusy=false;
+  const cards=()=>[...portraitDeck.querySelectorAll('.portrait-card')];
+  const layoutDeck=()=>{
+    cards().forEach((card,i)=>{
+      card.classList.remove('portrait-card-1','portrait-card-2','portrait-card-3','portrait-card-4');
+      card.classList.add('portrait-card-'+(i+1));
+      card.style.zIndex=String(4-i);
+    });
+  };
+  const shufflePortrait=()=>{
+    if(deckBusy||reduceMotion)return;
+    const list=cards(); if(list.length<2)return;
+    deckBusy=true;
+    const top=list[0];
+    top.classList.add('is-shuffling');
+    setTimeout(()=>{
+      top.classList.remove('is-shuffling');
+      portraitDeck.appendChild(top);
+      layoutDeck();
+      const newTop=portraitDeck.querySelector('.portrait-card');
+      newTop.classList.add('is-settling');
+      setTimeout(()=>{newTop.classList.remove('is-settling');deckBusy=false},620);
+    },700);
+  };
+  portraitDeck.addEventListener('click',shufflePortrait);
+  if(!reduceMotion){
+    let timer=setInterval(shufflePortrait,4200);
+    portraitDeck.addEventListener('pointerenter',()=>clearInterval(timer));
+    portraitDeck.addEventListener('pointerleave',()=>{timer=setInterval(shufflePortrait,4200)});
+  }
+}
 </script>
 </body>
 </html>

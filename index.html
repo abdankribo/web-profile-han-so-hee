@@ -582,9 +582,9 @@ html{scroll-behavior:auto}.scroll-reveal{opacity:1!important;transform:none!impo
     </div>
 
     <div class="coverflow-controls" aria-label="Gallery controls">
-      <button type="button" class="coverflow-control" id="galleryPrev" aria-label="Previous portrait">‹</button>
-      <button type="button" class="coverflow-control coverflow-play" id="galleryPlayPause" aria-label="Pause slideshow">Ⅱ</button>
-      <button type="button" class="coverflow-control" id="galleryNext" aria-label="Next portrait">›</button>
+      <button type="button" class="coverflow-control" id="prevBtn" aria-label="Previous portrait">‹</button>
+      <button type="button" class="coverflow-control coverflow-play" id="playPauseBtn" aria-label="Pause slideshow">Ⅱ</button>
+      <button type="button" class="coverflow-control" id="nextBtn" aria-label="Next portrait">›</button>
     </div>
 
     <div class="coverflow-status">
@@ -902,275 +902,231 @@ if(aboutPhotoDeck){
 }
 
 
-/* Gallery coverflow interaction layer: endless queue / recycle-to-back. */
-const coverflow=document.getElementById('coverflowContainer');
-if(coverflow){
-  const coverItems=[...coverflow.querySelectorAll('.coverflow-item')];
-  const prevBtn=document.getElementById('galleryPrev');
-  const nextBtn=document.getElementById('galleryNext');
-  const playBtn=document.getElementById('galleryPlayPause');
-  const indicators=[...document.querySelectorAll('#galleryIndicators .coverflow-indicator')];
-  const currentLabel=document.getElementById('galleryCurrent');
-  let queue=[...coverItems];
-  let autoplayTimer=null;
-  let isPlaying=!reduceMotion;
-  let startX=0,startY=0,isDragging=false,lastWheel=0;
-  let transitionTimer=null;
-  let busy=false;
+/* Gallery coverflow interaction layer: PhotoCoverflow. */
+class PhotoCoverflow {
+  constructor() {
+    this.items = document.querySelectorAll('#coverflowContainer .coverflow-item');
+    this.indicators = document.querySelectorAll('#galleryIndicators .coverflow-indicator');
+    this.currentIndex = Math.floor(this.items.length / 2);
+    this.totalItems = this.items.length;
+    this.isPlaying = true;
+    this.autoPlayInterval = null;
+    this.autoPlaySpeed = 4000;
 
-  const total=queue.length;
+    if (!this.totalItems) return;
+    this.init();
+  }
 
-  function render(activePos=0){
-    const mobile=window.innerWidth<768;
-    const step=mobile?Math.min(105,window.innerWidth*.25):window.innerWidth<1024?165:220;
-    const visible=mobile?2:4;
+  init() {
+    this.updateCoverflow();
+    this.bindEvents();
+    this.startAutoPlay();
+  }
 
-    queue.forEach((item,pos)=>{
-      /* Keep the queue linear: cards never wrap from the front to the
-         opposite side. A recycled card must travel to the back of the queue. */
-      const diff=pos-activePos;
+  bindEvents() {
+    const prev = document.getElementById('prevBtn');
+    const next = document.getElementById('nextBtn');
+    const playPause = document.getElementById('playPauseBtn');
 
-      const abs=Math.abs(diff);
-      const clamped=Math.max(-visible,Math.min(visible,diff));
-      const x=clamped*step;
-      const z=abs===0?(mobile?90:120):Math.max(-220,100-abs*115);
-      const rot=clamped===0?0:(clamped>0?-38:38);
-      const scale=abs===0?(mobile?1.03:1.08):Math.max(mobile?.72:.58,1-abs*(mobile?.11:.12));
-      const opacity=abs>visible?0:Math.max(.16,1-abs*(mobile?.19:.16));
-      const blur=abs>2?1.1:abs===2?.35:0;
+    prev?.addEventListener('click', () => this.prev());
+    next?.addEventListener('click', () => this.next());
+    playPause?.addEventListener('click', () => this.toggleAutoPlay());
 
-      item.style.transform=`translate(-50%,-50%) translateX(${x}px) translateZ(${z}px) rotateY(${rot}deg) scale(${scale})`;
-      item.style.opacity=String(opacity);
-      item.style.filter=`blur(${blur}px)`;
-      item.style.zIndex=String(100-abs);
-      item.classList.toggle('is-active',pos===activePos);
-      item.setAttribute('aria-hidden',pos===activePos?'false':'true');
-      item.tabIndex=pos===activePos?0:-1;
+    this.indicators.forEach((indicator, index) => {
+      indicator.addEventListener('click', () => this.goTo(index));
     });
 
-    const activeItem=queue[activePos];
-    const originalIndex=Number(activeItem?.dataset.index||0);
-    currentLabel.textContent=String(originalIndex).padStart(2,'0');
-    indicators.forEach((dot,i)=>dot.classList.toggle('active',i===originalIndex-1));
-  }
-
-  function restoreTransitions(){
-    coverItems.forEach(item=>item.style.transition='');
-  }
-
-  function animateRecycle(direction){
-    if(busy)return;
-    busy=true;
-    stopAutoplay();
-
-    const mobile=window.innerWidth<768;
-    const step=mobile?Math.min(105,window.innerWidth*.25):window.innerWidth<1024?165:220;
-    const duration=900;
-
-    /* The reference animation behaves like a physical deck:
-       the incoming card takes the center while the current card
-       visibly slides around it and goes underneath to the back. */
-    const current=queue[0];
-    const incoming=direction>0?queue[1]:queue[total-1];
-
-    const setCard=(item,diff,depth=0)=>{
-      const abs=Math.abs(diff);
-      const x=diff*step;
-      const z=abs===0?(mobile?90:120):Math.max(-360,90-abs*125)-depth*90;
-      const rot=diff===0?0:(diff>0?-34:34);
-      const scale=abs===0?(mobile?1.03:1.08):Math.max(mobile?.72:.58,1-abs*(mobile?.12:.13));
-      const opacity=Math.max(.18,1-abs*(mobile?.18:.16));
-      item.style.transform=`translate(-50%,-50%) translateX(${x}px) translateZ(${z}px) rotateY(${rot}deg) scale(${scale})`;
-      item.style.opacity=String(opacity);
-      item.style.filter=abs>2?'blur(1px)':abs===2?'blur(.35px)':'none';
-      item.style.zIndex=String(100-abs-depth);
-      item.classList.toggle('is-active',item===incoming);
-      item.setAttribute('aria-hidden',item===incoming?'false':'true');
-      item.tabIndex=item===incoming?0:-1;
-    };
-
-    /* First movement: incoming card comes forward to the center.
-       The current center card moves sideways and starts going behind it. */
-    queue.forEach((item,pos)=>{
-      let diff=pos;
-      if(direction>0){
-        if(item===incoming) diff=0;
-        else if(item===current) diff=1;
-        else diff=pos<=2?pos-1:pos-1;
-      }else{
-        if(item===incoming) diff=0;
-        else if(item===current) diff=-1;
-        else diff=pos===1?1:pos+1;
-      }
-      setCard(item,diff,item===current?1:0);
-    });
-
-    /* Continue the current card's journey behind the incoming card.
-       It stays visible during this part of the animation. */
-    requestAnimationFrame(()=>{
-      current.style.transition=
-        'transform .9s cubic-bezier(.16,1,.3,1),opacity .75s ease,filter .75s ease';
-      const backX=direction>0?step*1.55:-step*1.55;
-      current.style.transform=
-        `translate(-50%,-50%) translateX(${backX}px) translateZ(-330px) rotateY(${direction>0?-48:48}deg) scale(.68)`;
-      current.style.opacity='.72';
-      current.style.filter='blur(.8px)';
-      current.style.zIndex='20';
-    });
-
-    transitionTimer=setTimeout(()=>{
-      /* Now that the animation has completed, recycle the card into
-         the actual tail/head of the queue. */
-      if(direction>0){
-        const first=queue.shift();
-        queue.push(first);
-      }else{
-        const last=queue.pop();
-        queue.unshift(last);
-      }
-
-      coverItems.forEach(item=>item.style.transition='none');
-      render(0);
-
-      requestAnimationFrame(()=>{
-        requestAnimationFrame(()=>{
-          restoreTransitions();
-          busy=false;
-          if(isPlaying)startAutoplay();
-        });
-      });
-    },duration);
-  }
-  function rotateNext(){
-    if(busy)return;
-    animateRecycle(1);
-  }
-
-  function rotatePrev(){
-    if(busy)return;
-    animateRecycle(-1);
-  }
-
-  function jumpToOriginal(originalIndex){
-    const target=coverItems.find(item=>Number(item.dataset.index)===originalIndex);
-    if(!target||target===queue[0])return;
-
-    stopAutoplay();
-    const idx=queue.indexOf(target);
-    queue=[...queue.slice(idx),...queue.slice(0,idx)];
-
-    coverItems.forEach(item=>item.style.transition='none');
-    render(0);
-    requestAnimationFrame(()=>{
-      requestAnimationFrame(()=>{
-        restoreTransitions();
-        if(isPlaying)startAutoplay();
+    this.items.forEach((item, index) => {
+      item.addEventListener('click', (event) => {
+        if (index !== this.currentIndex) {
+          event.preventDefault();
+          this.goTo(index);
+        }
       });
     });
-  }
 
-  function stopAutoplay(){
-    clearInterval(autoplayTimer);
-    autoplayTimer=null;
-  }
-
-  function startAutoplay(){
-    if(reduceMotion||!isPlaying)return;
-    stopAutoplay();
-    autoplayTimer=setInterval(rotateNext,3500);
-  }
-
-  function togglePlay(){
-    isPlaying=!isPlaying;
-    playBtn.textContent=isPlaying?'Ⅱ':'▶';
-    playBtn.setAttribute('aria-label',isPlaying?'Pause slideshow':'Play slideshow');
-    isPlaying?startAutoplay():stopAutoplay();
-  }
-
-  prevBtn.addEventListener('click',rotatePrev);
-  nextBtn.addEventListener('click',rotateNext);
-  playBtn.addEventListener('click',togglePlay);
-
-  indicators.forEach(dot=>{
-    dot.addEventListener('click',()=>jumpToOriginal(Number(dot.dataset.index)));
-  });
-
-  coverItems.forEach(item=>{
-    item.addEventListener('click',e=>{
-      if(item!==queue[0]){
-        e.preventDefault();
-        jumpToOriginal(Number(item.dataset.index));
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') this.prev();
+      if (event.key === 'ArrowRight') this.next();
+      if (event.key === ' ') {
+        const gallery = document.getElementById('gallery');
+        if (gallery && gallery.contains(document.activeElement)) {
+          event.preventDefault();
+          this.toggleAutoPlay();
+        }
       }
     });
-  });
 
-  coverflow.addEventListener('pointerdown',e=>{
-    if(e.pointerType==='mouse'&&e.button!==0)return;
-    startX=e.clientX;
-    startY=e.clientY;
-    isDragging=true;
-    coverflow.setPointerCapture?.(e.pointerId);
-    stopAutoplay();
-  });
+    let startX = 0;
+    let startY = 0;
+    const container = document.getElementById('coverflowContainer');
 
-  coverflow.addEventListener('pointerup',e=>{
-    if(!isDragging)return;
-    const dx=e.clientX-startX;
-    const dy=e.clientY-startY;
-    isDragging=false;
+    container?.addEventListener('touchstart', (event) => {
+      startX = event.touches[0].clientX;
+      startY = event.touches[0].clientY;
+    }, { passive: true });
 
-    if(Math.abs(dx)>55&&Math.abs(dx)>Math.abs(dy)*1.15){
-      dx<0?rotateNext():rotatePrev();
-    }else if(isPlaying){
-      startAutoplay();
+    container?.addEventListener('touchend', (event) => {
+      if (!startX || !startY) return;
+
+      const endX = event.changedTouches[0].clientX;
+      const endY = event.changedTouches[0].clientY;
+      const diffX = startX - endX;
+      const diffY = startY - endY;
+
+      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+        diffX > 0 ? this.next() : this.prev();
+      }
+
+      startX = 0;
+      startY = 0;
+    }, { passive: true });
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => this.updateCoverflow(), 100);
+    });
+  }
+
+  updateCoverflow() {
+    const isMobile = window.innerWidth <= 768;
+    const isSmallMobile = window.innerWidth <= 480;
+    const viewportHeight = window.innerHeight;
+
+    let baseSpacing = 220;
+    if (viewportHeight > 900) {
+      baseSpacing = 250;
+    } else if (viewportHeight < 768) {
+      baseSpacing = 180;
     }
-  });
 
-  coverflow.addEventListener('pointercancel',()=>{
-    isDragging=false;
-    if(isPlaying)startAutoplay();
-  });
-
-  coverflow.addEventListener('wheel',e=>{
-    const now=performance.now();
-    if(now-lastWheel<300||busy)return;
-    if(Math.abs(e.deltaY)<12&&Math.abs(e.deltaX)<12)return;
-    e.preventDefault();
-    lastWheel=now;
-    (e.deltaY>0||e.deltaX>0)?rotateNext():rotatePrev();
-  },{passive:false});
-
-  // Keep the gallery moving automatically even while the pointer is over it.
-  // Manual controls still work without disabling the slideshow.
-  coverflow.addEventListener('mouseenter',()=>{});
-  coverflow.addEventListener('mouseleave',()=>{});
-  coverflow.addEventListener('focusin',()=>{});
-  coverflow.addEventListener('focusout',()=>{});
-
-  window.addEventListener('keydown',e=>{
-    const gallery=document.getElementById('gallery');
-    if(!gallery)return;
-    const r=gallery.getBoundingClientRect();
-    if(r.bottom<0||r.top>window.innerHeight)return;
-
-    if(e.key==='ArrowRight'){
-      e.preventDefault();
-      rotateNext();
+    if (isSmallMobile) {
+      baseSpacing = Math.min(baseSpacing * 0.7, 140);
+    } else if (isMobile) {
+      baseSpacing = Math.min(baseSpacing * 0.8, 170);
     }
-    if(e.key==='ArrowLeft'){
-      e.preventDefault();
-      rotatePrev();
-    }
-    if(e.key===' '&&document.activeElement===coverflow){
-      e.preventDefault();
-      togglePlay();
-    }
-  });
 
-  window.addEventListener('resize',()=>render(0),{passive:true});
-  render(0);
-  if(isPlaying)startAutoplay();
+    this.items.forEach((item, index) => {
+      let offset = index - this.currentIndex;
+
+      if (offset > this.totalItems / 2) {
+        offset -= this.totalItems;
+      } else if (offset < -this.totalItems / 2) {
+        offset += this.totalItems;
+      }
+
+      let translateX = offset * baseSpacing;
+      let translateZ = -200;
+      let rotateY = offset * -70;
+      let scale = 0.5;
+      let opacity = 0.2;
+
+      if (offset === 0) {
+        translateZ = 100;
+        rotateY = 0;
+        scale = 1.1;
+        opacity = 1;
+      } else if (Math.abs(offset) === 1) {
+        translateZ = 0;
+        rotateY = offset * -40;
+        scale = 0.85;
+        opacity = 0.7;
+      } else if (Math.abs(offset) === 2) {
+        translateZ = -100;
+        rotateY = offset * -50;
+        scale = 0.7;
+        opacity = 0.5;
+      } else if (Math.abs(offset) === 3) {
+        translateZ = -150;
+        rotateY = offset * -60;
+        scale = 0.6;
+        opacity = 0.3;
+      }
+
+      item.style.transform =
+        'translate(-50%, -50%) ' +
+        'translateX(' + translateX + 'px) ' +
+        'translateZ(' + translateZ + 'px) ' +
+        'rotateY(' + rotateY + 'deg) ' +
+        'scale(' + scale + ')';
+      item.style.opacity = opacity;
+      item.style.zIndex = String(this.totalItems - Math.abs(offset));
+      item.classList.toggle('is-active', index === this.currentIndex);
+      item.setAttribute('aria-hidden', index === this.currentIndex ? 'false' : 'true');
+    });
+
+    this.indicators.forEach((indicator, index) => {
+      indicator.classList.toggle('active', index === this.currentIndex);
+    });
+
+    const currentLabel = document.getElementById('galleryCurrent');
+    if (currentLabel) {
+      currentLabel.textContent = String(this.currentIndex + 1).padStart(2, '0');
+    }
+  }
+
+  toggleAutoPlay() {
+    const playPauseBtn = document.getElementById('playPauseBtn');
+
+    if (this.isPlaying) {
+      this.stopAutoPlay();
+      if (playPauseBtn) {
+        playPauseBtn.innerHTML = '▶';
+        playPauseBtn.classList.remove('playing');
+        playPauseBtn.setAttribute('aria-label', 'Play slideshow');
+      }
+    } else {
+      this.startAutoPlay();
+      if (playPauseBtn) {
+        playPauseBtn.innerHTML = 'Ⅱ';
+        playPauseBtn.classList.add('playing');
+        playPauseBtn.setAttribute('aria-label', 'Pause slideshow');
+      }
+    }
+  }
+
+  startAutoPlay() {
+    this.stopAutoPlay();
+    this.isPlaying = true;
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    if (playPauseBtn) {
+      playPauseBtn.innerHTML = 'Ⅱ';
+      playPauseBtn.classList.add('playing');
+      playPauseBtn.setAttribute('aria-label', 'Pause slideshow');
+    }
+
+    this.autoPlayInterval = setInterval(() => this.next(), this.autoPlaySpeed);
+  }
+
+  stopAutoPlay() {
+    if (this.autoPlayInterval) {
+      clearInterval(this.autoPlayInterval);
+      this.autoPlayInterval = null;
+    }
+    this.isPlaying = false;
+  }
+
+  prev() {
+    this.currentIndex = (this.currentIndex - 1 + this.totalItems) % this.totalItems;
+    this.updateCoverflow();
+  }
+
+  next() {
+    this.currentIndex = (this.currentIndex + 1) % this.totalItems;
+    this.updateCoverflow();
+  }
+
+  goTo(index) {
+    if (index < 0 || index >= this.totalItems) return;
+    this.currentIndex = index;
+    this.updateCoverflow();
+  }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  new PhotoCoverflow();
+});
 </script>
 </body>
 </html>

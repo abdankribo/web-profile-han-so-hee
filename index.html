@@ -872,9 +872,9 @@ if(coverflow){
     const visible=mobile?2:4;
 
     queue.forEach((item,pos)=>{
-      let diff=pos-activePos;
-      if(diff>total/2)diff-=total;
-      if(diff<-total/2)diff+=total;
+      /* Keep the queue linear: cards never wrap from the front to the
+         opposite side. A recycled card must travel to the back of the queue. */
+      const diff=pos-activePos;
 
       const abs=Math.abs(diff);
       const clamped=Math.max(-visible,Math.min(visible,diff));
@@ -909,20 +909,29 @@ if(coverflow){
     const mobile=window.innerWidth<768;
     const step=mobile?Math.min(105,window.innerWidth*.25):window.innerWidth<1024?165:220;
     const visible=mobile?2:4;
+    const duration=1050;
 
-    /* Move every card one place first. The current card is then sent visibly
-       beyond the last displayed card instead of being hidden/reset in place. */
+    /* Stage 1: the whole coverflow advances one slot. */
     render(1);
 
+    /* Stage 2: the old center card continues its own journey behind the
+       visible stack instead of being teleported to the queue tail. */
     requestAnimationFrame(()=>{
-      const farX=(visible+1)*step*(direction>0?1:-1);
-      current.style.transform=`translate(-50%,-50%) translateX(${farX}px) translateZ(-420px) rotateY(${direction>0?-52:52}deg) scale(.48)`;
-      current.style.opacity='.18';
+      const side=direction>0?1:-1;
+      const farX=(visible+1)*step*side;
+
+      current.style.transition=
+        'transform 1.05s cubic-bezier(.16,1,.3,1),opacity .9s ease,filter .9s ease';
+      current.style.transform=
+        `translate(-50%,-50%) translateX(${farX}px) translateZ(-520px) rotateY(${side>0?-58:58}deg) scale(.42)`;
+      current.style.opacity='.08';
       current.style.zIndex='1';
-      current.style.filter='blur(1.5px)';
+      current.style.filter='blur(2px)';
     });
 
     transitionTimer=setTimeout(()=>{
+      /* Only after the card has visibly travelled to the rear do we
+         change the actual queue order. */
       if(direction>0){
         const first=queue.shift();
         queue.push(first);
@@ -931,6 +940,8 @@ if(coverflow){
         queue.unshift(last);
       }
 
+      /* Put the recycled card at the physical tail/front position without
+         a visible jump, then let normal transitions continue. */
       coverItems.forEach(item=>item.style.transition='none');
       render(0);
 
@@ -941,9 +952,8 @@ if(coverflow){
           if(isPlaying)startAutoplay();
         });
       });
-    },900);
+    },duration);
   }
-
   function rotateNext(){
     if(busy)return;
     busy=true;

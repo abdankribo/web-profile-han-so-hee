@@ -81,7 +81,96 @@ html{scroll-behavior:auto}.scroll-reveal{opacity:1!important;transform:none!impo
 .deck-hint{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9ca3af;white-space:nowrap}
 @media(max-width:767px){.about-photo-deck{min-height:510px}.deck-stack{width:min(82%,330px)}.portrait-label{left:22px;bottom:22px}}
 @media(prefers-reduced-motion:reduce){.portrait-card{transition:none!important}.portrait-image{transition:none!important}}
-</style></style></head>
+</style></style>
+<style id="gallery-motion-style">
+.gallery-card{
+  position:relative;
+  isolation:isolate;
+  min-height:0;
+  transform:translate3d(0,28px,0) scale(.965) rotateX(0deg) rotateY(0deg);
+  opacity:0;
+  transition:
+    transform .82s cubic-bezier(.16,1,.3,1),
+    opacity .65s cubic-bezier(.16,1,.3,1),
+    box-shadow .45s ease,
+    border-color .35s ease;
+  will-change:transform,opacity;
+  touch-action:pan-y;
+  cursor:pointer;
+}
+.gallery-card.gallery-visible{opacity:1;transform:translate3d(0,0,0) scale(1)}
+.gallery-card.gallery-exit-up{opacity:0;transform:translate3d(0,-32px,0) scale(.965)}
+.gallery-card.gallery-exit-down{opacity:0;transform:translate3d(0,32px,0) scale(.965)}
+.gallery-card:hover{
+  z-index:5;
+  border-color:rgba(251,191,36,.65);
+  box-shadow:0 24px 55px rgba(17,24,39,.14);
+}
+.gallery-card:hover .gallery-image{filter:saturate(1.08) contrast(1.02);transform:scale(1.045)}
+.gallery-card.is-pressed{
+  transform:translate3d(0,3px,0) scale(.965)!important;
+  box-shadow:0 12px 25px rgba(17,24,39,.16);
+}
+.gallery-card.is-held{
+  animation:galleryHold 1.15s cubic-bezier(.2,.8,.2,1) infinite;
+  z-index:6;
+}
+.gallery-card.is-dragging{transition:none!important;cursor:grabbing;z-index:10}
+.gallery-card.swipe-left{animation:gallerySwipeLeft .55s cubic-bezier(.2,.9,.25,1)}
+.gallery-card.swipe-right{animation:gallerySwipeRight .55s cubic-bezier(.2,.9,.25,1)}
+.gallery-image{display:block;transition:transform .75s cubic-bezier(.16,1,.3,1),filter .55s ease;user-select:none;-webkit-user-drag:none}
+.gallery-overlay{
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(145deg,rgba(255,255,255,.18),transparent 38%,rgba(17,24,39,.14));
+  opacity:0;transition:opacity .45s ease;
+}
+.gallery-card:hover .gallery-overlay,.gallery-card.is-held .gallery-overlay{opacity:1}
+.gallery-number{
+  position:absolute;left:14px;bottom:14px;
+  padding:8px 12px;border-radius:999px;
+  background:rgba(17,24,39,.72);color:#fff;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  font-size:11px;font-weight:700;letter-spacing:.04em;
+  transform:translateY(7px);opacity:.8;
+  transition:transform .45s ease,opacity .45s ease;
+}
+.gallery-card:hover .gallery-number,.gallery-card.is-held .gallery-number{transform:none;opacity:1}
+.gallery-hold{
+  position:absolute;right:14px;top:14px;
+  padding:6px 9px;border-radius:999px;
+  background:rgba(255,255,255,.86);color:#111827;
+  font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;
+  opacity:0;transform:translateY(-5px);
+  transition:opacity .35s ease,transform .35s ease;
+  pointer-events:none;
+}
+.gallery-card.is-held .gallery-hold{opacity:1;transform:none}
+@keyframes galleryHold{
+  0%,100%{transform:translate3d(0,0,0) scale(1) rotate(0deg)}
+  35%{transform:translate3d(0,-6px,0) scale(1.018) rotate(-.45deg)}
+  70%{transform:translate3d(0,-2px,0) scale(1.008) rotate(.45deg)}
+}
+@keyframes gallerySwipeLeft{
+  0%{transform:translateX(0) rotate(0)}
+  35%{transform:translateX(-14px) rotate(-1.2deg)}
+  100%{transform:translateX(0) rotate(0)}
+}
+@keyframes gallerySwipeRight{
+  0%{transform:translateX(0) rotate(0)}
+  35%{transform:translateX(14px) rotate(1.2deg)}
+  100%{transform:translateX(0) rotate(0)}
+}
+@media(max-width:639px){
+  .gallery-card{border-radius:1.45rem}
+}
+@media(prefers-reduced-motion:reduce){
+  .gallery-card,.gallery-image,.gallery-number,.gallery-overlay,.gallery-hold{
+    animation:none!important;transition:none!important;
+  }
+  .gallery-card{opacity:1!important;transform:none!important}
+}
+</style>
+</head>
 <body>
 <div id="progress"></div><div id="scrollGlow" aria-hidden="true"></div>
 <header class="fixed top-0 left-0 right-0 z-50 glass"><div class="max-w-6xl mx-auto px-5 md:px-8 h-[78px] flex items-center justify-between"><a href="#about" class="flex items-center gap-4 font-bold tracking-tight"><span class="profile-logo text-sm font-black">AK</span><span>Abdan Kribo</span></a><nav class="hidden md:flex items-center gap-9 text-sm font-medium"><a href="#about" class="nav-link active">About</a><a href="#profile" class="nav-link">Profile</a><a href="#projects" class="nav-link">Projects</a><a href="#gallery" class="nav-link">Gallery</a><a href="#social" class="nav-link">Social</a><a href="#contacts" class="nav-link">Contact</a></nav><button id="menuBtn" aria-label="Open menu" aria-expanded="false" class="md:hidden w-10 h-10 rounded-xl border border-gray-200 bg-white/70 grid place-items-center"><span class="space-y-[5px]"><i class="menu-line line1 block w-5 h-[2px] bg-gray-900"></i><i class="menu-line line2 block w-5 h-[2px] bg-gray-900"></i><i class="menu-line line3 block w-5 h-[2px] bg-gray-900"></i></span></button></div><div id="mobileMenu" class="hidden md:hidden border-t border-gray-100 bg-white/95 px-5 pb-5 pt-3"><a href="#about" class="block py-3 text-sm font-medium">About</a><a href="#profile" class="block py-3 text-sm font-medium">Profile</a><a href="#projects" class="block py-3 text-sm font-medium">Projects</a><a href="#gallery" class="block py-3 text-sm font-medium">Gallery</a><a href="#social" class="block py-3 text-sm font-medium">Social</a><a href="#contacts" class="block py-3 text-sm font-medium">Contact</a></div></header>
@@ -212,21 +301,160 @@ html{scroll-behavior:auto}.scroll-reveal{opacity:1!important;transform:none!impo
     </div>
   </div>
 </div>
-</section><section id="gallery" class="py-24 bg-white"><div class="max-w-6xl mx-auto px-5 md:px-8">
+</section><section id="gallery" class="py-24 bg-white overflow-hidden">
+<div class="max-w-6xl mx-auto px-5 md:px-8">
 <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12" data-aos="fade-up">
 <div><p class="text-xs uppercase tracking-[.25em] font-semibold text-gray-500 mb-3">Visual collection</p><h2 class="font-display text-4xl md:text-5xl">Portrait Gallery</h2></div>
-<p class="max-w-xl text-gray-500 leading-7">Koleksi portrait menggunakan file lokal dengan nama unik. Setiap gambar dapat dibuka untuk melihat ukuran penuh.</p>
+<p class="max-w-xl text-gray-500 leading-7">Koleksi seluruh foto JPG/JPEG dari folder <code>img/</code>. Arahkan mouse, tekan, tahan, scroll, atau geser kartu untuk melihat animasinya. Klik gambar untuk membuka ukuran penuh.</p>
 </div>
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-<a href="img/portrait-pink-heart.jpg" target="_blank" rel="noopener noreferrer" class="gallery-photo group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-aos="fade-up">
-<img src="img/portrait-pink-heart.jpg" alt="Portrait pink heart" loading="lazy" class="w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.03]" onerror="this.closest('.gallery-photo').remove()"><span class="absolute left-4 bottom-4 px-3 py-1.5 rounded-full bg-black/60 text-white text-xs font-semibold">Portrait 01</span></a>
-<a href="img/portrait-white-sweater.jpg" target="_blank" rel="noopener noreferrer" class="gallery-photo group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-aos="fade-up" data-aos-delay="70">
-<img src="img/portrait-white-sweater.jpg" alt="Portrait white sweater" loading="lazy" class="w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.03]" onerror="this.closest('.gallery-photo').remove()"><span class="absolute left-4 bottom-4 px-3 py-1.5 rounded-full bg-black/60 text-white text-xs font-semibold">Portrait 02</span></a>
-<a href="img/portrait-gray-sweater.jpg" target="_blank" rel="noopener noreferrer" class="gallery-photo group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-aos="fade-up" data-aos-delay="140">
-<img src="img/portrait-gray-sweater.jpg" alt="Portrait gray background" loading="lazy" class="w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.03]" onerror="this.closest('.gallery-photo').remove()"><span class="absolute left-4 bottom-4 px-3 py-1.5 rounded-full bg-black/60 text-white text-xs font-semibold">Portrait 03</span></a>
-<a href="img/portrait-green-sweater.jpg" target="_blank" rel="noopener noreferrer" class="gallery-photo group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-aos="fade-up" data-aos-delay="210">
-<img src="img/portrait-green-sweater.jpg" alt="Portrait green sweater" loading="lazy" class="w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.03]" onerror="this.closest('.gallery-photo').remove()"><span class="absolute left-4 bottom-4 px-3 py-1.5 rounded-full bg-black/60 text-white text-xs font-semibold">Portrait 04</span></a>
-</div></div></section>
+<div id="galleryGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+<a href="img/%40xeesoxee.jpeg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="1" data-aos="fade-up" data-aos-delay="0">
+<img src="img/@xeesoxee.jpeg" alt="Portrait 01 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
+<span class="gallery-overlay" aria-hidden="true"></span>
+<span class="gallery-number">Portrait 01</span>
+<span class="gallery-hold" aria-hidden="true">Hold</span>
+</a>
+<a href="img/%40xeesoxee.jpg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="2" data-aos="fade-up" data-aos-delay="70">
+<img src="img/@xeesoxee.jpg" alt="Portrait 02 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
+<span class="gallery-overlay" aria-hidden="true"></span>
+<span class="gallery-number">Portrait 02</span>
+<span class="gallery-hold" aria-hidden="true">Hold</span>
+</a>
+<a href="img/HANSOHEE.jpeg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="3" data-aos="fade-up" data-aos-delay="140">
+<img src="img/HANSOHEE.jpeg" alt="Portrait 03 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
+<span class="gallery-overlay" aria-hidden="true"></span>
+<span class="gallery-number">Portrait 03</span>
+<span class="gallery-hold" aria-hidden="true">Hold</span>
+</a>
+<a href="img/Han%20So%20Hee.jpeg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="4" data-aos="fade-up" data-aos-delay="210">
+<img src="img/Han So Hee.jpeg" alt="Portrait 04 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
+<span class="gallery-overlay" aria-hidden="true"></span>
+<span class="gallery-number">Portrait 04</span>
+<span class="gallery-hold" aria-hidden="true">Hold</span>
+</a>
+<a href="img/Han%20soohee.jpeg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="5" data-aos="fade-up" data-aos-delay="0">
+<img src="img/Han soohee.jpeg" alt="Portrait 05 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
+<span class="gallery-overlay" aria-hidden="true"></span>
+<span class="gallery-number">Portrait 05</span>
+<span class="gallery-hold" aria-hidden="true">Hold</span>
+</a>
+<a href="img/Han%20soohee.jpg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="6" data-aos="fade-up" data-aos-delay="70">
+<img src="img/Han soohee.jpg" alt="Portrait 06 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
+<span class="gallery-overlay" aria-hidden="true"></span>
+<span class="gallery-number">Portrait 06</span>
+<span class="gallery-hold" aria-hidden="true">Hold</span>
+</a>
+<a href="img/download%20(1).jpeg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="7" data-aos="fade-up" data-aos-delay="140">
+<img src="img/download (1).jpeg" alt="Portrait 07 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
+<span class="gallery-overlay" aria-hidden="true"></span>
+<span class="gallery-number">Portrait 07</span>
+<span class="gallery-hold" aria-hidden="true">Hold</span>
+</a>
+<a href="img/download%20(2).jpeg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="8" data-aos="fade-up" data-aos-delay="210">
+<img src="img/download (2).jpeg" alt="Portrait 08 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
+<span class="gallery-overlay" aria-hidden="true"></span>
+<span class="gallery-number">Portrait 08</span>
+<span class="gallery-hold" aria-hidden="true">Hold</span>
+</a>
+<a href="img/download%20(3).jpeg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="9" data-aos="fade-up" data-aos-delay="0">
+<img src="img/download (3).jpeg" alt="Portrait 09 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
+<span class="gallery-overlay" aria-hidden="true"></span>
+<span class="gallery-number">Portrait 09</span>
+<span class="gallery-hold" aria-hidden="true">Hold</span>
+</a>
+<a href="img/download%20(4).jpeg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="10" data-aos="fade-up" data-aos-delay="70">
+<img src="img/download (4).jpeg" alt="Portrait 10 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
+<span class="gallery-overlay" aria-hidden="true"></span>
+<span class="gallery-number">Portrait 10</span>
+<span class="gallery-hold" aria-hidden="true">Hold</span>
+</a>
+<a href="img/download%20(5).jpeg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="11" data-aos="fade-up" data-aos-delay="140">
+<img src="img/download (5).jpeg" alt="Portrait 11 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
+<span class="gallery-overlay" aria-hidden="true"></span>
+<span class="gallery-number">Portrait 11</span>
+<span class="gallery-hold" aria-hidden="true">Hold</span>
+</a>
+<a href="img/download%20(6).jpeg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="12" data-aos="fade-up" data-aos-delay="210">
+<img src="img/download (6).jpeg" alt="Portrait 12 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
+<span class="gallery-overlay" aria-hidden="true"></span>
+<span class="gallery-number">Portrait 12</span>
+<span class="gallery-hold" aria-hidden="true">Hold</span>
+</a>
+<a href="img/download%20(7).jpeg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="13" data-aos="fade-up" data-aos-delay="0">
+<img src="img/download (7).jpeg" alt="Portrait 13 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
+<span class="gallery-overlay" aria-hidden="true"></span>
+<span class="gallery-number">Portrait 13</span>
+<span class="gallery-hold" aria-hidden="true">Hold</span>
+</a>
+<a href="img/download%20(8).jpeg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="14" data-aos="fade-up" data-aos-delay="70">
+<img src="img/download (8).jpeg" alt="Portrait 14 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
+<span class="gallery-overlay" aria-hidden="true"></span>
+<span class="gallery-number">Portrait 14</span>
+<span class="gallery-hold" aria-hidden="true">Hold</span>
+</a>
+<a href="img/download%20(9).jpeg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="15" data-aos="fade-up" data-aos-delay="140">
+<img src="img/download (9).jpeg" alt="Portrait 15 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
+<span class="gallery-overlay" aria-hidden="true"></span>
+<span class="gallery-number">Portrait 15</span>
+<span class="gallery-hold" aria-hidden="true">Hold</span>
+</a>
+<a href="img/download.jpeg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="16" data-aos="fade-up" data-aos-delay="210">
+<img src="img/download.jpeg" alt="Portrait 16 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
+<span class="gallery-overlay" aria-hidden="true"></span>
+<span class="gallery-number">Portrait 16</span>
+<span class="gallery-hold" aria-hidden="true">Hold</span>
+</a>
+<a href="img/download1.jpg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="17" data-aos="fade-up" data-aos-delay="0">
+<img src="img/download1.jpg" alt="Portrait 17 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
+<span class="gallery-overlay" aria-hidden="true"></span>
+<span class="gallery-number">Portrait 17</span>
+<span class="gallery-hold" aria-hidden="true">Hold</span>
+</a>
+<a href="img/han-sohee-02.jpg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="18" data-aos="fade-up" data-aos-delay="70">
+<img src="img/han-sohee-02.jpg" alt="Portrait 18 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
+<span class="gallery-overlay" aria-hidden="true"></span>
+<span class="gallery-number">Portrait 18</span>
+<span class="gallery-hold" aria-hidden="true">Hold</span>
+</a>
+<a href="img/han-sohee-03.jpg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="19" data-aos="fade-up" data-aos-delay="140">
+<img src="img/han-sohee-03.jpg" alt="Portrait 19 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
+<span class="gallery-overlay" aria-hidden="true"></span>
+<span class="gallery-number">Portrait 19</span>
+<span class="gallery-hold" aria-hidden="true">Hold</span>
+</a>
+<a href="img/han-sohee-gallery.jpg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="20" data-aos="fade-up" data-aos-delay="210">
+<img src="img/han-sohee-gallery.jpg" alt="Portrait 20 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
+<span class="gallery-overlay" aria-hidden="true"></span>
+<span class="gallery-number">Portrait 20</span>
+<span class="gallery-hold" aria-hidden="true">Hold</span>
+</a>
+<a href="img/portrait-gray-sweater.jpg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="21" data-aos="fade-up" data-aos-delay="0">
+<img src="img/portrait-gray-sweater.jpg" alt="Portrait 21 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
+<span class="gallery-overlay" aria-hidden="true"></span>
+<span class="gallery-number">Portrait 21</span>
+<span class="gallery-hold" aria-hidden="true">Hold</span>
+</a>
+<a href="img/portrait-green-sweater.jpg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="22" data-aos="fade-up" data-aos-delay="70">
+<img src="img/portrait-green-sweater.jpg" alt="Portrait 22 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
+<span class="gallery-overlay" aria-hidden="true"></span>
+<span class="gallery-number">Portrait 22</span>
+<span class="gallery-hold" aria-hidden="true">Hold</span>
+</a>
+<a href="img/portrait-pink-heart.jpg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="23" data-aos="fade-up" data-aos-delay="140">
+<img src="img/portrait-pink-heart.jpg" alt="Portrait 23 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
+<span class="gallery-overlay" aria-hidden="true"></span>
+<span class="gallery-number">Portrait 23</span>
+<span class="gallery-hold" aria-hidden="true">Hold</span>
+</a>
+<a href="img/portrait-white-sweater.jpg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="24" data-aos="fade-up" data-aos-delay="210">
+<img src="img/portrait-white-sweater.jpg" alt="Portrait 24 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
+<span class="gallery-overlay" aria-hidden="true"></span>
+<span class="gallery-number">Portrait 24</span>
+<span class="gallery-hold" aria-hidden="true">Hold</span>
+</a>
+</div>
+</div>
+</section>
 <section id="projects" class="py-24 bg-gray-50"><div class="max-w-6xl mx-auto px-5 md:px-8"><div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12" data-aos="fade-up"><div><p class="text-xs uppercase tracking-[.25em] font-semibold text-gray-500 mb-3">Selected work</p><h2 class="font-display text-4xl md:text-5xl">Projects & Applications</h2></div><p class="max-w-xl text-gray-500 leading-7">Kumpulan project yang saya kerjakan, mulai dari sistem informasi, dashboard, aplikasi web, hingga project data dan pemrograman. Setiap kartu terhubung langsung ke repository GitHub.</p></div><div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
 <article class="project-card bg-white rounded-[1.7rem] border border-gray-100 p-7 flex flex-col" data-aos="fade-right">
 <div class="flex items-center justify-between gap-4 mb-6"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">01</span><span class="text-[11px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full">Web Application · Management System</span></div>
@@ -519,6 +747,95 @@ if(portraitDeck){
     portraitDeck.addEventListener('pointerleave',startTimer);
     startTimer();
   }
+}
+
+
+/* Gallery interaction layer: hover + scroll both directions + press/hold + drag/swipe. */
+const galleryCards=[...document.querySelectorAll('.gallery-card')];
+if(galleryCards.length){
+  let galleryScrollY=window.scrollY;
+  let galleryScrollDir='down';
+  window.addEventListener('scroll',()=>{
+    const y=window.scrollY;
+    galleryScrollDir=y>=galleryScrollY?'down':'up';
+    galleryScrollY=y;
+  },{passive:true});
+
+  if(!reduceMotion){
+    const galleryObserver=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        const card=entry.target;
+        if(entry.isIntersecting){
+          card.classList.remove('gallery-exit-up','gallery-exit-down');
+          requestAnimationFrame(()=>card.classList.add('gallery-visible'));
+        }else{
+          card.classList.remove('gallery-visible');
+          card.classList.toggle('gallery-exit-up',galleryScrollDir==='up');
+          card.classList.toggle('gallery-exit-down',galleryScrollDir!=='up');
+        }
+      });
+    },{threshold:.12,rootMargin:'-7% 0px -7% 0px'});
+    galleryCards.forEach(card=>galleryObserver.observe(card));
+  }else{
+    galleryCards.forEach(card=>card.classList.add('gallery-visible'));
+  }
+
+  galleryCards.forEach(card=>{
+    let downX=0,downY=0,startTime=0,holdTimer=null,moved=false,dragging=false;
+    const clearHold=()=>{
+      clearTimeout(holdTimer);
+      holdTimer=null;
+      card.classList.remove('is-held');
+    };
+    card.addEventListener('pointerdown',e=>{
+      if(e.pointerType==='mouse' && e.button!==0)return;
+      downX=e.clientX;downY=e.clientY;startTime=performance.now();moved=false;dragging=false;
+      card.classList.add('is-pressed');
+      holdTimer=setTimeout(()=>{
+        if(!moved){
+          card.classList.add('is-held');
+          if(navigator.vibrate)navigator.vibrate(18);
+        }
+      },480);
+      if(e.pointerType!=='mouse')card.setPointerCapture?.(e.pointerId);
+    });
+    card.addEventListener('pointermove',e=>{
+      if(startTime===0)return;
+      const dx=e.clientX-downX,dy=e.clientY-downY;
+      if(Math.hypot(dx,dy)>8)moved=true;
+      if(Math.abs(dx)>12 && Math.abs(dx)>Math.abs(dy)*1.15){
+        dragging=true;clearHold();card.classList.add('is-dragging');
+        const rotate=Math.max(-5,Math.min(5,dx/35));
+        card.style.transform=`translate3d(${dx*.22}px,${Math.max(-5,Math.min(5,dy*.06))}px,0) rotate(${rotate}deg) scale(.985)`;
+      }
+    });
+    card.addEventListener('pointerup',e=>{
+      clearHold();card.classList.remove('is-pressed','is-dragging');
+      const dx=e.clientX-downX,dy=e.clientY-downY;
+      const duration=performance.now()-startTime;
+      startTime=0;
+      if(dragging && Math.abs(dx)>55){
+        e.preventDefault();
+        card.classList.remove('swipe-left','swipe-right');
+        void card.offsetWidth;
+        card.classList.add(dx<0?'swipe-left':'swipe-right');
+      }
+      if(dragging){
+        card.style.transform='';
+        card.addEventListener('click',ev=>ev.preventDefault(),{once:true,capture:true});
+      }else if(duration>450){
+        card.classList.remove('is-held');
+        card.classList.add('click-pop');
+        setTimeout(()=>card.classList.remove('click-pop'),450);
+      }
+    });
+    card.addEventListener('pointercancel',()=>{
+      clearHold();card.classList.remove('is-pressed','is-dragging');card.style.transform='';startTime=0;
+    });
+    card.addEventListener('mouseleave',()=>{
+      if(startTime===0)clearHold();
+    });
+  });
 }
 </script>
 </body>

@@ -130,7 +130,7 @@ html{scroll-behavior:auto}.scroll-reveal{opacity:1!important;transform:none!impo
   .deck-stack .portrait-card.right:hover{transform:translate3d(27px,8px,0) rotate(8deg) scale(.92)!important}
 }
 
-</style></style>
+</style>
 <style id="gallery-motion-style">
 .gallery-card{
   position:relative;
@@ -284,6 +284,17 @@ html{scroll-behavior:auto}.scroll-reveal{opacity:1!important;transform:none!impo
 #profile .overflow-x-auto > .grid{margin-left:auto;margin-right:auto}
 @media (max-width:1023px){
   #profile > .max-w-\[1000px\]{padding-left:20px;padding-right:20px}
+}
+</style><style id="final-motion-timing">
+:root{--motion-duration:1.8s}
+html{scroll-behavior:auto!important}
+*,*::before,*::after{
+  transition-duration:1.8s!important;
+  animation-duration:1.8s!important;
+}
+[data-aos]{
+  transition-duration:1.8s!important;
+  transition-delay:0s!important;
 }
 </style></head>
 <body>
@@ -801,13 +812,13 @@ html{scroll-behavior:auto}.scroll-reveal{opacity:1!important;transform:none!impo
 <footer class="bg-gray-50 border-t border-gray-100 py-10"><div class="max-w-6xl mx-auto px-5 md:px-8 flex flex-col md:flex-row items-center justify-between gap-5"><p class="text-sm text-gray-500">Abdan Kribo © 2021</p><div class="flex gap-3"><a href="https://www.instagram.com/abdankribo_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="w-11 h-11 bg-white border border-gray-200 rounded-full grid place-items-center hover:-translate-y-1 transition"><img src="img/ph-instagram-logo-fill.svg" alt="" class="w-5 h-5"></a><a href="https://www.linkedin.com/in/mohabdansyakuraputra?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="w-11 h-11 bg-white border border-gray-200 rounded-full grid place-items-center hover:-translate-y-1 transition"><img src="img/bi-linkedin.svg" alt="" class="w-5 h-5"></a><a href="https://tako.id/abdankribo" target="_blank" rel="noopener noreferrer" aria-label="Support me on Tako" class="w-11 h-11 bg-white border border-gray-200 rounded-full grid place-items-center hover:-translate-y-1 transition"><span class="text-sm font-black">♥</span></a></div></div></footer>
 <button id="backTop" aria-label="Back to top" class="back-top fixed right-5 bottom-5 z-40 w-11 h-11 rounded-full bg-gray-900 text-white shadow-xl">↑</button>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script><script>
-AOS.init({duration:850,once:false,mirror:true,offset:80,easing:'ease-out-cubic',anchorPlacement:'top-bottom'});
+AOS.init({duration:1800,delay:0,once:false,mirror:true,offset:80,easing:'ease-out-cubic',anchorPlacement:'top-bottom'});
 const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const progress=document.getElementById('progress'),backTop=document.getElementById('backTop');
 let scrollTick=false;
 function updateScrollUI(){const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(h>0?(window.scrollY/h)*100:0)+'%';backTop.classList.toggle('show',window.scrollY>500);scrollTick=false}
 window.addEventListener('scroll',()=>{if(!scrollTick){requestAnimationFrame(updateScrollUI);scrollTick=true}},{passive:true});updateScrollUI();
-backTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:reduceMotion?'auto':'smooth'}));
+backTop.addEventListener('click',()=>reduceMotion?window.scrollTo({top:0}):smoothScrollTo(0));
 
 function addRipple(el,event){
   if(reduceMotion)return;
@@ -817,16 +828,23 @@ function addRipple(el,event){
   const ripple=document.createElement('span');ripple.className='ripple';
   ripple.style.width=ripple.style.height=size+'px';
   ripple.style.left=(event.clientX-rect.left-size/2)+'px';ripple.style.top=(event.clientY-rect.top-size/2)+'px';
-  el.appendChild(ripple);setTimeout(()=>ripple.remove(),700);
+  el.appendChild(ripple);setTimeout(()=>ripple.remove(),MOTION_MS+50);
 }
 document.querySelectorAll('a,button').forEach(el=>{
   el.addEventListener('pointerdown',e=>addRipple(el,e));
-  el.addEventListener('click',()=>{if(reduceMotion)return;el.classList.remove('click-pop');void el.offsetWidth;el.classList.add('click-pop');setTimeout(()=>el.classList.remove('click-pop'),450)});
+  el.addEventListener('click',()=>{if(reduceMotion)return;el.classList.remove('click-pop');void el.offsetWidth;el.classList.add('click-pop');setTimeout(()=>el.classList.remove('click-pop'),MOTION_MS+50)});
 });
 
 document.querySelectorAll('a[href^="#"]').forEach(link=>link.addEventListener('click',e=>{
-  const target=document.querySelector(link.getAttribute('href'));if(!target)return;e.preventDefault();
-  target.scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'start'});
+  const selector=link.getAttribute('href');
+  if(!selector||selector==='#')return;
+  const target=document.querySelector(selector);
+  if(!target)return;
+  e.preventDefault();
+  const targetY=Math.max(0,target.getBoundingClientRect().top+window.scrollY-90);
+  if(reduceMotion) window.scrollTo({top:targetY});
+  else smoothScrollTo(targetY);
+  history.pushState(null,'',selector);
 }));
 
 const revealTargets=document.querySelectorAll('.project-card,.tech-card,.stat-card,.profile-mini-card,.build-card,.skill-chip,.profile-badge');

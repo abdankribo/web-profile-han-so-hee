@@ -66,24 +66,21 @@ html{scroll-behavior:auto}.scroll-reveal{opacity:1!important;transform:none!impo
 /* About portrait shuffle deck */
 .about-photo-deck{min-height:590px;display:grid;place-items:center;isolation:isolate}
 .deck-glow{position:absolute;width:78%;height:72%;border-radius:45%;background:rgba(250,204,21,.16);filter:blur(35px);transform:rotate(-5deg);pointer-events:none}
-.deck-stack{position:relative;width:min(88%,390px);aspect-ratio:4/5}
-.portrait-card{position:absolute;inset:0;width:100%;height:100%;padding:11px;border:1px solid rgba(17,24,39,.12);border-radius:2rem;background:#fff;box-shadow:0 25px 55px rgba(17,24,39,.16);cursor:pointer;transform-origin:50% 88%;transition:transform .72s cubic-bezier(.2,.85,.25,1),opacity .5s ease,filter .5s ease,box-shadow .5s ease;overflow:hidden;text-align:left}
-.portrait-card:nth-child(1){z-index:4;transform:rotate(-2deg) translate3d(0,0,0)}
+.deck-stack{position:relative;width:min(88%,390px);aspect-ratio:4/5;transform:translateZ(0);perspective:1200px}
+.portrait-card{position:absolute;inset:0;width:100%;height:100%;padding:11px;border:1px solid rgba(17,24,39,.12);border-radius:2rem;background:#fff;box-shadow:0 25px 55px rgba(17,24,39,.16);cursor:pointer;transform-origin:50% 88%;transition:transform .82s cubic-bezier(.22,1,.36,1),opacity .5s ease,box-shadow .45s ease;overflow:hidden;text-align:left;will-change:transform,opacity;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.portrait-card:nth-child(1){z-index:4;transform:rotate(-2deg) translate3d(0,0,0) scale(1)}
 .portrait-card:nth-child(2){z-index:3;transform:rotate(3deg) translate3d(9px,10px,0) scale(.975)}
 .portrait-card:nth-child(3){z-index:2;transform:rotate(-4deg) translate3d(-8px,18px,0) scale(.95)}
 .portrait-card:nth-child(4){z-index:1;transform:rotate(5deg) translate3d(12px,27px,0) scale(.925)}
 .portrait-card:hover{box-shadow:0 30px 65px rgba(17,24,39,.22)}
-.portrait-image{width:100%;height:100%;object-fit:cover;border-radius:1.45rem;display:block;filter:grayscale(100%);transition:filter .6s ease,transform .7s ease}
+.portrait-image{width:100%;height:100%;object-fit:cover;border-radius:1.45rem;display:block;filter:grayscale(100%);transition:filter .55s ease,transform .7s cubic-bezier(.22,1,.36,1)}
 .portrait-card:hover .portrait-image{filter:grayscale(0%);transform:scale(1.015)}
 .portrait-label{position:absolute;left:28px;bottom:28px;padding:10px 16px;border-radius:1rem;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);box-shadow:0 10px 25px rgba(17,24,39,.14);display:flex;flex-direction:column;gap:2px;color:#111827}
 .portrait-label small{font-size:11px;color:#9ca3af}.portrait-label strong{font-size:13px}
-.portrait-card.is-shuffling{animation:cardShuffle .72s cubic-bezier(.2,.8,.25,1) both}
-@keyframes cardShuffle{0%{transform:rotate(-2deg) translate3d(0,0,0) scale(1);opacity:1}32%{transform:rotate(9deg) translate3d(105%, -18px,0) scale(.98);opacity:1}58%{transform:rotate(-7deg) translate3d(-25%,14px,0) scale(.96);opacity:.55}100%{transform:rotate(0) translate3d(0,0,0) scale(1);opacity:1}}
-.portrait-card.is-settling{animation:cardSettle .6s cubic-bezier(.16,1,.3,1)}
-@keyframes cardSettle{0%{transform:scale(.94) rotate(-4deg)}65%{transform:scale(1.025) rotate(1deg)}100%{transform:scale(1) rotate(0)}}
+.portrait-card.is-exiting{opacity:.96}
 .deck-hint{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9ca3af;white-space:nowrap}
 @media(max-width:767px){.about-photo-deck{min-height:510px}.deck-stack{width:min(82%,330px)}.portrait-label{left:22px;bottom:22px}}
-@media(prefers-reduced-motion:reduce){.portrait-card{transition:none!important}.portrait-card.is-shuffling,.portrait-card.is-settling{animation:none!important}}
+@media(prefers-reduced-motion:reduce){.portrait-card{transition:none!important}.portrait-image{transition:none!important}}
 </style></style></head>
 <body>
 <div id="progress"></div><div id="scrollGlow" aria-hidden="true"></div>
@@ -451,38 +448,66 @@ window.addEventListener('pointermove',e=>{if(glow&&!reduceMotion){glow.style.lef
 const menuBtn=document.getElementById('menuBtn'),mobileMenu=document.getElementById('mobileMenu');menuBtn.addEventListener('click',()=>{const open=!menuBtn.classList.contains('menu-open');menuBtn.classList.toggle('menu-open',open);menuBtn.setAttribute('aria-expanded',open);mobileMenu.classList.toggle('hidden',!open)});document.querySelectorAll('#mobileMenu a').forEach(a=>a.addEventListener('click',()=>{menuBtn.classList.remove('menu-open');menuBtn.setAttribute('aria-expanded','false');mobileMenu.classList.add('hidden')}));
 document.getElementById('contactForm').addEventListener('submit',e=>{e.preventDefault();let valid=true;const name=document.getElementById('name'),email=document.getElementById('email'),message=document.getElementById('message'),status=document.getElementById('formStatus');document.querySelectorAll('#contactForm p[id$="Error"]').forEach(x=>x.classList.add('hidden'));if(!name.value.trim()){document.getElementById('nameError').classList.remove('hidden');valid=false}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())){document.getElementById('emailError').classList.remove('hidden');valid=false}if(!message.value.trim()){document.getElementById('messageError').classList.remove('hidden');valid=false}if(valid){const subject=encodeURIComponent('Portfolio Contact from '+name.value.trim());const body=encodeURIComponent('Name: '+name.value.trim()+'\\nEmail: '+email.value.trim()+'\\n\\nMessage:\\n'+message.value.trim());window.location.href='mailto:abdankribo@gmail.com?subject='+subject+'&body='+body;status.textContent='Opening your email app…';status.className='text-sm text-center min-h-5 text-green-600'}else{status.textContent='Please check the highlighted fields.';status.className='text-sm text-center min-h-5 text-red-500'}});
 
-// About portrait deck: physically shuffle the top card to the back.
+// About portrait deck: smooth FLIP-style shuffle.
 const portraitDeck=document.getElementById('aboutPhotoDeck');
 if(portraitDeck){
-  let deckBusy=false;
+  let deckBusy=false, timer=null;
   const cards=()=>[...portraitDeck.querySelectorAll('.portrait-card')];
-  const layoutDeck=()=>{
-    cards().forEach((card,i)=>{
-      card.classList.remove('portrait-card-1','portrait-card-2','portrait-card-3','portrait-card-4');
-      card.classList.add('portrait-card-'+(i+1));
+  const transforms=[
+    'translate3d(0,0,0) rotate(-2deg) scale(1)',
+    'translate3d(9px,10px,0) rotate(3deg) scale(.975)',
+    'translate3d(-8px,18px,0) rotate(-4deg) scale(.95)',
+    'translate3d(12px,27px,0) rotate(5deg) scale(.925)'
+  ];
+  const applyStack=(items,transition=true)=>{
+    items.forEach((card,i)=>{
       card.style.zIndex=String(4-i);
+      card.style.transition=transition?'transform .82s cubic-bezier(.22,1,.36,1),opacity .5s ease':'none';
+      card.style.transform=transforms[i]||transforms[3];
+      card.style.opacity='1';
     });
   };
+  applyStack(cards(),false);
+  requestAnimationFrame(()=>cards().forEach(card=>card.style.transition=''));
+  
   const shufflePortrait=()=>{
     if(deckBusy||reduceMotion)return;
     const list=cards(); if(list.length<2)return;
     deckBusy=true;
     const top=list[0];
-    top.classList.add('is-shuffling');
+    // Move the cards underneath upward while the top card glides out.
+    list.slice(1).forEach((card,i)=>{
+      card.style.zIndex=String(4-i);
+      card.style.transform=transforms[i];
+    });
+    top.style.zIndex='5';
+    top.style.transition='transform .82s cubic-bezier(.22,1,.36,1),opacity .55s ease';
+    top.style.transform='translate3d(112%, -18px, 0) rotate(10deg) scale(.97)';
+    top.style.opacity='.35';
+    
     setTimeout(()=>{
-      top.classList.remove('is-shuffling');
+      top.style.transition='none';
+      top.style.opacity='0';
       portraitDeck.appendChild(top);
-      layoutDeck();
-      const newTop=portraitDeck.querySelector('.portrait-card');
-      newTop.classList.add('is-settling');
-      setTimeout(()=>{newTop.classList.remove('is-settling');deckBusy=false},620);
-    },700);
+      const reordered=cards();
+      applyStack(reordered,false);
+      // Start the new stack from its settled positions, then fade the recycled card in.
+      const recycled=reordered[reordered.length-1];
+      recycled.style.opacity='0';
+      recycled.style.transform='translate3d(20px,34px,0) rotate(5deg) scale(.925)';
+      void portraitDeck.offsetWidth;
+      recycled.style.transition='opacity .42s ease,transform .82s cubic-bezier(.22,1,.36,1)';
+      recycled.style.opacity='1';
+      recycled.style.transform=transforms[3];
+      setTimeout(()=>{deckBusy=false},850);
+    },790);
   };
   portraitDeck.addEventListener('click',shufflePortrait);
   if(!reduceMotion){
-    let timer=setInterval(shufflePortrait,4200);
+    const startTimer=()=>{clearInterval(timer);timer=setInterval(shufflePortrait,4500)};
     portraitDeck.addEventListener('pointerenter',()=>clearInterval(timer));
-    portraitDeck.addEventListener('pointerleave',()=>{timer=setInterval(shufflePortrait,4200)});
+    portraitDeck.addEventListener('pointerleave',startTimer);
+    startTimer();
   }
 }
 </script>

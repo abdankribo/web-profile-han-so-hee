@@ -1043,15 +1043,11 @@ if(coverflow){
   }
   function rotateNext(){
     if(busy)return;
-    busy=true;
-    stopAutoplay();
     animateRecycle(1);
   }
 
   function rotatePrev(){
     if(busy)return;
-    busy=true;
-    stopAutoplay();
     animateRecycle(-1);
   }
 
@@ -1081,7 +1077,7 @@ if(coverflow){
   function startAutoplay(){
     if(reduceMotion||!isPlaying)return;
     stopAutoplay();
-    autoplayTimer=setInterval(rotateNext,4200);
+    autoplayTimer=setInterval(rotateNext,3500);
   }
 
   function togglePlay(){
@@ -1144,10 +1140,12 @@ if(coverflow){
     (e.deltaY>0||e.deltaX>0)?rotateNext():rotatePrev();
   },{passive:false});
 
-  coverflow.addEventListener('mouseenter',stopAutoplay);
-  coverflow.addEventListener('mouseleave',()=>{if(isPlaying&&!busy)startAutoplay()});
-  coverflow.addEventListener('focusin',stopAutoplay);
-  coverflow.addEventListener('focusout',()=>{if(isPlaying&&!busy)startAutoplay()});
+  // Keep the gallery moving automatically even while the pointer is over it.
+  // Manual controls still work without disabling the slideshow.
+  coverflow.addEventListener('mouseenter',()=>{});
+  coverflow.addEventListener('mouseleave',()=>{});
+  coverflow.addEventListener('focusin',()=>{});
+  coverflow.addEventListener('focusout',()=>{});
 
   window.addEventListener('keydown',e=>{
     const gallery=document.getElementById('gallery');

@@ -863,6 +863,36 @@ if(aboutPhotoDeck){
   });
 
   setClasses();
+
+  // Automatically cycle through the portraits.
+  let autoTimer=null;
+  let autoBusy=false;
+
+  const autoShuffle=()=>{
+    if(autoBusy) return;
+    const activeCard=aboutPhotoDeck.querySelector('.portrait-card.active');
+    const rightCard=aboutPhotoDeck.querySelector('.portrait-card.right');
+    if(!activeCard||!rightCard) return;
+
+    autoBusy=true;
+
+    const activeClasses=activeCard.className;
+    const rightClasses=rightCard.className;
+
+    rightCard.className=activeClasses;
+    activeCard.className=rightClasses;
+
+    window.setTimeout(()=>{
+      autoBusy=false;
+    },750);
+  };
+
+  const startAutoShuffle=()=>{
+    if(autoTimer) window.clearInterval(autoTimer);
+    autoTimer=window.setInterval(autoShuffle,3000);
+  };
+
+  startAutoShuffle();
 }
 
 

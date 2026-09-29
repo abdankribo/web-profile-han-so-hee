@@ -276,6 +276,8 @@ html{scroll-behavior:auto}.scroll-reveal{opacity:1!important;transform:none!impo
   .profile-toolkit-layout>div:first-child{flex:1.05 1 0!important;width:auto!important}
   .profile-toolkit-layout>div:last-child{flex:.95 1 0!important;width:auto!important}
 }
+</style><style id="fixed-about-layout">
+.fixed-about-scroll{scrollbar-width:thin}
 </style></head>
 <body>
 <div id="progress"></div><div id="scrollGlow" aria-hidden="true"></div>
@@ -384,14 +386,17 @@ html{scroll-behavior:auto}.scroll-reveal{opacity:1!important;transform:none!impo
     </div>
   </div>
 
-  <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 mt-6 md:mt-10" data-aos="fade-up">
-    <div class="stat-card"><span>25+</span><p>Projects showcased</p></div>
-    <div class="stat-card"><span>10+</span><p>Technical skills</p></div>
-    <div class="stat-card"><span>3</span><p>Development roles</p></div>
-    <div class="stat-card"><span>2026</span><p>Graduation year</p></div>
+  <div class="overflow-x-auto mt-10" data-aos="fade-up">
+    <div class="grid grid-cols-4 gap-5 w-[1000px] min-w-[1000px]">
+      <div class="stat-card"><span>25+</span><p>Projects showcased</p></div>
+      <div class="stat-card"><span>10+</span><p>Technical skills</p></div>
+      <div class="stat-card"><span>3</span><p>Development roles</p></div>
+      <div class="stat-card"><span>2026</span><p>Graduation year</p></div>
+    </div>
   </div>
 
-  <div class="grid lg:grid-cols-2 gap-6 md:gap-10 mt-6 md:mt-10">
+  <div class="overflow-x-auto mt-10">
+    <div class="grid grid-cols-2 gap-10 w-[1000px] min-w-[1000px]">
     <div class="rounded-[2rem] bg-gray-50 border border-gray-100 p-6 sm:p-8" data-aos="fade-up">
       <div class="flex items-center gap-3 mb-7"><span class="section-icon">✦</span><div><p class="text-xs uppercase tracking-[.2em] font-semibold text-gray-400">Training</p><h3 class="font-display text-2xl">Learning journey</h3></div></div>
       <div class="timeline">

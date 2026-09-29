@@ -13,7 +13,23 @@
 <style>
 :root{--yellow:#fbbf24;--ink:#111827}.soft-grid{background-image:linear-gradient(rgba(17,24,39,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(17,24,39,.035) 1px,transparent 1px);background-size:34px 34px}html{scroll-behavior:smooth;scroll-padding-top:90px}body{font-family:'DM Sans',sans-serif;background:#f9fafb;color:var(--ink)}::selection{background:var(--yellow);color:#111}.font-display{font-family:'Playfair Display',serif}.glass{background:rgba(255,255,255,.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(17,24,39,.08)}.hero-orb{position:absolute;border-radius:999px;background:var(--yellow);z-index:-1}.nav-link{position:relative;transition:.25s}.nav-link:after{content:'';position:absolute;left:0;bottom:-7px;width:0;height:2px;background:#111;transition:.25s}.nav-link.active:after,.nav-link:hover:after{width:100%}.project-card{transition:transform .35s ease,box-shadow .35s ease}.project-card:hover{transform:translateY(-7px);box-shadow:0 25px 55px rgba(17,24,39,.12)}.project-image{overflow:hidden}.project-image img{transition:transform .6s ease,filter .6s ease}.project-card:hover .project-image img{transform:scale(1.055);filter:grayscale(0)}.field{transition:border-color .2s,box-shadow .2s,transform .2s}.field:focus{transform:translateY(-1px);box-shadow:0 0 0 4px rgba(251,191,36,.16)}.menu-line{transition:.25s}.menu-open .line1{transform:translateY(7px) rotate(45deg)}.menu-open .line2{opacity:0}.menu-open .line3{transform:translateY(-7px) rotate(-45deg)}#progress{position:fixed;top:0;left:0;height:3px;background:#111;z-index:100;width:0}.back-top{opacity:0;pointer-events:none;transform:translateY(12px);transition:.25s}.back-top.show{opacity:1;pointer-events:auto;transform:none}
 .profile-logo{position:relative;display:grid;place-items:center;width:58px;height:58px;border-radius:18px;background:#fbbf24;box-shadow:0 12px 28px rgba(251,191,36,.3);transition:transform .5s cubic-bezier(.2,.8,.2,1),border-radius .5s}.profile-logo:before,.profile-logo:after{content:"";position:absolute;border:1px solid rgba(17,24,39,.18);border-radius:999px;transition:transform .5s,opacity .5s}.profile-logo:before{inset:-7px}.profile-logo:after{inset:-14px;opacity:.45}.profile-logo:hover{transform:rotate(-8deg) scale(1.08);border-radius:50%}.profile-logo:hover:before{transform:rotate(90deg) scale(1.12)}.profile-logo:hover:after{transform:rotate(-90deg) scale(.9);opacity:.8}.skill-chip{transition:transform .25s,box-shadow .25s}.skill-chip:hover{transform:translateY(-4px);box-shadow:0 12px 25px rgba(17,24,39,.1)}.timeline-dot{box-shadow:0 0 0 6px rgba(251,191,36,.16)}</style>
-</head>
+<style>
+.project-visual{height:132px;border-radius:1.35rem;background:linear-gradient(135deg,#111827,#374151);position:relative;overflow:hidden;margin-bottom:1.4rem;padding:16px;color:white;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.project-visual:after{content:'';position:absolute;width:90px;height:90px;border-radius:50%;background:#fbbf24;opacity:.18;right:-25px;top:-30px}
+.project-visual .pv-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;opacity:.65;font-weight:700}
+.project-visual .pv-title{font-size:18px;font-weight:800;margin-top:5px;letter-spacing:-.02em}
+.project-visual .pv-ui{position:absolute;right:15px;bottom:14px;left:15px;display:flex;gap:5px;align-items:flex-end}
+.project-visual .pv-bar{height:6px;border-radius:999px;background:#fbbf24}
+.project-visual .pv-dot{width:9px;height:9px;border-radius:50%;background:#fbbf24}
+.project-visual .pv-card{background:rgba(255,255,255,.11);border:1px solid rgba(255,255,255,.12);border-radius:9px;padding:8px;flex:1}
+.project-visual .pv-code{font:700 9px ui-monospace,SFMono-Regular,Menlo,monospace;line-height:1.6;color:#e5e7eb}
+.project-visual .pv-table{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-top:8px}
+.project-visual .pv-cell{height:8px;border-radius:3px;background:rgba(255,255,255,.16)}
+.project-visual .pv-cell.accent{background:#fbbf24}
+.project-visual .pv-ring{width:48px;height:48px;border:7px solid rgba(255,255,255,.16);border-top-color:#fbbf24;border-radius:50%}
+.project-visual .pv-ticket{background:white;color:#111827;border-radius:8px;padding:8px 10px;transform:rotate(-2deg);box-shadow:0 5px 14px rgba(0,0,0,.2);font-size:9px;font-weight:800}
+.project-visual .pv-qr{width:43px;height:43px;background:repeating-linear-gradient(45deg,#fff 0 3px,#111827 3px 6px);border:4px solid white;border-radius:4px}
+</style></head>
 <body>
 <div id="progress"></div>
 <header class="fixed top-0 left-0 right-0 z-50 glass"><div class="max-w-6xl mx-auto px-5 md:px-8 h-[78px] flex items-center justify-between"><a href="#about" class="flex items-center gap-4 font-bold tracking-tight"><span class="profile-logo text-sm font-black">AK</span><span>Abdan Kribo</span></a><nav class="hidden md:flex items-center gap-9 text-sm font-medium"><a href="#about" class="nav-link active">About</a><a href="#profile" class="nav-link">Profile</a><a href="#projects" class="nav-link">Projects</a><a href="#social" class="nav-link">Social</a><a href="#contacts" class="nav-link">Contact</a></nav><button id="menuBtn" aria-label="Open menu" aria-expanded="false" class="md:hidden w-10 h-10 rounded-xl border border-gray-200 bg-white/70 grid place-items-center"><span class="space-y-[5px]"><i class="menu-line line1 block w-5 h-[2px] bg-gray-900"></i><i class="menu-line line2 block w-5 h-[2px] bg-gray-900"></i><i class="menu-line line3 block w-5 h-[2px] bg-gray-900"></i></span></button></div><div id="mobileMenu" class="hidden md:hidden border-t border-gray-100 bg-white/95 px-5 pb-5 pt-3"><a href="#about" class="block py-3 text-sm font-medium">About</a><a href="#profile" class="block py-3 text-sm font-medium">Profile</a><a href="#projects" class="block py-3 text-sm font-medium">Projects</a><a href="#social" class="block py-3 text-sm font-medium">Social</a><a href="#contacts" class="block py-3 text-sm font-medium">Contact</a></div></header>
@@ -22,175 +38,175 @@
 <section id="profile" class="py-24 bg-white"><div class="max-w-6xl mx-auto px-5 md:px-8"><div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14" data-aos="fade-up"><div><p class="text-xs uppercase tracking-[.25em] font-semibold text-gray-500 mb-3">About me</p><h2 class="font-display text-4xl md:text-5xl">Profile & experience</h2></div><p class="max-w-lg text-gray-500 leading-7">A snapshot of my background, technical skills, education, and professional experience.</p></div><div class="grid lg:grid-cols-[1.05fr_.95fr] gap-10"><div class="rounded-[2rem] bg-gray-50 border border-gray-100 p-7 md:p-10" data-aos="fade-right"><div class="flex items-center gap-4 mb-8"><div class="profile-logo text-lg font-black">AK</div><div><h3 class="font-bold text-xl">Moh. Abdan Syakura Putra</h3><p class="text-sm text-gray-500">Web Developer · Frontend · UI/UX</p></div></div><p class="text-gray-600 leading-8">I am a 2026 Teknik Informatika graduate from Universitas Trunojoyo Madura. During my studies, I gained practical experience as a Web Developer intern at Dinas Koperasi Sidoarjo, working with web systems and development workflows. I am especially interested in Laravel, frontend development, UI/UX, and Python.</p><div class="mt-8 grid sm:grid-cols-2 gap-4"><div class="bg-white rounded-2xl p-5 border border-gray-100"><p class="text-xs text-gray-400 mb-1">Education</p><strong>Universitas Trunojoyo Madura</strong><p class="text-sm text-gray-500 mt-1">Teknik Informatika · GPA 3.50</p></div><div class="bg-white rounded-2xl p-5 border border-gray-100"><p class="text-xs text-gray-400 mb-1">Experience</p><strong>Dinas Koperasi Sidoarjo</strong><p class="text-sm text-gray-500 mt-1">Web Development · Feb–Jun 2024</p></div></div></div><div class="space-y-6" data-aos="fade-left"><div><p class="text-xs uppercase tracking-[.2em] font-semibold text-gray-400 mb-4">Technical skills</p><div class="flex flex-wrap gap-3"><span class="skill-chip bg-white border border-gray-200 rounded-full px-4 py-2 text-sm font-medium">JavaScript</span><span class="skill-chip bg-white border border-gray-200 rounded-full px-4 py-2 text-sm font-medium">HTML & CSS</span><span class="skill-chip bg-white border border-gray-200 rounded-full px-4 py-2 text-sm font-medium">Next.js</span><span class="skill-chip bg-white border border-gray-200 rounded-full px-4 py-2 text-sm font-medium">Laravel & PHP</span><span class="skill-chip bg-white border border-gray-200 rounded-full px-4 py-2 text-sm font-medium">Python</span><span class="skill-chip bg-white border border-gray-200 rounded-full px-4 py-2 text-sm font-medium">UI/UX</span><span class="skill-chip bg-white border border-gray-200 rounded-full px-4 py-2 text-sm font-medium">Figma</span><span class="skill-chip bg-white border border-gray-200 rounded-full px-4 py-2 text-sm font-medium">Web Development</span><span class="skill-chip bg-white border border-gray-200 rounded-full px-4 py-2 text-sm font-medium">Networking</span><span class="skill-chip bg-white border border-gray-200 rounded-full px-4 py-2 text-sm font-medium">Canva</span></div></div><div class="border-t border-gray-100 pt-6"><p class="text-xs uppercase tracking-[.2em] font-semibold text-gray-400 mb-4">Training</p><div class="space-y-4"><div class="relative pl-7"><span class="timeline-dot absolute left-1 top-1.5 w-2 h-2 rounded-full bg-yellow-400"></span><strong class="block">Software Engineering</strong><span class="text-sm text-gray-500">Revou · April–May 2024</span></div><div class="relative pl-7"><span class="timeline-dot absolute left-1 top-1.5 w-2 h-2 rounded-full bg-yellow-400"></span><strong class="block">Digital Marketing</strong><span class="text-sm text-gray-500">Revou · February–May 2025</span></div></div></div></div></div></div></section><section id="projects" class="py-24 bg-gray-50"><div class="max-w-6xl mx-auto px-5 md:px-8"><div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12" data-aos="fade-up"><div><p class="text-xs uppercase tracking-[.25em] font-semibold text-gray-500 mb-3">Selected work</p><h2 class="font-display text-4xl md:text-5xl">Projects & Applications</h2></div><p class="max-w-xl text-gray-500 leading-7">Kumpulan project yang saya kerjakan, mulai dari sistem informasi, dashboard, aplikasi web, hingga project data dan pemrograman. Setiap kartu terhubung langsung ke repository GitHub.</p></div><div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
 <article class="project-card bg-white rounded-[1.7rem] border border-gray-100 p-7 flex flex-col" data-aos="fade-right">
 <div class="flex items-center justify-between gap-4 mb-6"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">01</span><span class="text-[11px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full">Web Application · Management System</span></div>
-<div class="w-12 h-12 rounded-2xl bg-yellow-400 grid place-items-center font-black text-gray-900 mb-5">AK</div>
+<div class="project-visual"><span class="pv-label">Koperasi</span><div class="pv-title">Simpanan · Pinjaman</div><div class="pv-ui"><div class="pv-card"><span class="pv-label">Anggota</span><div class="pv-bar" style="width:72%;margin-top:7px"></div></div><div class="pv-card"><span class="pv-label">Pinjaman</span><div class="pv-bar" style="width:48%;margin-top:7px"></div></div></div></div>
 <h3 class="font-display text-2xl mb-3">Koperasi Simpan Pinjam</h3>
 <p class="text-gray-600 leading-7 text-sm flex-1">Sistem manajemen koperasi dengan pengelolaan anggota, simpanan, pinjaman, angsuran, dan role admin/anggota.</p>
 <a href="https://github.com/abdankribo/Koperasi-Simpan-Pinjam" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 font-semibold w-fit group">View repository <span class="group-hover:translate-x-1 transition">↗</span></a>
 </article>
 <article class="project-card bg-white rounded-[1.7rem] border border-gray-100 p-7 flex flex-col" data-aos="fade-up">
 <div class="flex items-center justify-between gap-4 mb-6"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">02</span><span class="text-[11px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full">Next.js · Prisma · Database</span></div>
-<div class="w-12 h-12 rounded-2xl bg-yellow-400 grid place-items-center font-black text-gray-900 mb-5">AK</div>
+<div class="project-visual"><span class="pv-label">KosManager</span><div class="pv-title">Room Dashboard</div><div class="pv-ui"><div class="pv-card"><span class="pv-dot"></span><span style="font-size:10px;margin-left:6px">102 · Rp1M</span></div><div class="pv-card"><span class="pv-dot" style="opacity:.35"></span><span style="font-size:10px;margin-left:6px">103 · Available</span></div></div></div>
 <h3 class="font-display text-2xl mb-3">KosManager</h3>
 <p class="text-gray-600 leading-7 text-sm flex-1">Sistem manajemen kos dengan role pemilik, admin/karyawan, dan penyewa; mencakup kamar, penghuni, pembayaran, dan dashboard.</p>
 <a href="https://github.com/abdankribo/KosManagerSistemTugasAkhir" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 font-semibold w-fit group">View repository <span class="group-hover:translate-x-1 transition">↗</span></a>
 </article>
 <article class="project-card bg-white rounded-[1.7rem] border border-gray-100 p-7 flex flex-col" data-aos="fade-right">
 <div class="flex items-center justify-between gap-4 mb-6"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">03</span><span class="text-[11px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full">Web Application · Authentication</span></div>
-<div class="w-12 h-12 rounded-2xl bg-yellow-400 grid place-items-center font-black text-gray-900 mb-5">AK</div>
+<div class="project-visual"><span class="pv-label">Attendance</span><div class="pv-title">Mahasiswa</div><div class="pv-ui"><div class="pv-ring"></div><div class="pv-card"><span class="pv-label">Hadir</span><div class="pv-bar" style="width:82%;margin-top:7px"></div></div></div></div>
 <h3 class="font-display text-2xl mb-3">Absensi Mahasiswa</h3>
 <p class="text-gray-600 leading-7 text-sm flex-1">Aplikasi absensi mahasiswa dengan autentikasi akun, pencatatan kehadiran, dan dashboard sesuai pengguna.</p>
 <a href="https://github.com/abdankribo/Absensi-Mahasiswa-" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 font-semibold w-fit group">View repository <span class="group-hover:translate-x-1 transition">↗</span></a>
 </article>
 <article class="project-card bg-white rounded-[1.7rem] border border-gray-100 p-7 flex flex-col" data-aos="fade-up">
 <div class="flex items-center justify-between gap-4 mb-6"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">04</span><span class="text-[11px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full">Next.js · Prisma · OAuth</span></div>
-<div class="w-12 h-12 rounded-2xl bg-yellow-400 grid place-items-center font-black text-gray-900 mb-5">AK</div>
+<div class="project-visual"><span class="pv-label">Ticketing</span><div class="pv-title">Kapal Laut</div><div class="pv-ui"><div class="pv-ticket">BOOKING<br><span style="font-weight:500">PASSENGER · SEAT</span></div><div class="pv-qr"></div></div></div>
 <h3 class="font-display text-2xl mb-3">Pemesanan Tiket Kapal Laut</h3>
 <p class="text-gray-600 leading-7 text-sm flex-1">Platform pemesanan tiket kapal dengan alur pencarian, booking, pembayaran simulasi, tiket, QR verification, dan akun.</p>
 <a href="https://github.com/abdankribo/website-pemesanan-tiket-kapal-laut" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 font-semibold w-fit group">View repository <span class="group-hover:translate-x-1 transition">↗</span></a>
 </article>
 <article class="project-card bg-white rounded-[1.7rem] border border-gray-100 p-7 flex flex-col" data-aos="fade-right">
 <div class="flex items-center justify-between gap-4 mb-6"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">05</span><span class="text-[11px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full">Web Application · UI/UX</span></div>
-<div class="w-12 h-12 rounded-2xl bg-yellow-400 grid place-items-center font-black text-gray-900 mb-5">AK</div>
+<div class="project-visual"><span class="pv-label">Cinema</span><div class="pv-title">Movie Booking</div><div class="pv-ui"><div class="pv-card"><span class="pv-dot"></span><span style="font-size:9px;margin-left:5px">SCREEN 01</span></div><div class="pv-card"><span class="pv-bar" style="display:block;width:55%"></span><span class="pv-bar" style="display:block;width:80%;margin-top:5px;opacity:.4"></span></div></div></div>
 <h3 class="font-display text-2xl mb-3">Sistem Bioskop</h3>
 <p class="text-gray-600 leading-7 text-sm flex-1">Aplikasi bioskop untuk menampilkan dan mengelola pengalaman pemesanan film/tiket.</p>
 <a href="https://github.com/abdankribo/bioskop" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 font-semibold w-fit group">View repository <span class="group-hover:translate-x-1 transition">↗</span></a>
 </article>
 <article class="project-card bg-white rounded-[1.7rem] border border-gray-100 p-7 flex flex-col" data-aos="fade-up">
 <div class="flex items-center justify-between gap-4 mb-6"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">06</span><span class="text-[11px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full">Frontend · Dashboard</span></div>
-<div class="w-12 h-12 rounded-2xl bg-yellow-400 grid place-items-center font-black text-gray-900 mb-5">AK</div>
+<div class="project-visual"><span class="pv-label">Academic</span><div class="pv-title">Student Dashboard</div><div class="pv-ui"><div class="pv-card"><span class="pv-label">IPK</span><div class="pv-title" style="font-size:15px">3.50</div></div><div class="pv-card"><span class="pv-label">SKS</span><div class="pv-title" style="font-size:15px">144</div></div></div></div>
 <h3 class="font-display text-2xl mb-3">Dashboard Mahasiswa</h3>
 <p class="text-gray-600 leading-7 text-sm flex-1">Dashboard mahasiswa dengan antarmuka terstruktur untuk informasi dan aktivitas akademik.</p>
 <a href="https://github.com/abdankribo/dashboard-mahasiswa" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 font-semibold w-fit group">View repository <span class="group-hover:translate-x-1 transition">↗</span></a>
 </article>
 <article class="project-card bg-white rounded-[1.7rem] border border-gray-100 p-7 flex flex-col" data-aos="fade-right">
 <div class="flex items-center justify-between gap-4 mb-6"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">07</span><span class="text-[11px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full">Web Application · CRUD</span></div>
-<div class="w-12 h-12 rounded-2xl bg-yellow-400 grid place-items-center font-black text-gray-900 mb-5">AK</div>
+<div class="project-visual"><span class="pv-label">Inventory</span><div class="pv-title">Stock Control</div><div class="pv-table"><span class="pv-cell accent"></span><span class="pv-cell"></span><span class="pv-cell"></span><span class="pv-cell accent"></span><span class="pv-cell"></span><span class="pv-cell"></span><span class="pv-cell accent"></span><span class="pv-cell"></span><span class="pv-cell"></span></div></div>
 <h3 class="font-display text-2xl mb-3">Inventory Sederhana</h3>
 <p class="text-gray-600 leading-7 text-sm flex-1">Aplikasi pencatatan dan pengelolaan inventaris secara sederhana.</p>
 <a href="https://github.com/abdankribo/inventory-sederhana" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 font-semibold w-fit group">View repository <span class="group-hover:translate-x-1 transition">↗</span></a>
 </article>
 <article class="project-card bg-white rounded-[1.7rem] border border-gray-100 p-7 flex flex-col" data-aos="fade-up">
 <div class="flex items-center justify-between gap-4 mb-6"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">08</span><span class="text-[11px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full">Web Application · Utility</span></div>
-<div class="w-12 h-12 rounded-2xl bg-yellow-400 grid place-items-center font-black text-gray-900 mb-5">AK</div>
+<div class="project-visual"><span class="pv-label">Invoice</span><div class="pv-title">INVOICE #2026</div><div class="pv-ui"><div class="pv-card"><span class="pv-label">Total</span><div class="pv-title" style="font-size:14px">Rp 2.450K</div></div><div class="pv-ticket">PAID ✓</div></div></div>
 <h3 class="font-display text-2xl mb-3">Invoice Generator</h3>
 <p class="text-gray-600 leading-7 text-sm flex-1">Aplikasi untuk membuat dan mengelola invoice secara praktis.</p>
 <a href="https://github.com/abdankribo/invoice-generator" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 font-semibold w-fit group">View repository <span class="group-hover:translate-x-1 transition">↗</span></a>
 </article>
 <article class="project-card bg-white rounded-[1.7rem] border border-gray-100 p-7 flex flex-col" data-aos="fade-right">
 <div class="flex items-center justify-between gap-4 mb-6"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">09</span><span class="text-[11px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full">Web Application · Management</span></div>
-<div class="w-12 h-12 rounded-2xl bg-yellow-400 grid place-items-center font-black text-gray-900 mb-5">AK</div>
+<div class="project-visual"><span class="pv-label">Library</span><div class="pv-title">Books & Members</div><div class="pv-table"><span class="pv-cell"></span><span class="pv-cell accent"></span><span class="pv-cell"></span><span class="pv-cell"></span><span class="pv-cell accent"></span><span class="pv-cell"></span><span class="pv-cell"></span><span class="pv-cell accent"></span><span class="pv-cell"></span></div></div>
 <h3 class="font-display text-2xl mb-3">Sistem Perpustakaan</h3>
 <p class="text-gray-600 leading-7 text-sm flex-1">Sistem pengelolaan perpustakaan untuk data buku dan aktivitas peminjaman.</p>
 <a href="https://github.com/abdankribo/sistem-perpustakaan" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 font-semibold w-fit group">View repository <span class="group-hover:translate-x-1 transition">↗</span></a>
 </article>
 <article class="project-card bg-white rounded-[1.7rem] border border-gray-100 p-7 flex flex-col" data-aos="fade-up">
 <div class="flex items-center justify-between gap-4 mb-6"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">10</span><span class="text-[11px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full">Machine Learning · Visualization</span></div>
-<div class="w-12 h-12 rounded-2xl bg-yellow-400 grid place-items-center font-black text-gray-900 mb-5">AK</div>
+<div class="project-visual"><span class="pv-label">Machine Learning</span><div class="pv-title">KNN Visualizer</div><div class="pv-ui"><span class="pv-dot"></span><span class="pv-dot" style="margin-left:18px"></span><span class="pv-dot" style="margin-left:9px;opacity:.35"></span><div class="pv-card"><span class="pv-code">K = 5<br>distance → class</span></div></div></div>
 <h3 class="font-display text-2xl mb-3">KNN Visualizer</h3>
 <p class="text-gray-600 leading-7 text-sm flex-1">Visualisasi interaktif konsep algoritma K-Nearest Neighbors untuk membantu memahami proses klasifikasi.</p>
 <a href="https://github.com/abdankribo/knn-visualizer" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 font-semibold w-fit group">View repository <span class="group-hover:translate-x-1 transition">↗</span></a>
 </article>
 <article class="project-card bg-white rounded-[1.7rem] border border-gray-100 p-7 flex flex-col" data-aos="fade-right">
 <div class="flex items-center justify-between gap-4 mb-6"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">11</span><span class="text-[11px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full">Frontend · Data Dashboard</span></div>
-<div class="w-12 h-12 rounded-2xl bg-yellow-400 grid place-items-center font-black text-gray-900 mb-5">AK</div>
+<div class="project-visual"><span class="pv-label">Weather</span><div class="pv-title">Forecast Dashboard</div><div class="pv-ui"><div class="pv-card"><span style="font-size:24px">☁</span><span style="font-size:10px;margin-left:8px">28°C</span></div><div class="pv-bar" style="width:55%"></div></div></div>
 <h3 class="font-display text-2xl mb-3">Weather Dashboard</h3>
 <p class="text-gray-600 leading-7 text-sm flex-1">Dashboard informasi cuaca dengan tampilan data yang ringkas dan mudah dipahami.</p>
 <a href="https://github.com/abdankribo/weather-dashboard" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 font-semibold w-fit group">View repository <span class="group-hover:translate-x-1 transition">↗</span></a>
 </article>
 <article class="project-card bg-white rounded-[1.7rem] border border-gray-100 p-7 flex flex-col" data-aos="fade-up">
 <div class="flex items-center justify-between gap-4 mb-6"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">12</span><span class="text-[11px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full">Frontend · Data Visualization</span></div>
-<div class="w-12 h-12 rounded-2xl bg-yellow-400 grid place-items-center font-black text-gray-900 mb-5">AK</div>
+<div class="project-visual"><span class="pv-label">Market Data</span><div class="pv-title">Stock Dashboard</div><div class="pv-ui"><div class="pv-bar" style="width:18%;height:28px"></div><div class="pv-bar" style="width:18%;height:42px"></div><div class="pv-bar" style="width:18%;height:22px;opacity:.55"></div><div class="pv-bar" style="width:18%;height:55px"></div></div></div>
 <h3 class="font-display text-2xl mb-3">Stock Dashboard</h3>
 <p class="text-gray-600 leading-7 text-sm flex-1">Dashboard pemantauan data saham dengan visualisasi dan komponen informasi pasar.</p>
 <a href="https://github.com/abdankribo/stock-dashboard" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 font-semibold w-fit group">View repository <span class="group-hover:translate-x-1 transition">↗</span></a>
 </article>
 <article class="project-card bg-white rounded-[1.7rem] border border-gray-100 p-7 flex flex-col" data-aos="fade-right">
 <div class="flex items-center justify-between gap-4 mb-6"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">13</span><span class="text-[11px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full">Web Application · Finance</span></div>
-<div class="w-12 h-12 rounded-2xl bg-yellow-400 grid place-items-center font-black text-gray-900 mb-5">AK</div>
+<div class="project-visual"><span class="pv-label">Personal Finance</span><div class="pv-title">Money Manager</div><div class="pv-ui"><div class="pv-card"><span class="pv-label">Income</span><div class="pv-bar" style="width:80%;margin-top:7px"></div></div><div class="pv-card"><span class="pv-label">Expense</span><div class="pv-bar" style="width:45%;margin-top:7px;opacity:.55"></div></div></div></div>
 <h3 class="font-display text-2xl mb-3">Money Manager</h3>
 <p class="text-gray-600 leading-7 text-sm flex-1">Aplikasi pencatatan dan pengelolaan keuangan pribadi.</p>
 <a href="https://github.com/abdankribo/money-manager" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 font-semibold w-fit group">View repository <span class="group-hover:translate-x-1 transition">↗</span></a>
 </article>
 <article class="project-card bg-white rounded-[1.7rem] border border-gray-100 p-7 flex flex-col" data-aos="fade-up">
 <div class="flex items-center justify-between gap-4 mb-6"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">14</span><span class="text-[11px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full">Web Application · Ticketing</span></div>
-<div class="w-12 h-12 rounded-2xl bg-yellow-400 grid place-items-center font-black text-gray-900 mb-5">AK</div>
+<div class="project-visual"><span class="pv-label">Event</span><div class="pv-title">Digital Ticket</div><div class="pv-ui"><div class="pv-ticket">EVENT PASS<br><span style="font-weight:500">ENTRY · 19:00</span></div><div class="pv-qr"></div></div></div>
 <h3 class="font-display text-2xl mb-3">Event Ticket Generator</h3>
 <p class="text-gray-600 leading-7 text-sm flex-1">Aplikasi pembuatan tiket event dengan informasi tiket yang dapat digunakan untuk kebutuhan acara.</p>
 <a href="https://github.com/abdankribo/event-ticket-generator" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 font-semibold w-fit group">View repository <span class="group-hover:translate-x-1 transition">↗</span></a>
 </article>
 <article class="project-card bg-white rounded-[1.7rem] border border-gray-100 p-7 flex flex-col" data-aos="fade-right">
 <div class="flex items-center justify-between gap-4 mb-6"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">15</span><span class="text-[11px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full">Python · Data Management</span></div>
-<div class="w-12 h-12 rounded-2xl bg-yellow-400 grid place-items-center font-black text-gray-900 mb-5">AK</div>
+<div class="project-visual"><span class="pv-label">Python</span><div class="pv-title">Expense Tracker</div><div class="pv-ui"><div class="pv-card"><div class="pv-code">expenses = []<br>total = sum(...)</div></div></div></div>
 <h3 class="font-display text-2xl mb-3">Python Expense Tracker</h3>
 <p class="text-gray-600 leading-7 text-sm flex-1">Aplikasi Python untuk mencatat dan memantau pengeluaran.</p>
 <a href="https://github.com/abdankribo/python-expense-tracker" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 font-semibold w-fit group">View repository <span class="group-hover:translate-x-1 transition">↗</span></a>
 </article>
 <article class="project-card bg-white rounded-[1.7rem] border border-gray-100 p-7 flex flex-col" data-aos="fade-up">
 <div class="flex items-center justify-between gap-4 mb-6"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">16</span><span class="text-[11px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full">Python · Data Analysis</span></div>
-<div class="w-12 h-12 rounded-2xl bg-yellow-400 grid place-items-center font-black text-gray-900 mb-5">AK</div>
+<div class="project-visual"><span class="pv-label">Python</span><div class="pv-title">Data Analyzer</div><div class="pv-ui"><div class="pv-bar" style="width:20%;height:25px"></div><div class="pv-bar" style="width:20%;height:48px"></div><div class="pv-bar" style="width:20%;height:35px"></div><div class="pv-bar" style="width:20%;height:58px"></div></div></div>
 <h3 class="font-display text-2xl mb-3">Python Data Analyzer</h3>
 <p class="text-gray-600 leading-7 text-sm flex-1">Project analisis data menggunakan Python untuk mengolah dan memahami dataset.</p>
 <a href="https://github.com/abdankribo/python-data-analyzer" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 font-semibold w-fit group">View repository <span class="group-hover:translate-x-1 transition">↗</span></a>
 </article>
 <article class="project-card bg-white rounded-[1.7rem] border border-gray-100 p-7 flex flex-col" data-aos="fade-right">
 <div class="flex items-center justify-between gap-4 mb-6"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">17</span><span class="text-[11px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full">Java · System Development</span></div>
-<div class="w-12 h-12 rounded-2xl bg-yellow-400 grid place-items-center font-black text-gray-900 mb-5">AK</div>
+<div class="project-visual"><span class="pv-label">Java</span><div class="pv-title">Library System</div><div class="pv-ui"><div class="pv-card"><div class="pv-code">BookService<br>MemberService<br>Borrow()</div></div></div></div>
 <h3 class="font-display text-2xl mb-3">Java Library System</h3>
 <p class="text-gray-600 leading-7 text-sm flex-1">Sistem perpustakaan berbasis Java untuk pengelolaan data dan proses perpustakaan.</p>
 <a href="https://github.com/abdankribo/java-library-system" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 font-semibold w-fit group">View repository <span class="group-hover:translate-x-1 transition">↗</span></a>
 </article>
 <article class="project-card bg-white rounded-[1.7rem] border border-gray-100 p-7 flex flex-col" data-aos="fade-up">
 <div class="flex items-center justify-between gap-4 mb-6"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">18</span><span class="text-[11px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full">Java · System Development</span></div>
-<div class="w-12 h-12 rounded-2xl bg-yellow-400 grid place-items-center font-black text-gray-900 mb-5">AK</div>
+<div class="project-visual"><span class="pv-label">Java</span><div class="pv-title">Bank System</div><div class="pv-ui"><div class="pv-card"><span class="pv-label">Balance</span><div class="pv-title" style="font-size:14px">Rp 8.500K</div></div><div class="pv-dot"></div></div></div>
 <h3 class="font-display text-2xl mb-3">Java Bank System</h3>
 <p class="text-gray-600 leading-7 text-sm flex-1">Aplikasi simulasi sistem perbankan berbasis Java dengan pengelolaan data dan transaksi.</p>
 <a href="https://github.com/abdankribo/java-bank-system" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 font-semibold w-fit group">View repository <span class="group-hover:translate-x-1 transition">↗</span></a>
 </article>
 <article class="project-card bg-white rounded-[1.7rem] border border-gray-100 p-7 flex flex-col" data-aos="fade-right">
 <div class="flex items-center justify-between gap-4 mb-6"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">19</span><span class="text-[11px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full">C++ · Algorithm Visualization</span></div>
-<div class="w-12 h-12 rounded-2xl bg-yellow-400 grid place-items-center font-black text-gray-900 mb-5">AK</div>
+<div class="project-visual"><span class="pv-label">C++</span><div class="pv-title">Algorithm Visualizer</div><div class="pv-ui"><div class="pv-bar" style="width:12%;height:18px"></div><div class="pv-bar" style="width:12%;height:42px"></div><div class="pv-bar" style="width:12%;height:27px"></div><div class="pv-bar" style="width:12%;height:58px"></div><div class="pv-bar" style="width:12%;height:35px"></div></div></div>
 <h3 class="font-display text-2xl mb-3">C++ Algorithm Visualizer</h3>
 <p class="text-gray-600 leading-7 text-sm flex-1">Visualisasi algoritma untuk membantu memahami proses dan langkah kerja algoritmik.</p>
 <a href="https://github.com/abdankribo/cpp-algorithm-visualizer" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 font-semibold w-fit group">View repository <span class="group-hover:translate-x-1 transition">↗</span></a>
 </article>
 <article class="project-card bg-white rounded-[1.7rem] border border-gray-100 p-7 flex flex-col" data-aos="fade-up">
 <div class="flex items-center justify-between gap-4 mb-6"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">20</span><span class="text-[11px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full">Go · REST API · Backend</span></div>
-<div class="w-12 h-12 rounded-2xl bg-yellow-400 grid place-items-center font-black text-gray-900 mb-5">AK</div>
+<div class="project-visual"><span class="pv-label">Go</span><div class="pv-title">REST API</div><div class="pv-ui"><div class="pv-card"><div class="pv-code">GET /api/users<br>POST /api/items<br>200 OK ✓</div></div></div></div>
 <h3 class="font-display text-2xl mb-3">Go REST API</h3>
 <p class="text-gray-600 leading-7 text-sm flex-1">Project REST API menggunakan Go untuk membangun layanan backend terstruktur.</p>
 <a href="https://github.com/abdankribo/go-rest-api" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 font-semibold w-fit group">View repository <span class="group-hover:translate-x-1 transition">↗</span></a>
 </article>
 <article class="project-card bg-white rounded-[1.7rem] border border-gray-100 p-7 flex flex-col" data-aos="fade-right">
 <div class="flex items-center justify-between gap-4 mb-6"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">21</span><span class="text-[11px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full">PHP · CRUD · Management</span></div>
-<div class="w-12 h-12 rounded-2xl bg-yellow-400 grid place-items-center font-black text-gray-900 mb-5">AK</div>
+<div class="project-visual"><span class="pv-label">PHP</span><div class="pv-title">Inventory System</div><div class="pv-table"><span class="pv-cell accent"></span><span class="pv-cell"></span><span class="pv-cell"></span><span class="pv-cell accent"></span><span class="pv-cell"></span><span class="pv-cell"></span><span class="pv-cell accent"></span><span class="pv-cell"></span><span class="pv-cell"></span></div></div>
 <h3 class="font-display text-2xl mb-3">PHP Inventory System</h3>
 <p class="text-gray-600 leading-7 text-sm flex-1">Sistem inventaris berbasis PHP untuk pengelolaan data barang.</p>
 <a href="https://github.com/abdankribo/php-inventory-system" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 font-semibold w-fit group">View repository <span class="group-hover:translate-x-1 transition">↗</span></a>
 </article>
 <article class="project-card bg-white rounded-[1.7rem] border border-gray-100 p-7 flex flex-col" data-aos="fade-up">
 <div class="flex items-center justify-between gap-4 mb-6"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">22</span><span class="text-[11px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full">Kotlin · Task Management</span></div>
-<div class="w-12 h-12 rounded-2xl bg-yellow-400 grid place-items-center font-black text-gray-900 mb-5">AK</div>
+<div class="project-visual"><span class="pv-label">Kotlin</span><div class="pv-title">Task Manager</div><div class="pv-ui"><div class="pv-card"><span class="pv-dot"></span><span style="font-size:9px;margin-left:6px">Build UI</span><br><span class="pv-dot" style="opacity:.35"></span><span style="font-size:9px;margin-left:6px">Deploy</span></div></div></div>
 <h3 class="font-display text-2xl mb-3">Kotlin Task Manager</h3>
 <p class="text-gray-600 leading-7 text-sm flex-1">Aplikasi pengelolaan tugas berbasis Kotlin.</p>
 <a href="https://github.com/abdankribo/kotlin-task-manager" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 font-semibold w-fit group">View repository <span class="group-hover:translate-x-1 transition">↗</span></a>
 </article>
 <article class="project-card bg-white rounded-[1.7rem] border border-gray-100 p-7 flex flex-col" data-aos="fade-right">
 <div class="flex items-center justify-between gap-4 mb-6"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">23</span><span class="text-[11px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full">C# · System Development</span></div>
-<div class="w-12 h-12 rounded-2xl bg-yellow-400 grid place-items-center font-black text-gray-900 mb-5">AK</div>
+<div class="project-visual"><span class="pv-label">C#</span><div class="pv-title">Library System</div><div class="pv-ui"><div class="pv-card"><div class="pv-code">Library.cs<br>Book.cs<br>Member.cs</div></div></div></div>
 <h3 class="font-display text-2xl mb-3">C# Library System</h3>
 <p class="text-gray-600 leading-7 text-sm flex-1">Sistem perpustakaan berbasis C# dengan fungsi pengelolaan data.</p>
 <a href="https://github.com/abdankribo/csharp-library-system" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 font-semibold w-fit group">View repository <span class="group-hover:translate-x-1 transition">↗</span></a>
 </article>
 <article class="project-card bg-white rounded-[1.7rem] border border-gray-100 p-7 flex flex-col" data-aos="fade-up">
 <div class="flex items-center justify-between gap-4 mb-6"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">24</span><span class="text-[11px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full">Frontend · Creative Web</span></div>
-<div class="w-12 h-12 rounded-2xl bg-yellow-400 grid place-items-center font-black text-gray-900 mb-5">AK</div>
+<div class="project-visual"><span class="pv-label">Creative Web</span><div class="pv-title">Digital Invitation</div><div class="pv-ui"><div class="pv-card" style="text-align:center"><span style="font-size:22px">♡</span><br><span style="font-size:9px">YOU ARE INVITED</span></div></div></div>
 <h3 class="font-display text-2xl mb-3">Undangan Digital</h3>
 <p class="text-gray-600 leading-7 text-sm flex-1">Website undangan digital dengan tampilan interaktif dan responsif.</p>
 <a href="https://github.com/abdankribo/undangan" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 font-semibold w-fit group">View repository <span class="group-hover:translate-x-1 transition">↗</span></a>
 </article>
 <article class="project-card bg-white rounded-[1.7rem] border border-gray-100 p-7 flex flex-col" data-aos="fade-right">
 <div class="flex items-center justify-between gap-4 mb-6"><span class="text-xs font-semibold tracking-[.2em] text-gray-400">25</span><span class="text-[11px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full">HTML · CSS · JavaScript</span></div>
-<div class="w-12 h-12 rounded-2xl bg-yellow-400 grid place-items-center font-black text-gray-900 mb-5">AK</div>
+<div class="project-visual"><span class="pv-label">Portfolio</span><div class="pv-title">Personal Web Profile</div><div class="pv-ui"><div class="pv-card"><span class="pv-label">About · Work · Contact</span><div class="pv-bar" style="width:70%;margin-top:7px"></div></div></div></div>
 <h3 class="font-display text-2xl mb-3">Personal Web Profile</h3>
 <p class="text-gray-600 leading-7 text-sm flex-1">Project personal profile/portfolio untuk menampilkan identitas, kemampuan, dan karya.</p>
 <a href="https://github.com/abdankribo/web-profile" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex items-center gap-2 font-semibold w-fit group">View repository <span class="group-hover:translate-x-1 transition">↗</span></a>

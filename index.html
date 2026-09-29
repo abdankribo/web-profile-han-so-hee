@@ -47,7 +47,10 @@ button:active,a:active{transform:scale(.97)}
 .click-pop{animation:clickPop .42s cubic-bezier(.2,.9,.25,1)}
 @keyframes clickPop{0%{transform:scale(1)}45%{transform:scale(.94)}100%{transform:scale(1)}}
 .scroll-reveal{opacity:0;transform:translateY(32px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
-.scroll-reveal.is-visible{opacity:1;transform:none}
+.scroll-reveal.is-visible{opacity:1;transform:none}\n.scroll-reveal.is-exiting{opacity:0;transform:translateY(28px);transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1)}
+.scroll-reveal.from-left.is-exiting{transform:translateX(-38px)}
+.scroll-reveal.from-right.is-exiting{transform:translateX(38px)}
+
 .scroll-reveal.from-left{transform:translateX(-38px)}
 .scroll-reveal.from-right{transform:translateX(38px)}
 .scroll-reveal.is-visible.from-left,.scroll-reveal.is-visible.from-right{transform:none}
@@ -212,7 +215,15 @@ document.querySelectorAll('a[href^="#"]').forEach(link=>link.addEventListener('c
 const revealTargets=document.querySelectorAll('.project-card,.tech-card,.stat-card,.profile-mini-card,.build-card,.skill-chip,.profile-badge');
 if(!reduceMotion){
   revealTargets.forEach((el,i)=>{el.classList.add('scroll-reveal');if(i%3===1)el.classList.add('from-left');if(i%3===2)el.classList.add('from-right');el.style.transitionDelay=(Math.min(i%4,3)*45)+'ms'});
-  const revealObserver=new IntersectionObserver(entries=>entries.forEach(entry=>entry.target.classList.toggle('is-visible',entry.isIntersecting)),{threshold:.12,rootMargin:'-8% 0px -8% 0px'});
+  const revealObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('is-visible');
+      entry.target.classList.remove('is-exiting');
+    }else{
+      entry.target.classList.remove('is-visible');
+      entry.target.classList.add('is-exiting');
+    }
+  }),{threshold:.08,rootMargin:'-12% 0px -12% 0px'});
   revealTargets.forEach(el=>revealObserver.observe(el));
 }
 const glow=document.getElementById('scrollGlow');

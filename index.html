@@ -105,6 +105,14 @@ html{scroll-behavior:auto}.scroll-reveal{opacity:1!important;transform:none!impo
     <img src="img/portrait-green-sweater.jpg" alt="Portrait Han So-hee in green sweater" class="portrait-image">
     <span class="portrait-label"><small>Portrait</small><strong>Han So-hee</strong></span>
   </button>
+  <button type="button" class="portrait-card portrait-card-5" aria-label="Show next portrait">
+    <img src="img/@xeesoxee.jpg" alt="Portrait Han So-hee" class="portrait-image">
+    <span class="portrait-label"><small>Portrait</small><strong>Han So-hee</strong></span>
+  </button>
+  <button type="button" class="portrait-card portrait-card-6" aria-label="Show next portrait">
+    <img src="img/Han soohee.jpg" alt="Portrait Han So-hee" class="portrait-image">
+    <span class="portrait-label"><small>Portrait</small><strong>Han So-hee</strong></span>
+  </button>
 </div>
 <p class="deck-hint">Tap the card · portrait shuffle</p>
 </div></div></section>
@@ -457,11 +465,13 @@ if(portraitDeck){
     'translate3d(0,0,0) rotate(-2deg) scale(1)',
     'translate3d(9px,10px,0) rotate(3deg) scale(.975)',
     'translate3d(-8px,18px,0) rotate(-4deg) scale(.95)',
-    'translate3d(12px,27px,0) rotate(5deg) scale(.925)'
+    'translate3d(12px,27px,0) rotate(5deg) scale(.925)',
+    'translate3d(-10px,34px,0) rotate(-3deg) scale(.9)',
+    'translate3d(8px,40px,0) rotate(4deg) scale(.875)'
   ];
   const applyStack=(items,transition=true)=>{
     items.forEach((card,i)=>{
-      card.style.zIndex=String(4-i);
+      card.style.zIndex=String(6-i);
       card.style.transition=transition?'transform .82s cubic-bezier(.22,1,.36,1),opacity .5s ease':'none';
       card.style.transform=transforms[i]||transforms[3];
       card.style.opacity='1';
@@ -477,10 +487,10 @@ if(portraitDeck){
     const top=list[0];
     // Move the cards underneath upward while the top card glides out.
     list.slice(1).forEach((card,i)=>{
-      card.style.zIndex=String(4-i);
+      card.style.zIndex=String(6-i);
       card.style.transform=transforms[i];
     });
-    top.style.zIndex='5';
+    top.style.zIndex='7';
     top.style.transition='transform .82s cubic-bezier(.22,1,.36,1),opacity .55s ease';
     top.style.transform='translate3d(112%, -18px, 0) rotate(10deg) scale(.97)';
     top.style.opacity='.35';
@@ -494,7 +504,7 @@ if(portraitDeck){
       // Start the new stack from its settled positions, then fade the recycled card in.
       const recycled=reordered[reordered.length-1];
       recycled.style.opacity='0';
-      recycled.style.transform='translate3d(20px,34px,0) rotate(5deg) scale(.925)';
+      recycled.style.transform=transforms[Math.min(reordered.length-1,transforms.length-1)];
       void portraitDeck.offsetWidth;
       recycled.style.transition='opacity .42s ease,transform .82s cubic-bezier(.22,1,.36,1)';
       recycled.style.opacity='1';

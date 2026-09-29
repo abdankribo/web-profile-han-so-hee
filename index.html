@@ -176,6 +176,49 @@ html{scroll-behavior:auto}.scroll-reveal{opacity:1!important;transform:none!impo
 #projects .project-card{min-height:100%;visibility:visible}
 #projects .featured-live{background:linear-gradient(145deg,#071b2e 0%,#0b2940 52%,#063b50 100%)!important}
 @media(prefers-reduced-motion:reduce){#projects .project-card{opacity:1!important;transform:none!important}}
+</style><style id="gallery-coverflow-style">
+#gallery{position:relative}
+#gallery .coverflow-wrapper{position:relative;min-height:690px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#gallery .coverflow-stage{position:relative;width:100%;height:560px;perspective:1600px;perspective-origin:50% 48%;outline:none;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+#gallery .coverflow-item{position:absolute;left:50%;top:50%;width:min(330px,31vw);aspect-ratio:4/5;display:block;overflow:hidden;border:1px solid rgba(255,255,255,.14);border-radius:28px;background:#151515;box-shadow:0 24px 70px rgba(0,0,0,.5);transform-origin:50% 50%;transition:transform .72s cubic-bezier(.16,1,.3,1),opacity .6s ease,filter .6s ease,box-shadow .45s ease,border-color .45s ease;will-change:transform,opacity;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+#gallery .coverflow-item.is-active{border-color:rgba(243,156,18,.75);box-shadow:0 35px 90px rgba(0,0,0,.68),0 0 0 1px rgba(243,156,18,.08)}
+#gallery .coverflow-item.is-active:hover{box-shadow:0 42px 100px rgba(0,0,0,.75),0 0 0 1px rgba(243,156,18,.2)}
+#gallery .coverflow-image{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;-webkit-user-drag:none;filter:saturate(.88);transition:transform .7s cubic-bezier(.16,1,.3,1),filter .55s ease}
+#gallery .coverflow-item:hover .coverflow-image{transform:scale(1.045);filter:saturate(1.08)}
+#gallery .coverflow-overlay{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:22px;background:linear-gradient(180deg,transparent 48%,rgba(0,0,0,.78) 100%);pointer-events:none}
+#gallery .coverflow-number{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#f39c12;font-weight:800}
+#gallery .coverflow-title{margin-top:4px;color:#fff;font-size:18px;font-weight:700}
+#gallery .coverflow-controls{display:flex;align-items:center;gap:12px;margin-top:-6px;position:relative;z-index:30}
+#gallery .coverflow-control{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);color:#fff;font-size:30px;line-height:1;cursor:pointer;transition:transform .25s ease,background .25s ease,border-color .25s ease}
+#gallery .coverflow-control:hover{transform:translateY(-3px) scale(1.05);background:rgba(243,156,18,.18);border-color:rgba(243,156,18,.65)}
+#gallery .coverflow-control:active{transform:scale(.93)}
+#gallery .coverflow-play{font-size:18px}
+#gallery .coverflow-status{display:flex;align-items:center;gap:10px;margin-top:18px;color:#777;font-size:10px;letter-spacing:.16em;text-transform:uppercase}
+#gallery .coverflow-status #galleryCurrent{color:#f39c12;font-size:13px;font-weight:900}
+#gallery .coverflow-status-line{width:48px;height:1px;background:rgba(255,255,255,.18)}
+#gallery .coverflow-indicators{width:min(900px,100%);display:flex;justify-content:center;flex-wrap:wrap;gap:7px;margin-top:18px;padding:0 20px}
+#gallery .coverflow-indicator{width:7px;height:7px;padding:0;border:0;border-radius:50%;background:#3a3a3a;cursor:pointer;transition:transform .25s ease,background .25s ease,width .25s ease}
+#gallery .coverflow-indicator:hover{transform:scale(1.35);background:#888}
+#gallery .coverflow-indicator.active{width:24px;border-radius:999px;background:#f39c12}
+#gallery .coverflow-hint{margin-top:18px;color:#555;font-size:10px;letter-spacing:.12em;text-transform:uppercase;text-align:center}
+@media(max-width:1023px){
+  #gallery .coverflow-item{width:min(300px,38vw)}
+  #gallery .coverflow-stage{height:520px}
+}
+@media(max-width:767px){
+  #gallery .coverflow-wrapper{min-height:610px}
+  #gallery .coverflow-stage{height:430px;perspective:1100px}
+  #gallery .coverflow-item{width:min(270px,61vw);border-radius:22px}
+  #gallery .coverflow-controls{margin-top:0}
+  #gallery .coverflow-control{width:48px;height:48px}
+  #gallery .coverflow-indicators{gap:6px;margin-top:15px}
+  #gallery .coverflow-indicator{width:6px;height:6px}
+  #gallery .coverflow-indicator.active{width:20px}
+  #gallery .coverflow-hint{font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){
+  #gallery .coverflow-item,#gallery .coverflow-image,#gallery .coverflow-control,#gallery .coverflow-indicator{transition:none!important}
+}
 </style></head>
 <body>
 <div id="progress"></div><div id="scrollGlow" aria-hidden="true"></div>
@@ -307,158 +350,205 @@ html{scroll-behavior:auto}.scroll-reveal{opacity:1!important;transform:none!impo
     </div>
   </div>
 </div>
-</section><section id="gallery" class="py-24 bg-white overflow-hidden">
-<div class="max-w-6xl mx-auto px-5 md:px-8">
-<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12" data-aos="fade-up">
-<div><p class="text-xs uppercase tracking-[.25em] font-semibold text-gray-500 mb-3">Visual collection</p><h2 class="font-display text-4xl md:text-5xl">Portrait Gallery</h2></div>
-<p class="max-w-xl text-gray-500 leading-7">Koleksi seluruh foto JPG/JPEG dari folder <code>img/</code>. Arahkan mouse, tekan, tahan, scroll, atau geser kartu untuk melihat animasinya. Klik gambar untuk membuka ukuran penuh.</p>
-</div>
-<div id="galleryGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-<a href="img/%40xeesoxee.jpeg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="1" data-aos="fade-up" data-aos-delay="0">
-<img src="img/@xeesoxee.jpeg" alt="Portrait 01 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
-<span class="gallery-overlay" aria-hidden="true"></span>
-<span class="gallery-number">Portrait 01</span>
-<span class="gallery-hold" aria-hidden="true">Hold</span>
+</section><section id="gallery" class="py-24 bg-[#0a0a0a] overflow-hidden">
+<div class="max-w-7xl mx-auto px-5 md:px-8">
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10" data-aos="fade-up">
+    <div>
+      <p class="text-xs uppercase tracking-[.25em] font-semibold text-gray-500 mb-3">Visual collection</p>
+      <h2 class="font-display text-4xl md:text-5xl text-white">Portrait Gallery</h2>
+    </div>
+    <p class="max-w-xl text-gray-400 leading-7">Koleksi seluruh foto JPG/JPEG dari folder <code class="text-gray-300">img/</code>. Gunakan tombol, geser, scroll, atau drag kartu untuk berpindah. Klik kartu yang aktif untuk membuka foto ukuran penuh.</p>
+  </div>
+
+  <div class="coverflow-wrapper" id="coverflowWrapper">
+    <div class="coverflow-stage" id="coverflowContainer" tabindex="0" aria-label="Portrait coverflow gallery">
+      <a href="img/%40xeesoxee.jpeg" target="_blank" rel="noopener noreferrer" class="coverflow-item" data-index="0" aria-label="Portrait 01 — Han So-hee">
+  <img src="img/@xeesoxee.jpeg" alt="Portrait 01 — Han So-hee" class="coverflow-image" draggable="false" loading="eager">
+  <div class="coverflow-overlay">
+    <span class="coverflow-number">Portrait 01</span>
+    <span class="coverflow-title">Han So-hee</span>
+  </div>
 </a>
-<a href="img/%40xeesoxee.jpg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="2" data-aos="fade-up" data-aos-delay="70">
-<img src="img/@xeesoxee.jpg" alt="Portrait 02 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
-<span class="gallery-overlay" aria-hidden="true"></span>
-<span class="gallery-number">Portrait 02</span>
-<span class="gallery-hold" aria-hidden="true">Hold</span>
+<a href="img/%40xeesoxee.jpg" target="_blank" rel="noopener noreferrer" class="coverflow-item" data-index="1" aria-label="Portrait 02 — Han So-hee">
+  <img src="img/@xeesoxee.jpg" alt="Portrait 02 — Han So-hee" class="coverflow-image" draggable="false" loading="eager">
+  <div class="coverflow-overlay">
+    <span class="coverflow-number">Portrait 02</span>
+    <span class="coverflow-title">Han So-hee</span>
+  </div>
 </a>
-<a href="img/HANSOHEE.jpeg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="3" data-aos="fade-up" data-aos-delay="140">
-<img src="img/HANSOHEE.jpeg" alt="Portrait 03 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
-<span class="gallery-overlay" aria-hidden="true"></span>
-<span class="gallery-number">Portrait 03</span>
-<span class="gallery-hold" aria-hidden="true">Hold</span>
+<a href="img/HANSOHEE.jpeg" target="_blank" rel="noopener noreferrer" class="coverflow-item" data-index="2" aria-label="Portrait 03 — Han So-hee">
+  <img src="img/HANSOHEE.jpeg" alt="Portrait 03 — Han So-hee" class="coverflow-image" draggable="false" loading="eager">
+  <div class="coverflow-overlay">
+    <span class="coverflow-number">Portrait 03</span>
+    <span class="coverflow-title">Han So-hee</span>
+  </div>
 </a>
-<a href="img/Han%20So%20Hee.jpeg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="4" data-aos="fade-up" data-aos-delay="210">
-<img src="img/Han So Hee.jpeg" alt="Portrait 04 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
-<span class="gallery-overlay" aria-hidden="true"></span>
-<span class="gallery-number">Portrait 04</span>
-<span class="gallery-hold" aria-hidden="true">Hold</span>
+<a href="img/Han%20So%20Hee.jpeg" target="_blank" rel="noopener noreferrer" class="coverflow-item" data-index="3" aria-label="Portrait 04 — Han So-hee">
+  <img src="img/Han So Hee.jpeg" alt="Portrait 04 — Han So-hee" class="coverflow-image" draggable="false" loading="eager">
+  <div class="coverflow-overlay">
+    <span class="coverflow-number">Portrait 04</span>
+    <span class="coverflow-title">Han So-hee</span>
+  </div>
 </a>
-<a href="img/Han%20soohee.jpeg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="5" data-aos="fade-up" data-aos-delay="0">
-<img src="img/Han soohee.jpeg" alt="Portrait 05 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
-<span class="gallery-overlay" aria-hidden="true"></span>
-<span class="gallery-number">Portrait 05</span>
-<span class="gallery-hold" aria-hidden="true">Hold</span>
+<a href="img/Han%20soohee.jpeg" target="_blank" rel="noopener noreferrer" class="coverflow-item" data-index="4" aria-label="Portrait 05 — Han So-hee">
+  <img src="img/Han soohee.jpeg" alt="Portrait 05 — Han So-hee" class="coverflow-image" draggable="false" loading="eager">
+  <div class="coverflow-overlay">
+    <span class="coverflow-number">Portrait 05</span>
+    <span class="coverflow-title">Han So-hee</span>
+  </div>
 </a>
-<a href="img/Han%20soohee.jpg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="6" data-aos="fade-up" data-aos-delay="70">
-<img src="img/Han soohee.jpg" alt="Portrait 06 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
-<span class="gallery-overlay" aria-hidden="true"></span>
-<span class="gallery-number">Portrait 06</span>
-<span class="gallery-hold" aria-hidden="true">Hold</span>
+<a href="img/Han%20soohee.jpg" target="_blank" rel="noopener noreferrer" class="coverflow-item" data-index="5" aria-label="Portrait 06 — Han So-hee">
+  <img src="img/Han soohee.jpg" alt="Portrait 06 — Han So-hee" class="coverflow-image" draggable="false" loading="lazy">
+  <div class="coverflow-overlay">
+    <span class="coverflow-number">Portrait 06</span>
+    <span class="coverflow-title">Han So-hee</span>
+  </div>
 </a>
-<a href="img/download%20(1).jpeg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="7" data-aos="fade-up" data-aos-delay="140">
-<img src="img/download (1).jpeg" alt="Portrait 07 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
-<span class="gallery-overlay" aria-hidden="true"></span>
-<span class="gallery-number">Portrait 07</span>
-<span class="gallery-hold" aria-hidden="true">Hold</span>
+<a href="img/download%20(1).jpeg" target="_blank" rel="noopener noreferrer" class="coverflow-item" data-index="6" aria-label="Portrait 07 — Han So-hee">
+  <img src="img/download (1).jpeg" alt="Portrait 07 — Han So-hee" class="coverflow-image" draggable="false" loading="lazy">
+  <div class="coverflow-overlay">
+    <span class="coverflow-number">Portrait 07</span>
+    <span class="coverflow-title">Han So-hee</span>
+  </div>
 </a>
-<a href="img/download%20(2).jpeg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="8" data-aos="fade-up" data-aos-delay="210">
-<img src="img/download (2).jpeg" alt="Portrait 08 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
-<span class="gallery-overlay" aria-hidden="true"></span>
-<span class="gallery-number">Portrait 08</span>
-<span class="gallery-hold" aria-hidden="true">Hold</span>
+<a href="img/download%20(2).jpeg" target="_blank" rel="noopener noreferrer" class="coverflow-item" data-index="7" aria-label="Portrait 08 — Han So-hee">
+  <img src="img/download (2).jpeg" alt="Portrait 08 — Han So-hee" class="coverflow-image" draggable="false" loading="lazy">
+  <div class="coverflow-overlay">
+    <span class="coverflow-number">Portrait 08</span>
+    <span class="coverflow-title">Han So-hee</span>
+  </div>
 </a>
-<a href="img/download%20(3).jpeg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="9" data-aos="fade-up" data-aos-delay="0">
-<img src="img/download (3).jpeg" alt="Portrait 09 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
-<span class="gallery-overlay" aria-hidden="true"></span>
-<span class="gallery-number">Portrait 09</span>
-<span class="gallery-hold" aria-hidden="true">Hold</span>
+<a href="img/download%20(3).jpeg" target="_blank" rel="noopener noreferrer" class="coverflow-item" data-index="8" aria-label="Portrait 09 — Han So-hee">
+  <img src="img/download (3).jpeg" alt="Portrait 09 — Han So-hee" class="coverflow-image" draggable="false" loading="lazy">
+  <div class="coverflow-overlay">
+    <span class="coverflow-number">Portrait 09</span>
+    <span class="coverflow-title">Han So-hee</span>
+  </div>
 </a>
-<a href="img/download%20(4).jpeg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="10" data-aos="fade-up" data-aos-delay="70">
-<img src="img/download (4).jpeg" alt="Portrait 10 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
-<span class="gallery-overlay" aria-hidden="true"></span>
-<span class="gallery-number">Portrait 10</span>
-<span class="gallery-hold" aria-hidden="true">Hold</span>
+<a href="img/download%20(4).jpeg" target="_blank" rel="noopener noreferrer" class="coverflow-item" data-index="9" aria-label="Portrait 10 — Han So-hee">
+  <img src="img/download (4).jpeg" alt="Portrait 10 — Han So-hee" class="coverflow-image" draggable="false" loading="lazy">
+  <div class="coverflow-overlay">
+    <span class="coverflow-number">Portrait 10</span>
+    <span class="coverflow-title">Han So-hee</span>
+  </div>
 </a>
-<a href="img/download%20(5).jpeg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="11" data-aos="fade-up" data-aos-delay="140">
-<img src="img/download (5).jpeg" alt="Portrait 11 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
-<span class="gallery-overlay" aria-hidden="true"></span>
-<span class="gallery-number">Portrait 11</span>
-<span class="gallery-hold" aria-hidden="true">Hold</span>
+<a href="img/download%20(5).jpeg" target="_blank" rel="noopener noreferrer" class="coverflow-item" data-index="10" aria-label="Portrait 11 — Han So-hee">
+  <img src="img/download (5).jpeg" alt="Portrait 11 — Han So-hee" class="coverflow-image" draggable="false" loading="lazy">
+  <div class="coverflow-overlay">
+    <span class="coverflow-number">Portrait 11</span>
+    <span class="coverflow-title">Han So-hee</span>
+  </div>
 </a>
-<a href="img/download%20(6).jpeg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="12" data-aos="fade-up" data-aos-delay="210">
-<img src="img/download (6).jpeg" alt="Portrait 12 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
-<span class="gallery-overlay" aria-hidden="true"></span>
-<span class="gallery-number">Portrait 12</span>
-<span class="gallery-hold" aria-hidden="true">Hold</span>
+<a href="img/download%20(6).jpeg" target="_blank" rel="noopener noreferrer" class="coverflow-item" data-index="11" aria-label="Portrait 12 — Han So-hee">
+  <img src="img/download (6).jpeg" alt="Portrait 12 — Han So-hee" class="coverflow-image" draggable="false" loading="lazy">
+  <div class="coverflow-overlay">
+    <span class="coverflow-number">Portrait 12</span>
+    <span class="coverflow-title">Han So-hee</span>
+  </div>
 </a>
-<a href="img/download%20(7).jpeg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="13" data-aos="fade-up" data-aos-delay="0">
-<img src="img/download (7).jpeg" alt="Portrait 13 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
-<span class="gallery-overlay" aria-hidden="true"></span>
-<span class="gallery-number">Portrait 13</span>
-<span class="gallery-hold" aria-hidden="true">Hold</span>
+<a href="img/download%20(7).jpeg" target="_blank" rel="noopener noreferrer" class="coverflow-item" data-index="12" aria-label="Portrait 13 — Han So-hee">
+  <img src="img/download (7).jpeg" alt="Portrait 13 — Han So-hee" class="coverflow-image" draggable="false" loading="lazy">
+  <div class="coverflow-overlay">
+    <span class="coverflow-number">Portrait 13</span>
+    <span class="coverflow-title">Han So-hee</span>
+  </div>
 </a>
-<a href="img/download%20(8).jpeg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="14" data-aos="fade-up" data-aos-delay="70">
-<img src="img/download (8).jpeg" alt="Portrait 14 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
-<span class="gallery-overlay" aria-hidden="true"></span>
-<span class="gallery-number">Portrait 14</span>
-<span class="gallery-hold" aria-hidden="true">Hold</span>
+<a href="img/download%20(8).jpeg" target="_blank" rel="noopener noreferrer" class="coverflow-item" data-index="13" aria-label="Portrait 14 — Han So-hee">
+  <img src="img/download (8).jpeg" alt="Portrait 14 — Han So-hee" class="coverflow-image" draggable="false" loading="lazy">
+  <div class="coverflow-overlay">
+    <span class="coverflow-number">Portrait 14</span>
+    <span class="coverflow-title">Han So-hee</span>
+  </div>
 </a>
-<a href="img/download%20(9).jpeg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="15" data-aos="fade-up" data-aos-delay="140">
-<img src="img/download (9).jpeg" alt="Portrait 15 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
-<span class="gallery-overlay" aria-hidden="true"></span>
-<span class="gallery-number">Portrait 15</span>
-<span class="gallery-hold" aria-hidden="true">Hold</span>
+<a href="img/download%20(9).jpeg" target="_blank" rel="noopener noreferrer" class="coverflow-item" data-index="14" aria-label="Portrait 15 — Han So-hee">
+  <img src="img/download (9).jpeg" alt="Portrait 15 — Han So-hee" class="coverflow-image" draggable="false" loading="lazy">
+  <div class="coverflow-overlay">
+    <span class="coverflow-number">Portrait 15</span>
+    <span class="coverflow-title">Han So-hee</span>
+  </div>
 </a>
-<a href="img/download.jpeg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="16" data-aos="fade-up" data-aos-delay="210">
-<img src="img/download.jpeg" alt="Portrait 16 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
-<span class="gallery-overlay" aria-hidden="true"></span>
-<span class="gallery-number">Portrait 16</span>
-<span class="gallery-hold" aria-hidden="true">Hold</span>
+<a href="img/download.jpeg" target="_blank" rel="noopener noreferrer" class="coverflow-item" data-index="15" aria-label="Portrait 16 — Han So-hee">
+  <img src="img/download.jpeg" alt="Portrait 16 — Han So-hee" class="coverflow-image" draggable="false" loading="lazy">
+  <div class="coverflow-overlay">
+    <span class="coverflow-number">Portrait 16</span>
+    <span class="coverflow-title">Han So-hee</span>
+  </div>
 </a>
-<a href="img/download1.jpg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="17" data-aos="fade-up" data-aos-delay="0">
-<img src="img/download1.jpg" alt="Portrait 17 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
-<span class="gallery-overlay" aria-hidden="true"></span>
-<span class="gallery-number">Portrait 17</span>
-<span class="gallery-hold" aria-hidden="true">Hold</span>
+<a href="img/download1.jpg" target="_blank" rel="noopener noreferrer" class="coverflow-item" data-index="16" aria-label="Portrait 17 — Han So-hee">
+  <img src="img/download1.jpg" alt="Portrait 17 — Han So-hee" class="coverflow-image" draggable="false" loading="lazy">
+  <div class="coverflow-overlay">
+    <span class="coverflow-number">Portrait 17</span>
+    <span class="coverflow-title">Han So-hee</span>
+  </div>
 </a>
-<a href="img/han-sohee-02.jpg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="18" data-aos="fade-up" data-aos-delay="70">
-<img src="img/han-sohee-02.jpg" alt="Portrait 18 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
-<span class="gallery-overlay" aria-hidden="true"></span>
-<span class="gallery-number">Portrait 18</span>
-<span class="gallery-hold" aria-hidden="true">Hold</span>
+<a href="img/han-sohee-02.jpg" target="_blank" rel="noopener noreferrer" class="coverflow-item" data-index="17" aria-label="Portrait 18 — Han So-hee">
+  <img src="img/han-sohee-02.jpg" alt="Portrait 18 — Han So-hee" class="coverflow-image" draggable="false" loading="lazy">
+  <div class="coverflow-overlay">
+    <span class="coverflow-number">Portrait 18</span>
+    <span class="coverflow-title">Han So-hee</span>
+  </div>
 </a>
-<a href="img/han-sohee-03.jpg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="19" data-aos="fade-up" data-aos-delay="140">
-<img src="img/han-sohee-03.jpg" alt="Portrait 19 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
-<span class="gallery-overlay" aria-hidden="true"></span>
-<span class="gallery-number">Portrait 19</span>
-<span class="gallery-hold" aria-hidden="true">Hold</span>
+<a href="img/han-sohee-03.jpg" target="_blank" rel="noopener noreferrer" class="coverflow-item" data-index="18" aria-label="Portrait 19 — Han So-hee">
+  <img src="img/han-sohee-03.jpg" alt="Portrait 19 — Han So-hee" class="coverflow-image" draggable="false" loading="lazy">
+  <div class="coverflow-overlay">
+    <span class="coverflow-number">Portrait 19</span>
+    <span class="coverflow-title">Han So-hee</span>
+  </div>
 </a>
-<a href="img/han-sohee-gallery.jpg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="20" data-aos="fade-up" data-aos-delay="210">
-<img src="img/han-sohee-gallery.jpg" alt="Portrait 20 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
-<span class="gallery-overlay" aria-hidden="true"></span>
-<span class="gallery-number">Portrait 20</span>
-<span class="gallery-hold" aria-hidden="true">Hold</span>
+<a href="img/han-sohee-gallery.jpg" target="_blank" rel="noopener noreferrer" class="coverflow-item" data-index="19" aria-label="Portrait 20 — Han So-hee">
+  <img src="img/han-sohee-gallery.jpg" alt="Portrait 20 — Han So-hee" class="coverflow-image" draggable="false" loading="lazy">
+  <div class="coverflow-overlay">
+    <span class="coverflow-number">Portrait 20</span>
+    <span class="coverflow-title">Han So-hee</span>
+  </div>
 </a>
-<a href="img/portrait-gray-sweater.jpg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="21" data-aos="fade-up" data-aos-delay="0">
-<img src="img/portrait-gray-sweater.jpg" alt="Portrait 21 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
-<span class="gallery-overlay" aria-hidden="true"></span>
-<span class="gallery-number">Portrait 21</span>
-<span class="gallery-hold" aria-hidden="true">Hold</span>
+<a href="img/portrait-gray-sweater.jpg" target="_blank" rel="noopener noreferrer" class="coverflow-item" data-index="20" aria-label="Portrait 21 — Han So-hee">
+  <img src="img/portrait-gray-sweater.jpg" alt="Portrait 21 — Han So-hee" class="coverflow-image" draggable="false" loading="lazy">
+  <div class="coverflow-overlay">
+    <span class="coverflow-number">Portrait 21</span>
+    <span class="coverflow-title">Han So-hee</span>
+  </div>
 </a>
-<a href="img/portrait-green-sweater.jpg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="22" data-aos="fade-up" data-aos-delay="70">
-<img src="img/portrait-green-sweater.jpg" alt="Portrait 22 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
-<span class="gallery-overlay" aria-hidden="true"></span>
-<span class="gallery-number">Portrait 22</span>
-<span class="gallery-hold" aria-hidden="true">Hold</span>
+<a href="img/portrait-green-sweater.jpg" target="_blank" rel="noopener noreferrer" class="coverflow-item" data-index="21" aria-label="Portrait 22 — Han So-hee">
+  <img src="img/portrait-green-sweater.jpg" alt="Portrait 22 — Han So-hee" class="coverflow-image" draggable="false" loading="lazy">
+  <div class="coverflow-overlay">
+    <span class="coverflow-number">Portrait 22</span>
+    <span class="coverflow-title">Han So-hee</span>
+  </div>
 </a>
-<a href="img/portrait-pink-heart.jpg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="23" data-aos="fade-up" data-aos-delay="140">
-<img src="img/portrait-pink-heart.jpg" alt="Portrait 23 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
-<span class="gallery-overlay" aria-hidden="true"></span>
-<span class="gallery-number">Portrait 23</span>
-<span class="gallery-hold" aria-hidden="true">Hold</span>
+<a href="img/portrait-pink-heart.jpg" target="_blank" rel="noopener noreferrer" class="coverflow-item" data-index="22" aria-label="Portrait 23 — Han So-hee">
+  <img src="img/portrait-pink-heart.jpg" alt="Portrait 23 — Han So-hee" class="coverflow-image" draggable="false" loading="lazy">
+  <div class="coverflow-overlay">
+    <span class="coverflow-number">Portrait 23</span>
+    <span class="coverflow-title">Han So-hee</span>
+  </div>
 </a>
-<a href="img/portrait-white-sweater.jpg" target="_blank" rel="noopener noreferrer" class="gallery-photo gallery-card group relative overflow-hidden rounded-[1.7rem] border border-gray-100 bg-gray-50 shadow-sm" data-gallery-index="24" data-aos="fade-up" data-aos-delay="210">
-<img src="img/portrait-white-sweater.jpg" alt="Portrait 24 — Han So-hee" loading="lazy" draggable="false" class="gallery-image w-full aspect-[4/5] object-cover transition duration-700 group-hover:scale-[1.045]" onerror="this.closest('.gallery-photo').remove()">
-<span class="gallery-overlay" aria-hidden="true"></span>
-<span class="gallery-number">Portrait 24</span>
-<span class="gallery-hold" aria-hidden="true">Hold</span>
+<a href="img/portrait-white-sweater.jpg" target="_blank" rel="noopener noreferrer" class="coverflow-item" data-index="23" aria-label="Portrait 24 — Han So-hee">
+  <img src="img/portrait-white-sweater.jpg" alt="Portrait 24 — Han So-hee" class="coverflow-image" draggable="false" loading="lazy">
+  <div class="coverflow-overlay">
+    <span class="coverflow-number">Portrait 24</span>
+    <span class="coverflow-title">Han So-hee</span>
+  </div>
 </a>
-</div>
+    </div>
+
+    <div class="coverflow-controls" aria-label="Gallery controls">
+      <button type="button" class="coverflow-control" id="galleryPrev" aria-label="Previous portrait">‹</button>
+      <button type="button" class="coverflow-control coverflow-play" id="galleryPlayPause" aria-label="Pause slideshow">Ⅱ</button>
+      <button type="button" class="coverflow-control" id="galleryNext" aria-label="Next portrait">›</button>
+    </div>
+
+    <div class="coverflow-status">
+      <span id="galleryCurrent">01</span>
+      <span class="coverflow-status-line"></span>
+      <span>24 portraits</span>
+    </div>
+
+    <div class="coverflow-indicators" id="galleryIndicators" aria-label="Select portrait">
+      <button type="button" class="coverflow-indicator active" data-index="0" aria-label="Go to Portrait 01"></button><button type="button" class="coverflow-indicator" data-index="1" aria-label="Go to Portrait 02"></button><button type="button" class="coverflow-indicator" data-index="2" aria-label="Go to Portrait 03"></button><button type="button" class="coverflow-indicator" data-index="3" aria-label="Go to Portrait 04"></button><button type="button" class="coverflow-indicator" data-index="4" aria-label="Go to Portrait 05"></button><button type="button" class="coverflow-indicator" data-index="5" aria-label="Go to Portrait 06"></button><button type="button" class="coverflow-indicator" data-index="6" aria-label="Go to Portrait 07"></button><button type="button" class="coverflow-indicator" data-index="7" aria-label="Go to Portrait 08"></button><button type="button" class="coverflow-indicator" data-index="8" aria-label="Go to Portrait 09"></button><button type="button" class="coverflow-indicator" data-index="9" aria-label="Go to Portrait 10"></button><button type="button" class="coverflow-indicator" data-index="10" aria-label="Go to Portrait 11"></button><button type="button" class="coverflow-indicator" data-index="11" aria-label="Go to Portrait 12"></button><button type="button" class="coverflow-indicator" data-index="12" aria-label="Go to Portrait 13"></button><button type="button" class="coverflow-indicator" data-index="13" aria-label="Go to Portrait 14"></button><button type="button" class="coverflow-indicator" data-index="14" aria-label="Go to Portrait 15"></button><button type="button" class="coverflow-indicator" data-index="15" aria-label="Go to Portrait 16"></button><button type="button" class="coverflow-indicator" data-index="16" aria-label="Go to Portrait 17"></button><button type="button" class="coverflow-indicator" data-index="17" aria-label="Go to Portrait 18"></button><button type="button" class="coverflow-indicator" data-index="18" aria-label="Go to Portrait 19"></button><button type="button" class="coverflow-indicator" data-index="19" aria-label="Go to Portrait 20"></button><button type="button" class="coverflow-indicator" data-index="20" aria-label="Go to Portrait 21"></button><button type="button" class="coverflow-indicator" data-index="21" aria-label="Go to Portrait 22"></button><button type="button" class="coverflow-indicator" data-index="22" aria-label="Go to Portrait 23"></button><button type="button" class="coverflow-indicator" data-index="23" aria-label="Go to Portrait 24"></button>
+    </div>
+    <p class="coverflow-hint">Drag / swipe · Mouse wheel · ← → keys · Auto play</p>
+  </div>
 </div>
 </section>
 <section id="projects" class="py-24 bg-gray-50"><div class="max-w-6xl mx-auto px-5 md:px-8"><div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12"><div><p class="text-xs uppercase tracking-[.25em] font-semibold text-gray-500 mb-3">Selected work</p><h2 class="font-display text-4xl md:text-5xl">Projects &amp; Applications</h2></div><p class="max-w-xl text-gray-500 leading-7">Kumpulan project yang saya kerjakan, mulai dari sistem informasi, dashboard, aplikasi web, hingga project data dan pemrograman. Project yang sudah ter-deploy ditampilkan paling atas, sedangkan project lainnya terhubung langsung ke repository GitHub.</p></div><div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"><article class="project-card featured-live bg-white rounded-[1.7rem] border border-gray-100 p-7 flex flex-col"><div class="flex items-center justify-between gap-3 mb-4"><span class="featured-badge"><span class="featured-dot"></span>Live · Deployed</span><span class="text-[10px] font-semibold text-cyan-200/60">VERCEL</span></div><div class="flex items-center justify-between gap-4 mb-6"><span class="text-xs font-semibold tracking-[.2em] featured-number">01</span><span class="text-[11px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full featured-type">Web Application · Management System</span></div>
@@ -758,92 +848,128 @@ if(portraitDeck){
 }
 
 
-/* Gallery interaction layer: hover + scroll both directions + press/hold + drag/swipe. */
-const galleryCards=[...document.querySelectorAll('.gallery-card')];
-if(galleryCards.length){
-  let galleryScrollY=window.scrollY;
-  let galleryScrollDir='down';
-  window.addEventListener('scroll',()=>{
-    const y=window.scrollY;
-    galleryScrollDir=y>=galleryScrollY?'down':'up';
-    galleryScrollY=y;
-  },{passive:true});
+/* Gallery coverflow interaction layer. */
+const coverflow=document.getElementById('coverflowContainer');
+if(coverflow){
+  const coverItems=[...coverflow.querySelectorAll('.coverflow-item')];
+  const prevBtn=document.getElementById('galleryPrev');
+  const nextBtn=document.getElementById('galleryNext');
+  const playBtn=document.getElementById('galleryPlayPause');
+  const indicators=[...document.querySelectorAll('#galleryIndicators .coverflow-indicator')];
+  const currentLabel=document.getElementById('galleryCurrent');
+  const wrapper=document.getElementById('coverflowWrapper');
+  let activeIndex=0;
+  let autoplayTimer=null;
+  let isPlaying=!reduceMotion;
+  let startX=0,startY=0,isDragging=false,lastWheel=0;
 
-  if(!reduceMotion){
-    const galleryObserver=new IntersectionObserver(entries=>{
-      entries.forEach(entry=>{
-        const card=entry.target;
-        if(entry.isIntersecting){
-          card.classList.remove('gallery-exit-up','gallery-exit-down');
-          requestAnimationFrame(()=>card.classList.add('gallery-visible'));
-        }else{
-          card.classList.remove('gallery-visible');
-          card.classList.toggle('gallery-exit-up',galleryScrollDir==='up');
-          card.classList.toggle('gallery-exit-down',galleryScrollDir!=='up');
-        }
-      });
-    },{threshold:.12,rootMargin:'-7% 0px -7% 0px'});
-    galleryCards.forEach(card=>galleryObserver.observe(card));
-  }else{
-    galleryCards.forEach(card=>card.classList.add('gallery-visible'));
+  const total=coverItems.length;
+  const wrapIndex=i=>((i%total)+total)%total;
+
+  function render(){
+    const mobile=window.innerWidth<768;
+    const step=mobile?Math.min(105,window.innerWidth*.25):window.innerWidth<1024?165:220;
+    const visible=mobile?2:4;
+    coverItems.forEach((item,i)=>{
+      let diff=i-activeIndex;
+      if(diff>total/2)diff-=total;
+      if(diff<-total/2)diff+=total;
+      const abs=Math.abs(diff);
+      const clamped=Math.max(-visible,Math.min(visible,diff));
+      const x=clamped*step;
+      const z=abs===0?(mobile?90:120):Math.max(-220,100-abs*115);
+      const rot=clamped===0?0:(clamped>0?-38:38);
+      const scale=abs===0?(mobile?1.03:1.08):Math.max(mobile?.72:.58,1-abs*(mobile?.11:.12));
+      const opacity=abs>visible?0:Math.max(.16,1-abs*(mobile?.19:.16));
+      const blur=abs>2?1.1:abs===2?.35:0;
+      item.style.transform=`translate(-50%,-50%) translateX(${x}px) translateZ(${z}px) rotateY(${rot}deg) scale(${scale})`;
+      item.style.opacity=String(opacity);
+      item.style.filter=`blur(${blur}px)`;
+      item.style.zIndex=String(100-abs);
+      item.classList.toggle('is-active',diff===0);
+      item.setAttribute('aria-hidden',diff===0?'false':'true');
+      item.tabIndex=diff===0?0:-1;
+    });
+    currentLabel.textContent=String(activeIndex+1).padStart(2,'0');
+    indicators.forEach((dot,i)=>dot.classList.toggle('active',i===activeIndex));
   }
 
-  galleryCards.forEach(card=>{
-    let downX=0,downY=0,startTime=0,holdTimer=null,moved=false,dragging=false;
-    const clearHold=()=>{
-      clearTimeout(holdTimer);
-      holdTimer=null;
-      card.classList.remove('is-held');
-    };
-    card.addEventListener('pointerdown',e=>{
-      if(e.pointerType==='mouse' && e.button!==0)return;
-      downX=e.clientX;downY=e.clientY;startTime=performance.now();moved=false;dragging=false;
-      card.classList.add('is-pressed');
-      holdTimer=setTimeout(()=>{
-        if(!moved){
-          card.classList.add('is-held');
-          if(navigator.vibrate)navigator.vibrate(18);
-        }
-      },480);
-      if(e.pointerType!=='mouse')card.setPointerCapture?.(e.pointerId);
-    });
-    card.addEventListener('pointermove',e=>{
-      if(startTime===0)return;
-      const dx=e.clientX-downX,dy=e.clientY-downY;
-      if(Math.hypot(dx,dy)>8)moved=true;
-      if(Math.abs(dx)>12 && Math.abs(dx)>Math.abs(dy)*1.15){
-        dragging=true;clearHold();card.classList.add('is-dragging');
-        const rotate=Math.max(-5,Math.min(5,dx/35));
-        card.style.transform=`translate3d(${dx*.22}px,${Math.max(-5,Math.min(5,dy*.06))}px,0) rotate(${rotate}deg) scale(.985)`;
-      }
-    });
-    card.addEventListener('pointerup',e=>{
-      clearHold();card.classList.remove('is-pressed','is-dragging');
-      const dx=e.clientX-downX,dy=e.clientY-downY;
-      const duration=performance.now()-startTime;
-      startTime=0;
-      if(dragging && Math.abs(dx)>55){
-        e.preventDefault();
-        card.classList.remove('swipe-left','swipe-right');
-        void card.offsetWidth;
-        card.classList.add(dx<0?'swipe-left':'swipe-right');
-      }
-      if(dragging){
-        card.style.transform='';
-        card.addEventListener('click',ev=>ev.preventDefault(),{once:true,capture:true});
-      }else if(duration>450){
-        card.classList.remove('is-held');
-        card.classList.add('click-pop');
-        setTimeout(()=>card.classList.remove('click-pop'),450);
-      }
-    });
-    card.addEventListener('pointercancel',()=>{
-      clearHold();card.classList.remove('is-pressed','is-dragging');card.style.transform='';startTime=0;
-    });
-    card.addEventListener('mouseleave',()=>{
-      if(startTime===0)clearHold();
+  function goTo(index){
+    activeIndex=wrapIndex(index);
+    render();
+    if(isPlaying)restartAutoplay();
+  }
+  const next=()=>goTo(activeIndex+1);
+  const prev=()=>goTo(activeIndex-1);
+
+  function stopAutoplay(){
+    clearInterval(autoplayTimer);
+    autoplayTimer=null;
+  }
+  function startAutoplay(){
+    if(reduceMotion)return;
+    stopAutoplay();
+    if(isPlaying)autoplayTimer=setInterval(next,4200);
+  }
+  function restartAutoplay(){startAutoplay()}
+  function togglePlay(){
+    isPlaying=!isPlaying;
+    playBtn.textContent=isPlaying?'Ⅱ':'▶';
+    playBtn.setAttribute('aria-label',isPlaying?'Pause slideshow':'Play slideshow');
+    isPlaying?startAutoplay():stopAutoplay();
+  }
+
+  prevBtn.addEventListener('click',prev);
+  nextBtn.addEventListener('click',next);
+  playBtn.addEventListener('click',togglePlay);
+  indicators.forEach(dot=>dot.addEventListener('click',()=>goTo(Number(dot.dataset.index))));
+
+  coverItems.forEach((item,i)=>{
+    item.addEventListener('click',e=>{
+      if(i!==activeIndex){e.preventDefault();goTo(i)}
     });
   });
+
+  coverflow.addEventListener('pointerdown',e=>{
+    if(e.pointerType==='mouse'&&e.button!==0)return;
+    startX=e.clientX;startY=e.clientY;isDragging=true;
+    coverflow.setPointerCapture?.(e.pointerId);
+    stopAutoplay();
+  });
+  coverflow.addEventListener('pointerup',e=>{
+    if(!isDragging)return;
+    const dx=e.clientX-startX,dy=e.clientY-startY;
+    isDragging=false;
+    if(Math.abs(dx)>55&&Math.abs(dx)>Math.abs(dy)*1.15){
+      dx<0?next():prev();
+    }else if(isPlaying){
+      startAutoplay();
+    }
+  });
+  coverflow.addEventListener('pointercancel',()=>{isDragging=false;if(isPlaying)startAutoplay()});
+  coverflow.addEventListener('wheel',e=>{
+    const now=performance.now();
+    if(now-lastWheel<260)return;
+    if(Math.abs(e.deltaY)<12&&Math.abs(e.deltaX)<12)return;
+    e.preventDefault();
+    lastWheel=now;
+    (e.deltaY>0||e.deltaX>0)?next():prev();
+  },{passive:false});
+  coverflow.addEventListener('mouseenter',stopAutoplay);
+  coverflow.addEventListener('mouseleave',()=>{if(isPlaying)startAutoplay()});
+  coverflow.addEventListener('focusin',stopAutoplay);
+  coverflow.addEventListener('focusout',()=>{if(isPlaying)startAutoplay()});
+  window.addEventListener('keydown',e=>{
+    if(!document.getElementById('gallery').getBoundingClientRect())return;
+    const r=document.getElementById('gallery').getBoundingClientRect();
+    if(r.bottom<0||r.top>window.innerHeight)return;
+    if(e.key==='ArrowRight'){e.preventDefault();next()}
+    if(e.key==='ArrowLeft'){e.preventDefault();prev()}
+    if(e.key===' '&&document.activeElement===coverflow){e.preventDefault();togglePlay()}
+  });
+  window.addEventListener('resize',render,{passive:true});
+  render();
+  if(isPlaying)startAutoplay();
 }
 </script>
 </body>

@@ -269,10 +269,12 @@ html{scroll-behavior:auto}.scroll-reveal{opacity:1!important;transform:none!impo
   #gallery .coverflow-item,#gallery .coverflow-image,#gallery .coverflow-control,#gallery .coverflow-indicator{transition:none!important}
 }
 </style><style id="profile-toolkit-layout-fix">
-.profile-toolkit-layout{display:grid!important;grid-template-columns:minmax(0,1fr)!important;align-items:stretch}
-.profile-toolkit-layout>div{min-width:0}
-@media (min-width:1024px){
-  .profile-toolkit-layout{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr)!important}
+.profile-toolkit-layout{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:2.5rem!important}
+.profile-toolkit-layout>div{width:100%!important;min-width:0!important}
+@media screen and (min-width:768px){
+  .profile-toolkit-layout{flex-direction:row!important;align-items:stretch!important}
+  .profile-toolkit-layout>div:first-child{flex:1.05 1 0!important;width:auto!important}
+  .profile-toolkit-layout>div:last-child{flex:.95 1 0!important;width:auto!important}
 }
 </style></head>
 <body>

@@ -904,18 +904,32 @@ if(coverflow){
     coverItems.forEach(item=>item.style.transition='');
   }
 
-  function rotateNext(){
-    if(busy)return;
-    busy=true;
-    stopAutoplay();
+  function animateRecycle(direction){
+    const current=queue[0];
+    const mobile=window.innerWidth<768;
+    const step=mobile?Math.min(105,window.innerWidth*.25):window.innerWidth<1024?165:220;
+    const visible=mobile?2:4;
 
-    /* First phase: the current center card visibly moves to the left/back position. */
+    /* Move every card one place first. The current card is then sent visibly
+       beyond the last displayed card instead of being hidden/reset in place. */
     render(1);
 
+    requestAnimationFrame(()=>{
+      const farX=(visible+1)*step*(direction>0?1:-1);
+      current.style.transform=`translate(-50%,-50%) translateX(${farX}px) translateZ(-420px) rotateY(${direction>0?-52:52}deg) scale(.48)`;
+      current.style.opacity='.18';
+      current.style.zIndex='1';
+      current.style.filter='blur(1.5px)';
+    });
+
     transitionTimer=setTimeout(()=>{
-      /* Second phase: recycle that card to the end of the queue, behind everything. */
-      const first=queue.shift();
-      queue.push(first);
+      if(direction>0){
+        const first=queue.shift();
+        queue.push(first);
+      }else{
+        const last=queue.pop();
+        queue.unshift(last);
+      }
 
       coverItems.forEach(item=>item.style.transition='none');
       render(0);
@@ -927,33 +941,21 @@ if(coverflow){
           if(isPlaying)startAutoplay();
         });
       });
-    },720);
+    },900);
+  }
+
+  function rotateNext(){
+    if(busy)return;
+    busy=true;
+    stopAutoplay();
+    animateRecycle(1);
   }
 
   function rotatePrev(){
     if(busy)return;
     busy=true;
     stopAutoplay();
-
-    /* First phase: the current center card visibly moves to the right/back position. */
-    render(total-1);
-
-    transitionTimer=setTimeout(()=>{
-      /* Recycle the card to the front of the queue. */
-      const last=queue.pop();
-      queue.unshift(last);
-
-      coverItems.forEach(item=>item.style.transition='none');
-      render(0);
-
-      requestAnimationFrame(()=>{
-        requestAnimationFrame(()=>{
-          restoreTransitions();
-          busy=false;
-          if(isPlaying)startAutoplay();
-        });
-      });
-    },720);
+    animateRecycle(-1);
   }
 
   function jumpToOriginal(originalIndex){

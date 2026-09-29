@@ -47,7 +47,8 @@ button:active,a:active{transform:scale(.97)}
 .click-pop{animation:clickPop .42s cubic-bezier(.2,.9,.25,1)}
 @keyframes clickPop{0%{transform:scale(1)}45%{transform:scale(.94)}100%{transform:scale(1)}}
 .scroll-reveal{opacity:0;transform:translateY(32px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
-.scroll-reveal.is-visible{opacity:1;transform:none}\n.scroll-reveal.is-exiting{opacity:0;transform:translateY(28px);transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1)}
+.scroll-reveal.is-visible{opacity:1;transform:none}
+.scroll-reveal.is-exiting{opacity:0;transform:translateY(28px);transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1)}
 .scroll-reveal.from-left.is-exiting{transform:translateX(-38px)}
 .scroll-reveal.from-right.is-exiting{transform:translateX(38px)}
 
@@ -814,8 +815,23 @@ html{scroll-behavior:auto!important}
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script><script>
 AOS.init({duration:1800,delay:0,once:false,mirror:true,offset:80,easing:'ease-out-cubic',anchorPlacement:'top-bottom'});
 const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const MOTION_MS=1800;
 const progress=document.getElementById('progress'),backTop=document.getElementById('backTop');
 let scrollTick=false;
+let scrollAnimationFrame=0;
+function smoothScrollTo(targetY){
+  cancelAnimationFrame(scrollAnimationFrame);
+  const startY=window.scrollY;
+  const distance=targetY-startY;
+  const startTime=performance.now();
+  const easeInOutCubic=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+  const step=now=>{
+    const progress=Math.min((now-startTime)/MOTION_MS,1);
+    window.scrollTo(0,startY+distance*easeInOutCubic(progress));
+    if(progress<1) scrollAnimationFrame=requestAnimationFrame(step);
+  };
+  scrollAnimationFrame=requestAnimationFrame(step);
+}
 function updateScrollUI(){const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(h>0?(window.scrollY/h)*100:0)+'%';backTop.classList.toggle('show',window.scrollY>500);scrollTick=false}
 window.addEventListener('scroll',()=>{if(!scrollTick){requestAnimationFrame(updateScrollUI);scrollTick=true}},{passive:true});updateScrollUI();
 backTop.addEventListener('click',()=>reduceMotion?window.scrollTo({top:0}):smoothScrollTo(0));
@@ -935,7 +951,7 @@ if(aboutPhotoDeck){
 
     window.setTimeout(()=>{
       autoBusy=false;
-    },750);
+    },MOTION_MS);
   };
 
   const startAutoShuffle=()=>{

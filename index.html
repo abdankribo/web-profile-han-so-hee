@@ -342,6 +342,42 @@ html{scroll-behavior:auto}.scroll-reveal{opacity:1!important;transform:none!impo
 <button id="backTop" aria-label="Back to top" class="back-top fixed right-5 bottom-5 z-40 w-11 h-11 rounded-full bg-gray-900 text-white shadow-xl">↑</button>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script><script>
 AOS.init({duration:850,once:false,mirror:true,offset:80,easing:'ease-out-cubic',anchorPlacement:'top-bottom'});
+const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const progress=document.getElementById('progress'),backTop=document.getElementById('backTop');
+let scrollTick=false;
+function updateScrollUI(){const h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(h>0?(window.scrollY/h)*100:0)+'%';backTop.classList.toggle('show',window.scrollY>500);scrollTick=false}
+window.addEventListener('scroll',()=>{if(!scrollTick){requestAnimationFrame(updateScrollUI);scrollTick=true}},{passive:true});updateScrollUI();
+backTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:reduceMotion?'auto':'smooth'}));
+
+function addRipple(el,event){
+  if(reduceMotion)return;
+  if(getComputedStyle(el).position==='static')el.style.position='relative';
+  el.style.overflow='hidden';
+  const rect=el.getBoundingClientRect(),size=Math.max(rect.width,rect.height)*.55;
+  const ripple=document.createElement('span');ripple.className='ripple';
+  ripple.style.width=ripple.style.height=size+'px';
+  ripple.style.left=(event.clientX-rect.left-size/2)+'px';ripple.style.top=(event.clientY-rect.top-size/2)+'px';
+  el.appendChild(ripple);setTimeout(()=>ripple.remove(),700);
+}
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('pointerdown',e=>addRipple(el,e));
+  el.addEventListener('click',()=>{if(reduceMotion)return;el.classList.remove('click-pop');void el.offsetWidth;el.classList.add('click-pop');setTimeout(()=>el.classList.remove('click-pop'),450)});
+});
+
+document.querySelectorAll('a[href^="#"]').forEach(link=>link.addEventListener('click',e=>{
+  const target=document.querySelector(link.getAttribute('href'));if(!target)return;e.preventDefault();
+  target.scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'start'});
+}));
+
+const revealTargets=document.querySelectorAll('.project-card,.tech-card,.stat-card,.profile-mini-card,.build-card,.skill-chip,.profile-badge');
+if(!reduceMotion){
+  revealTargets.forEach((el,i)=>{el.classList.add('scroll-reveal');if(i%3===1)el.classList.add('from-left');if(i%3===2)el.classList.add('from-right');el.style.transitionDelay=(Math.min(i%4,3)*45)+'ms'});
+  const revealObserver=new IntersectionObserver(entries=>entries.forEach(entry=>entry.target.classList.toggle('is-visible',entry.isIntersecting)),{threshold:.12,rootMargin:'-8% 0px -8% 0px'});
+  revealTargets.forEach(el=>revealObserver.observe(el));
+}
+const glow=document.getElementById('scrollGlow');
+window.addEventListener('pointermove',e=>{if(glow&&!reduceMotion){glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px'}},{passive:true});
+
 const menuBtn=document.getElementById('menuBtn'),mobileMenu=document.getElementById('mobileMenu');menuBtn.addEventListener('click',()=>{const open=!menuBtn.classList.contains('menu-open');menuBtn.classList.toggle('menu-open',open);menuBtn.setAttribute('aria-expanded',open);mobileMenu.classList.toggle('hidden',!open)});document.querySelectorAll('#mobileMenu a').forEach(a=>a.addEventListener('click',()=>{menuBtn.classList.remove('menu-open');menuBtn.setAttribute('aria-expanded','false');mobileMenu.classList.add('hidden')}));
 document.getElementById('contactForm').addEventListener('submit',e=>{e.preventDefault();let valid=true;const name=document.getElementById('name'),email=document.getElementById('email'),message=document.getElementById('message'),status=document.getElementById('formStatus');document.querySelectorAll('#contactForm p[id$="Error"]').forEach(x=>x.classList.add('hidden'));if(!name.value.trim()){document.getElementById('nameError').classList.remove('hidden');valid=false}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())){document.getElementById('emailError').classList.remove('hidden');valid=false}if(!message.value.trim()){document.getElementById('messageError').classList.remove('hidden');valid=false}if(valid){const subject=encodeURIComponent('Portfolio Contact from '+name.value.trim());const body=encodeURIComponent('Name: '+name.value.trim()+'\\nEmail: '+email.value.trim()+'\\n\\nMessage:\\n'+message.value.trim());window.location.href='mailto:abdankribo@gmail.com?subject='+subject+'&body='+body;status.textContent='Opening your email app…';status.className='text-sm text-center min-h-5 text-green-600'}else{status.textContent='Please check the highlighted fields.';status.className='text-sm text-center min-h-5 text-red-500'}});
 </script>

@@ -268,6 +268,12 @@ html{scroll-behavior:auto}.scroll-reveal{opacity:1!important;transform:none!impo
 @media(prefers-reduced-motion:reduce){
   #gallery .coverflow-item,#gallery .coverflow-image,#gallery .coverflow-control,#gallery .coverflow-indicator{transition:none!important}
 }
+</style><style id="profile-toolkit-layout-fix">
+.profile-toolkit-layout{display:grid!important;grid-template-columns:minmax(0,1fr)!important;align-items:stretch}
+.profile-toolkit-layout>div{min-width:0}
+@media (min-width:1024px){
+  .profile-toolkit-layout{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr)!important}
+}
 </style></head>
 <body>
 <div id="progress"></div><div id="scrollGlow" aria-hidden="true"></div>
@@ -313,7 +319,7 @@ html{scroll-behavior:auto}.scroll-reveal{opacity:1!important;transform:none!impo
     <p class="max-w-xl text-gray-500 leading-7">A snapshot of my background, technical skills, education, and professional experience.</p>
   </div>
 
-  <div class="grid grid-cols-1 lg:grid-cols-[1.05fr_.95fr] gap-6 md:gap-10 items-stretch">
+  <div class="profile-toolkit-layout grid grid-cols-1 lg:grid-cols-[1.05fr_.95fr] gap-6 md:gap-10 items-stretch">
     <div class="min-w-0 rounded-[2rem] bg-gray-50 border border-gray-100 p-6 sm:p-8 md:p-10 relative overflow-hidden" data-aos="fade-right">
       <div class="absolute -right-16 -top-16 w-44 h-44 rounded-full bg-yellow-400/20"></div>
       <div class="absolute -right-5 -bottom-16 w-32 h-32 rounded-full bg-gray-900/5"></div>
